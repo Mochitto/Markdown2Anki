@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anki code</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="_catpuccin_highlight.css">
+</head>
+<body>
+    <section class="tab_group" onclick="set_active_tab(event, this)">
+        <section class="tab">
+            <span class="tab__label">This is the label</span>
+            <div class="tab__body">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque modi voluptas voluptatem nobis ullam magni labore magnam sint nostrum. Asperiores facilis harum magnam beatae alias perspiciatis adipisci mollitia exercitationem quae!</p>
+            </div>
+        </section>
+        <section class="highlight highlight--linenos tab"><span class="highlight__language tab__label">test.py</span><div class="highlight__code tab__body"><pre><code><span class="highlight__line"><span class="k">try</span><span class="p">:</span><br></span><span class="highlight__line">    <span class="c1"># http://pygments.org/docs/formatters/#HtmlFormatter</span><br></span><span class="highlight__line">    <span class="n">my_formatter</span> <span class="o">=</span> <span class="n">pyg__HtmlFormatter</span><span class="p">(</span><br></span><span class="highlight__line">        <span class="c1"># cssclass=css_class,</span><br></span><span class="highlight__line">        <span class="n">font_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span><br></span><span class="highlight__line">        <span class="n">linenos</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># pygment's numbers are broken; linenos check moved to line 278</span><br></span><span class="highlight__line">        <span class="n">cssclass</span><span class="o">=</span> <span class="s2">"highlight__code"</span><span class="p">,</span> <span class="c1"># Allows BEM notation to be used </span><br></span><span class="highlight__line">        <span class="n">lineseparator</span><span class="o">=</span><span class="s2">"&lt;br&gt;"</span><span class="p">,</span><br></span><span class="highlight__line">        <span class="n">nobackground</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># True would solve night mode problem without any config (as long as no line numbers are used)</span><br></span><span class="highlight__line">        <span class="n">noclasses</span><span class="o">=</span><span class="n">noclasses</span><span class="p">,</span><br></span><span class="highlight__line">        <span class="n">style</span><span class="o">=</span><span class="n">gc</span><span class="p">(</span><span class="s2">"style"</span><span class="p">),</span><br></span><span class="highlight__line">        <span class="n">wrapcode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><br></span></code></pre></div>
+        </section>
+    </section>
+
+
+<script>
+// window.onload = function() {
+//     let first_code = document.getElementsByClassName("highlight")[0]
+//     first_code.children[0].classList.add("tab__label--ischecked")
+//     first_code.children[1].classList.add("tab--isvisible")
+//     let first_tab = document.getElementsByClassName("extra_tabs__tab")[0]
+//     first_tab.children[0].classList.add("tab__label--ischecked")
+// }
+
+// function toggle_code_visibility(event, container) {
+//     if (event.target.classList.contains("highlight__language")) {
+//         let target_code = event.target.nextElementSibling
+//         target_code.classList.add("tab--isvisible")
+//         event.target.classList.add("tab__label--ischecked")
+//         for (let highlight of container.children) {
+//             try {
+//                 let highlight__language = highlight.firstElementChild
+//                 if (highlight__language != event.target) {
+//                     highlight__language.classList.remove("tab__label--ischecked")
+//                     highlight__language.nextElementSibling.classList.remove("tab--isvisible")
+//                 }
+//             }
+//             catch(err) {}
+//         }
+//     }
+// }
+// let labels = document.getElementsByClassName("highlight__language")
+
+// for (let label of labels) {
+//     label.classList.add("tab__label")
+// }
+function set_active_tab(event, container) {
+    let target = event.target
+    if (target.classList.contains("tab__label")) {
+        for (let tab of container.children) {
+            if ([...tab.children].includes(target)) {
+                tab.classList.add("tab--isactive")
+            } else {
+                tab.classList.remove("tab--isactive")
+            }
+        }
+    }
+}
+</script>
+
+</body>
+</html>
+
+<!-- 
+    TODO: settle on the tabs structure:
+        section.tab_group>section.tab>span.tab_label+div/something?
+    TODO: make the system of grouping the tabs and the tab labels indipendent from the code tabs (add them on load?)
+    Continuation: WHILE MAKING THE CODE ABLE TO BE ON ITS OWN
+    TODO: figure out a way to use colors that isn't so annoying to use (add extra fields to themes?)
+    TODO: create full screen button or on hover on code?
+    TODO: switch tab when input inside of them is selected (for accessibility and fast cards/ or tab labels are active?)
+    TODO: figure out viewports (flex column on devices?)
+    TODO design: add window label on top of the screen with the name of the deck; tags instead of the path?
+    TODO design: add icons before tab labels
+
+ -->
