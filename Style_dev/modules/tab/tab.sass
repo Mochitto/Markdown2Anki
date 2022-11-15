@@ -1,0 +1,30 @@
+.tab
+    &--isactive .tab__label
+        border-bottom: 1.5px solid var(--accent-color)
+        color: var(--accent-color)
+    &--isactive .tab__body
+        display: block
+
+.tab__label
+    display: inline-block
+    padding: 1px 15px
+    background: var(--tabs-label-background)
+    cursor: pointer
+    user-select: none
+    border-bottom: 1.5px solid var(--secondary-background)
+    color: var(--secondary-color)
+
+.tab__body
+    display: none
+    height: 100%
+    background: var(--main-background)
+    color: var(--main-color)
+    padding: 5px 10px
+    overflow-y: scroll
+    &::-webkit-scrollbar
+        width: 20px
+        border-left: 1px solid var(--secondary-color)
+        background: var(--secondary-background)
+    &::-webkit-scrollbar-thumb
+        background: var(--secondary-color)
+        border-left: 1px solid var(--secondary-color)

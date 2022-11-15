@@ -1,0 +1,23 @@
+.u-over_sibling:hover
+    position: absolute
+    z-index: 2
+    width: 95%
+    height: 100%
+
+.u-over_sibling:hover + * // The elements need to be in a flexing context 
+    margin-left: auto
+    flex: 0 1 50%
+    opacity: 0.5
+
+.u-over_sibling:hover::after
+    display: block
+
+.u-over_sibling::after
+    content: "Go back to two tabs ->"
+    position: absolute
+    bottom: 0
+    right: 0
+    background: var(--secondary-background)
+    color: var(--main-color)
+    padding: 5px 20px
+    display: none

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST OVER SIBLING MODULE</title>
+
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="../../../_catpuccin_highlight.css">
+</head>
+<body>
+    <section style="width: 100vw; height: 100vh; display: flex;">
+        <div class="u-over_sibling" style="background: red; height: 100%;" >
+            <span style="width: 50vw; display: block;"></span> <!--Giving the parent div inline-width makes it impossible to over-write it-->
+        </div>
+        <div style="background: blue; width: 50%; height: 100%;">
+        </div>
+    </section>
+</body>
+</html>
