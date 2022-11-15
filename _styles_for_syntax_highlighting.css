@@ -1,19 +1,17 @@
-.highlight {
-    text-align:left;
-    font-family: ;
-    padding-left: 5px;
-    padding-right: 5px;
-    }
-  
-  .highlight code {
-      font-family: ;
-  }
-  
-  .highlight pre {
-      font-family: ;
-  }
+:root {
+    --main-background: #282a36; /* This is used for the tabs' body */
+    --secondary-background: rgb(19, 19, 26); /* This is used for the tabs-bar background */
+    --tabs-label-background: #1c1e28;
+    --accent-background: #f1fa8c;
+    --body-background: white; /* Shows thorugh during "over sibling hover"*/
 
+    --codeline-hover-background: #36384b;
 
+    --main-color: #f8f8f2;
+    --secondary-color: #6272a4;
+    --accent-color: #f1fa8c;
+    --ancillary-color: #949db7;
+ }
 
 /* Dracula Theme v1.2.5
  *
@@ -28,7 +26,6 @@
  * @author Chris Bracco <chris@cbracco.me>
  * @author Zeno Rocha <hi@zenorocha.com>
  */
-
 
  .highlight .hll { background-color: #f1fa8c }
  .highlight  { background: #282a36; color: #f8f8f2 }

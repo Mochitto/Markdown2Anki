@@ -25,9 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
+ :root {
+    --main-background: #1e1e2e; /* This is used for the tabs' body */
+    --secondary-background: #11111b; /* This is used for the tabs-bar background */
+    --tabs-label-background: #181825;
+    --accent-background: #cba6f7;
+    --body-background: white; /* Shows thorugh during "over sibling hover"*/
+
+    --codeline-hover-background: #2a2b3c;
+
+    --main-color: #cad3f5;
+    --secondary-color: #6e738d;
+    --accent-color: #cba6f7;
+    --ancillary-color: #313244;
+ }
+
 
  .highlight .hll { background-color: #f5a97f }
- .highlight__code  { background: #181926; color: #cad3f5 }
+ .highlight__code  { background: #1e1e2e; color: #cad3f5 }
  .highlight .c { color: #6e738d } /* Comment */
  .highlight .err { color: #8aadf4 } /* Error */
  .highlight .g { color: #cad3f5 } /* Generic */
