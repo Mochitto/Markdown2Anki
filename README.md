@@ -1,7 +1,7 @@
 # Anki Code cards
 This project is part of [Anki Code](#).
 
-![demo image](./docs/Demo.png) 
+![demo image](./Cards_type/docs/Demo.png) 
 
 ## Objective
 To have an interface that is familiar to people that code and flexible enough to allow for different uses.
@@ -26,7 +26,7 @@ The final HTML file can't be rendered correctly in the browser as it contains An
 ### Inspired by:
 - [VScode](https://code.visualstudio.com/)
 - [Catppuccin project](https://github.com/catppuccin)
-- [Dracula theme](https://draculatheme.com/highlightjs)
+- [Dracula theme](https://draculatheme.com/highlightjs)  
 [in construction]
 
 ##### Test Images:
