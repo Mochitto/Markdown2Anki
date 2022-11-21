@@ -4,6 +4,7 @@ from anki.hooks import addHook, remHook, runHook
 
 from functools import partial
 import re
+import sys
 
 from . import definitionGetter
 
@@ -63,10 +64,12 @@ def getActiveWindow(note):
 #     d.setLayout(grid)
 #     return d
 
+
 def theMagic(flag, n, fidx):
     global finalEntries, first, config
     fields = mw.col.models.fieldNames(n.model())
     notetype = getNoteType(n.model()['name'])
+    sys.stdout.write("|||".join(fields))
     if not notetype:
         # not a notetype that has the add-on enabled, don't do anything
         return flag
