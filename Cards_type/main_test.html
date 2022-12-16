@@ -10,45 +10,7 @@
 </head>
 <body style="overflow: hidden"> <!-- Needed to avoid scrollbars on absolute elements-->
     <main class="l-row-flex l-viewport">
-    <section class="tab_group u-over_sibling" onclick="set_active_tab(event, this)">
-        <section class="tab">
-            <span class="tab__label">This is the label</span>
-            <div class="tab__body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque modi voluptas voluptatem nobis ullam magni labore magnam sint nostrum. Asperiores facilis harum magnam beatae alias perspiciatis adipisci mollitia exercitationem quae!</p>
-            </div>
-        </section>
-        
-		<div class="tab"><span class="tab__label">Test</span><section class="highlight highlight--linenos tab__body" style="width: 100%"><span class="highlight__language">js</span><div class="highlight__code highlight--linenos tab__body"><pre><span></span><code><span class="highlight__line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">quot</span><span class="p">;</span><span class="nx">hello</span><span class="w"> </span><span class="nx">world</span><span class="o">!&amp;</span><span class="nx">quot</span><span class="p">;)</span><span class="w"></span><br></span></code></pre></div>
-				                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quo aliquid culpa reprehenderit nulla provident sequi sint officiis vero. Corporis fugit ullam voluptatem ipsam deleniti exercitationem quia expedita sit optio.</p></section>
-
-			</section>
-</div>
-    <section class="tab_group" onclick="set_active_tab(event, this)">
-        <section class="tab">
-            <span class="tab__label">prompt</span>
-            <div class="tab__body">
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quo aliquid culpa reprehenderit nulla provident sequi sint officiis vero. Corporis fugit ullam voluptatem ipsam deleniti exercitationem quia expedita sit optio.</p>
-            </div>
-        </section>
-        <section class="tab">
-            <span class="tab__label">image</span>
-            <div class="tab__body">
-                <img src="./test_images/ghosts.jpg" alt="ghosts">            
-            </div>
-        </section>
-        <section class="tab">
-            <span class="tab__label">image</span>
-            <div class="tab__body">
-                <img src="./test_images/test_cat.jpg" alt="ghosts">            
-            </div>
-        </section>
-        <section class="tab">
-            <span class="tab__label">image</span>
-            <div class="tab__body">
-                <img src="./test_images/test_frog.jpg" alt="ghosts">            
-            </div>
-        </section>
-    </section>
+    <section class="tab_group u-over_sibling"><section class="tab tab--isactive"><span class="tab__label">JS Hello world</span><div class="tab__body"><section class="highlight highlight--linenos"><span class="highlight__language">JavaScript</span><div class="highlight__code highlight--linenos"><pre><span></span><code><span class="highlight__line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hello world!&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span><span class="p">)</span><span class="w"></span></span></code></pre></div></section></div></section><section class="tab"><span class="tab__label">PY hello world</span><div class="tab__body"><section class="highlight highlight--linenos"><span class="highlight__language">Python</span><div class="highlight__code highlight--linenos"><pre><span></span><code><span class="highlight__line"><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello world!&quot;</span><span class="p">)</span></span></code></pre></div></section></div></section></section><section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">Question</span><div class="tab__body"><p>This is what goes in the right side of the card.<br />The markdown that is in it <em>goes</em> in the card.<br />So you can for example:</p><ol><li>Add markdown to your explanations</li><li>I don't know what else<br /> 	- You can have lists!</li></ol><table><thead><tr>  <th>and tables?</th>  <th>I think</th></tr></thead><tbody><tr>  <td>yeah like this!</td>  <td>Ayy!</td></tr></tbody></table></div></section><section class="tab"><span class="tab__label">Microservices structure</span><div class="tab__body"><p>I would like to keep this image as well!<br />![[microservices.webp]]</p><h1>Backside</h1></div></section></section>
     </main>
 
 <script>

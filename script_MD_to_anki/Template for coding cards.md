@@ -32,14 +32,9 @@ I would like to keep this image as well!
 
 ## Left tabs
 
-### JS Hello world with comment 
-```js
-console.log("hello world!")
-```
-This is how you would write this! :)
+### Hello THis!
 
-### Answer
-This **SHALL BE** added to the left side.
+"Awala"
 
 ## Right tabs
 
