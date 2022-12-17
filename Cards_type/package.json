@@ -1,0 +1,24 @@
+{
+  "name": "cards_type",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild_watch.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mochitto",
+  "license": "AGPL",
+  "dependencies": {
+    "esbuild": "^0.16.7"
+  },
+  "devDependencies": {
+    "@compodoc/live-server": "^1.2.3",
+    "esbuild-sass-plugin": "^2.4.3"
+  }
+}
