@@ -32,9 +32,9 @@ class CardError(Exception):
 
 def log_card_error(message: str, card_index: int=None) -> None:
     """Log message as error; if the card_index is present, wait 1.5 s and then log the full card text as error for user-side debugging."""
-    logging.error(message)
-    if card_index:
-        time.sleep(1.5)
+    logging.error(f"❌ {message} ❌")
+    if card_index != None: # Index could be 0, so it's not possible to use a falsy statement
+        input("Enter anything to continue and see the cards' text...")
         logging.error(f"📔 This is the card that created the error:\n{CARDS[card_index]}")
 
 def extract_cards(markdown_text: str) -> [str]: # TODO: write test for *** ---
@@ -51,21 +51,20 @@ def extract_cards(markdown_text: str) -> [str]: # TODO: write test for *** ---
     CARDS = cards
     return cards
 
-def format_card(card: str, card_index: int) -> {"front": str, "back": str}:
+def format_card(card: str) -> {"front": str, "back": str}:
     """Format card from markdown to html, with all of the necessary classes."""
-    # FIXME: Remove the card_index from each function and just raise an error
-    sides = extract_sides(card, card_index)
+    sides = extract_sides(card)
     
-    front = prepare_side_for_formatting(sides["front"], card_index)
-    back = prepare_side_for_formatting(sides["back"], card_index)
+    front = prepare_side_for_formatting(sides["front"])
+    back = prepare_side_for_formatting(sides["back"])
 
-    formatted_card = format_fields(front, back, card_index)
+    formatted_card = format_fields(front, back)
     
     logging.debug(f"📔 Formatted card ready for import 📔\n{formatted_card}\n")
 
     return formatted_card
 
-def extract_sides(card: str, card_index: int) -> {"front": str, "back": str}: # TODO: write test for optional back side 
+def extract_sides(card: str) -> {"front": str, "back": str}: # TODO: write test for optional back side 
     """Extract the text that is under the "Front side" and "Back side", return a dictionary with the two text blocks.
     "Back side" is optional.
     """
@@ -77,28 +76,23 @@ def extract_sides(card: str, card_index: int) -> {"front": str, "back": str}: # 
     front_side_match = front_side_regex.search(card)
     back_side_match = back_side_regex.search(card)
 
-    if not front_side_match: 
-        log_card_error(f"❌ A card without front-side has been found.\nCard number: {card_index}\nCard content:{stripped_card}.", card_index)
-        raise CardError()
+    if not front_side_match[1]: 
+        raise CardError(f"A card without front-side has been found.")
 
     return {
         "front": front_side_match[1],
         "back": back_side_match[1] if back_side_match else ""
     }
 
-def extract_tabs_sides(side_fragment: str, card_index: int) -> {"left_tabs": [], "right_tabs": []}: # TODO: write test for optional right side
+def extract_tabs_sides(side_fragment: str) -> {"left_tabs": str, "right_tabs": str}:
     """Extract the text that is under the "left tabs" and "right tabs"."""
     stripped_fragment = side_fragment.strip()
 
     left_tabs_regex = re.compile(r"(?si)##\s*left\s*tabs\s*\n(.*?)(?=##\s*right\s*tabs|$)")
     right_tabs_regex = re.compile(r"(?si)##\s*right\s*tabs\s*\n(.*)")
 
-    left_tabs_block = re.search(left_tabs_regex, stripped_fragment)
-    right_tabs_block = re.search(right_tabs_regex, stripped_fragment)
-
-    if not left_tabs_block: 
-        log_card_error(f"❌ A card without left-tabs has been found.\nCard number: {card_index}\nCard side content: {stripped_fragment}.", card_index)
-        raise CardError()
+    left_tabs_block = re.search(left_tabs_regex, stripped_fragment) or [""]
+    right_tabs_block = re.search(right_tabs_regex, stripped_fragment) or [""]
 
     return {
         "left_tabs": left_tabs_block[0],
@@ -129,16 +123,21 @@ def extract_tabs(left_or_right_block: str) -> {
     
     return {"tabs": tabs, "tabs_to_switch": tabs_to_switch}
 
-def format_fields(front: str, back: str, card_index: int) -> {"front": str, "back": str}:
+def format_fields(front: str, back: str) -> {"front": str, "back": str}:
     """Activate the first tab of each tabs side, wrap the tabs sides in tab_group containers and join them.
     If the back side is present, swap the the front tabs with back tabs (if needed) and repeat the first step with the back tabs."""
     # Format the front field -----------------------------------
-    front_left, front_right = front["left"], front["right"]
+    front_left = front["left"] 
+    if not front_left:
+        raise CardError("Found a card without front left tabs.")
 
     activated_front_left = activate_first_tab(front_left)
-    activated_front_right = activate_first_tab(front_right)
-    
-    front_for_field = wrap_tab_group("".join(activated_front_left), True) + wrap_tab_group("".join(activated_front_right))
+    front_for_field = wrap_tab_group("".join(activated_front_left), True)
+
+    front_right = front["right"]
+    if front_right:
+        activated_front_right = activate_first_tab(front_right)
+        front_for_field += wrap_tab_group("".join(activated_front_right))
     
     front_for_field_without_newlines = remove_newlines(front_for_field)
 
@@ -159,40 +158,36 @@ def format_fields(front: str, back: str, card_index: int) -> {"front": str, "bac
                             else back["left"][index] 
                             for index, element in enumerate(front["left"])]
     except IndexError:
-            tabs_to_swap = ', '.join(front['left_swap'])
-            log_card_error(
-            f"❌ Card number {card_index}:\n"
-            + f"Supposed to swap a left tab (To swap: {tabs_to_swap}),"
-            + f"but there's no counterpart in the BACK LEFT tabs.\n"
-            + f"⬅ FRONT LEFT:\n{json.dumps(front['left'], indent=1)}\n"
-            + f"⬅ BACK LEFT:\n{json.dumps(back['left'], indent=1)}\n", 
-            card_index)
-            raise CardError()
+        tabs_to_swap = ', '.join(str(value) for value in front['left_swap'])
+        raise CardError(
+            f"Supposed to swap a left tab (To swap: {tabs_to_swap}),"
+            + f"but there's no counterpart in the BACK LEFT tabs.")
+    except TypeError: # back["left"] is None, so we just use front_left
+        left_to_include = front_left
 
     try:
         right_to_include = [element if index not in front["right_swap"]
                              else back["right"][index] 
                              for index, element in enumerate(front["right"])]
     except IndexError:
-        tabs_to_swap = ', '.join(front['right_swap'])
-        log_card_error(
-            f"❌ Card number {card_index}:\n" 
-            + f"is supposed to swap a right tab (To swap: {tabs_to_swap})," 
-            + f"but there's no counterpart in the BACK RIGHT tabs.\n" 
-            + f"➡ FRONT RIGHT:\n{json.dumps(front['right'], indent=1)}\n"
-            + f"➡ BACK RIGHT:\n{json.dumps(back['right'], indent=1)}\n", 
-        card_index)
-        raise CardError()
+        tabs_to_swap = ', '.join(str(value) for value in front['right_swap'])
+        raise CardError(
+            f"Supposed to swap a right tab (To swap: {tabs_to_swap})," 
+            + f"but there's no counterpart in the BACK RIGHT tabs.\n")
+    except TypeError: # back["right"] is None, so we just use front_right
+        right_to_include = front_right
     
     # Format the back field -----------------------------------
     # Keep only tabs that haven't been swapped
+    # Notice: if there is no back left/right, they evaluate to [], leaving only the 
     back_left = [element for index, element in enumerate(back["left"]) if index not in front["left_swap"]]
-    back_right = [element for index, element in enumerate(back["right"]) if index not in front["right_swap"]]
-
     activated_back_left = activate_first_tab(left_to_include + back_left)
-    activated_back_right = activate_first_tab(right_to_include + back_right)
+    back_for_field = wrap_tab_group("".join(activated_back_left), True)
 
-    back_for_field = wrap_tab_group("".join(activated_back_left), True) + wrap_tab_group("".join(activated_back_right))
+    back_right = [element for index, element in enumerate(back["right"]) if index not in front["right_swap"]]
+    if back_right or right_to_include:
+        activated_back_right = activate_first_tab(right_to_include + back_right)
+        back_for_field += wrap_tab_group("".join(activated_back_right))
 
     back_for_field_without_newlines = remove_newlines(back_for_field)
 
@@ -203,15 +198,20 @@ def remove_newlines(text: str) -> str:
     This is needed because all the newlines INSIDE tags will become <br>, when needed.
     The remaining newlines are linked to the markdown and become useless as block elements do not need them.
     
-    TODO: This might become a useless step depending on mistune's configuration?"""
+    FIXME maybe?: This might be a useless step depending on mistune's configuration?"""
     return re.sub(r"\n", "", text)
 
-def prepare_side_for_formatting(card_side: str, card_index: int): 
+def prepare_side_for_formatting(card_side: str) -> {
+        "left": str,
+        "right": str,
+        "left_swap": [int],
+        "right_swap": [int]
+    }: 
     """Extract tabs and which ones have to be swapped, from a card side."""
 
-    if not card_side: return # Empty/missing side
+    if not card_side: return None # Empty/missing side
 
-    side_s_tabs = extract_tabs_sides(card_side, card_index)
+    side_s_tabs = extract_tabs_sides(card_side)
     
     tabs_ready = prepare_tabs_for_formatting(side_s_tabs)
 
@@ -240,17 +240,19 @@ def prepare_tabs_for_formatting(tabs: {"left_tabs": str, "right_tabs": str}) -> 
     """Prepare tabs by extracting them form the string and compiling them to html"""
     left_tabs_list = extract_tabs(tabs["left_tabs"])
     right_tabs_list = extract_tabs(tabs["right_tabs"])
-    
+
     # Wet for readability
     left_tabs_html = []
-    for tab in left_tabs_list["tabs"]:
-        finished_tab = tab_to_html(tab)
-        left_tabs_html.append(finished_tab)
+    if left_tabs_list["tabs"]:
+        for tab in left_tabs_list["tabs"]:
+            finished_tab = tab_to_html(tab)
+            left_tabs_html.append(finished_tab)
 
     right_tabs_html = []
-    for tab in right_tabs_list["tabs"]:
-        finished_tab = tab_to_html(tab)
-        right_tabs_html.append(finished_tab)
+    if right_tabs_list["tabs"]:
+        for tab in right_tabs_list["tabs"]:
+            finished_tab = tab_to_html(tab)
+            right_tabs_html.append(finished_tab)
 
     return {
         "left": left_tabs_html, 
@@ -279,9 +281,10 @@ def main():
 
     for index, card in enumerate(cards):
         try:
-            card_to_write = format_card(card, index)
-        except CardError:
-            if input("❌ Would you like to continue creating the cards, without this one? (y/N)\n>>> ").lower() != "y":
+            card_to_write = format_card(card)
+        except CardError as error:
+            log_card_error(error, index)
+            if input("Would you like to continue creating the cards, without this one? (y/N)\n>>> ").lower() != "y":
                 logging.info("⛔ Process aborted. No file was created.")
                 sys.exit(0)
             else:

@@ -15,7 +15,7 @@ def markdown_to_html_with_highlight(text):
 class HighlightRenderer(mistune.HTMLRenderer):
     def block_code(self, code, info=None):
         try:
-            lexer = get_lexer_by_name(info, stripall=True)
+            lexer = get_lexer_by_name(info)
         except pygments.util.ClassNotFound:
             lexer = guess_lexer(code)
 
