@@ -1,6 +1,7 @@
 .highlight 
     counter-reset: line
     text-align: left
+    margin: 5px 5px 10px 10px
 
     &--linenos .highlight__line:before
         position: absolute
@@ -29,17 +30,24 @@
             background: var(--codeline-hover-background)
             opacity: 1
 
-.highlight__language:not(.tab__label) // Allows use with 
+.highlight__line:empty:after // Fixes empty lines
+    content: " "
+
+.highlight__language
         display: inline-block
         padding: 0 10px
         background: var(--tabs-label-background)
         user-select: none
-        border-bottom: 1px solid var(--accent-color)
+        border-bottom: none
         color: var(--accent-color)
 
 .highlight__code
     font-size: 1.7rem
     width: 100%
+    border: 1px solid var(--accent-color)
+    border-left: 5px solid var(--accent-color)
+    padding: 5px
+    
 
 .highlight + br // This br is added to allow users to write outside of the generated highlight container on anki  
     display: none
