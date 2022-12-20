@@ -1,7 +1,0 @@
---- Pygments: pygments.formatters.html
-By: @Mochitto, https://github.com/Mochitto
-
-Changed line 787 
-From: "                yield 1, '<span id="%s">%s</span>' % (s, i, line)"
-To: "                yield 1, '<span class="%s">%s</span>' % (s, line)"
-Comment: "To avoid iterating over the code different times to format it in a different way."
