@@ -11,23 +11,6 @@ console.log("hello world!>>>>>>")
 print("hello world!")
 ```
 
-## Right tabs
-
-### - Question 
-This is what goes in the right side of the card.
-The markdown that is in it *goes* in the card.
-So you can for example:
-1. Add markdown to your explanations
-2. I don't know what else
-		- You can have lists!
-| and tables? | I think |
-| --- | ----|
-| yeah like this! |Ayy! |
-
-### Microservices structure
-I would like to keep this image as well!
-![[microservices.webp]]
-
 # Backside
 
 ## Left tabs
@@ -50,7 +33,7 @@ This is added after the second one!
 
 ## Left tabs
 
-### - JS Hello world AND PYTHON
+### JS Hello world AND PYTHON
 
 What if I have something before?
 ```js
@@ -86,7 +69,7 @@ print("hello world!")
 
 ## Right tabs
 
-### - Question 
+### Question 
 This is what goes in the right side of the card.
 The markdown that is in it *goes* in the card.
 So you can for example:

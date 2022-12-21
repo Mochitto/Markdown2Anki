@@ -28,4 +28,4 @@ This sass file is to be used on the following html structure:
 - Normalizing
 
 ## TODO:
-- Make labels shrink if overflowing, the same that happens in browsers
+- Make labels shrink if overflowing, the same that happens in browsers; probably just a matter of using flex properties
