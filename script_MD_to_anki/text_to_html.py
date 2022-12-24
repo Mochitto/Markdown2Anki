@@ -8,7 +8,7 @@ import mistune
 
 import card_types as CardTypes
 
-def tabs_to_html(tabs: List[CardTypes.Tabs]) -> List[CardTypes.Tabs]:
+def tabs_to_html(tabs: List[CardTypes.Tab]) -> List[CardTypes.Tab]:
     html_tabs = []
     for tab in tabs:
         html_tab = tab_to_html(tab)
