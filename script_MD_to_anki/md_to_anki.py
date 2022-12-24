@@ -7,24 +7,7 @@ from tab_swapping import get_swapped_tabs
 from text_to_html import tabs_to_html
 from card_error import CardError, validate_card_data, validate_card_sides
 
-
-import pprint
-
-# NOTE: if changes are made to the cards' HTML/CSS/JS, you likely want to look into cards_specific_wrappers' functions
-""" TODO: Add support for images 
-    Manually moving media to anki's media folder (First enhancement):
-    1. Create a list where images' src can go
-    2. Modify mistune to extract the images' src when parsing
-    3. At the end, copy the images from the source folder to a new folder
-
-    Automatically send media and cards to anki using anki connect (Second enhancement):
-    1. Check for connection at the start of the script
-    2. Send cards to anki connect instead of creating the file (Report a success/failure message)
-"""
-
-
-# Errors ----------------------------------
-CARDS = [] # A list of the markdown text of the cards, accessed when there is an error
+# NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
 def markdown_to_anki(markdown: str) -> List[str]:
     cards = extract_cards(markdown) 
