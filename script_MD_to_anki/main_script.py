@@ -3,6 +3,7 @@ import csv
 import sys
 
 from md_to_anki import markdown_to_anki
+from card_error import CardError
 
 def main():
     # logging.basicConfig(filename='process.log', level=logging.INFO)
@@ -36,16 +37,25 @@ def main():
 
     #     cards_to_write.append(card_to_write)
     #     logging.info(f"✅ Finished processing card number {index+1}...")
+    try:
+        cards_with_info = markdown_to_anki(markdown_input, interactive=True)
+    except CardError as error:
+        print("\n😯 There was an error and no file was created.\nExited with the following error:")
+        print(error)
+        sys.exit(1)
 
-    cards_to_write = markdown_to_anki(markdown_input)
-
-    success_cards = True
+    success_cards = cards_with_info["number_of_successful"]
+    aborted_cards = cards_with_info["number_of_failed"]
+    cards_to_write = cards_with_info["cards"]
+    failed_cards = cards_with_info["failed_cards"]
 
     # if aborted_cards:
     #     logging.info(f"🙈 Failed to create {aborted_cards} card/s...")
 
     if success_cards:
         logging.info(f"🔥 Created a total of {success_cards} card/s!")
+        if aborted_cards:
+            logging.info(f"🙈 Failed to create {aborted_cards} card/s...")
 
         with open("result.csv", "w") as output:
             fieldnames = ["front", "back"]
@@ -55,6 +65,9 @@ def main():
 
             for card in cards_to_write:
                 writer.writerow(card)
+        
+        with open("bad_cards.md", "w") as output:
+            output.write("\n\n---\n\n".join(failed_cards))
 
         logging.info('🎆 File created! 🎆\nYou can now go import your file in Anki :)')
 
