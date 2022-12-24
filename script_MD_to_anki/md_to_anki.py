@@ -7,6 +7,8 @@ from text_to_html import tabs_to_html
 from card_error import CardError, log_card_error
 
 
+import pprint
+
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you likely want to look into cards_specific_wrappers' functions
 """ TODO: Add support for images 
     Manually moving media to anki's media folder (First enhancement):
@@ -24,64 +26,50 @@ from card_error import CardError, log_card_error
 CARDS = [] # A list of the markdown text of the cards, accessed when there is an error
 
 def markdown_to_anki(markdown: str) -> [str]:
-    cards = extract_cards(markdown)
+    cards = extract_cards(markdown) # DEL: 1st step
 
     anki_cards = []
     for card in cards:
-        card_sides = extract_card_sides(card)
 
-        front_side = card_sides["front"]
-        front_tabs_sides = extract_tabs_sides(front_side) # should throw error
-
-        front_left_tabs_list = extract_tabs(front_tabs_sides["left_tabs"])
-        html_tabs = tabs_to_html(front_left_tabs_list["tabs"])
-        front_left_tabs_ready = format_tabs(html_tabs)
-        front_left_swap = front_left_tabs_list["tabs_to_swap"]
-
-        front_right_tabs_list = extract_tabs(front_tabs_sides["right_tabs"])
-        html_tabs = tabs_to_html(front_right_tabs_list["tabs"])
-        front_right_tabs_ready = format_tabs(html_tabs)
-        front_right_swap = front_right_tabs_list["tabs_to_swap"]
-
-        back_side = card_sides["back"]
-        back_tabs_sides =  extract_tabs_sides(back_side) # could be empty
-
-        back_left_tabs_list = extract_tabs(back_tabs_sides["left_tabs"])
-        html_tabs = tabs_to_html(back_left_tabs_list["tabs"])
-        back_left_tabs_ready = format_tabs(html_tabs)
-        back_left_swap = back_left_tabs_list["tabs_to_swap"]
-
-        back_right_tabs_list = extract_tabs(back_tabs_sides["right_tabs"])
-        html_tabs = tabs_to_html(back_right_tabs_list["tabs"])
-        back_right_tabs_ready = format_tabs(html_tabs)
-        back_right_swap = back_right_tabs_list["tabs_to_swap"]
-
-        front_ready_to_swap = {
-                "left": front_left_tabs_ready,
-                "right": front_right_tabs_ready,
-                "left_swap": front_left_swap,
-                "right_swap": front_right_swap
+        card_sides = extract_card_sides(card) # DEL: 2nd step
+        
+        card_data = {
+                "front": {
+                        "left_tabs": [],
+                        "left_tabs_swap": [],
+                        "right_tabs": [],
+                        "right_tabs_swap": []
+                },
+                "back": {
+                        "left_tabs": [],
+                        "left_tabs_swap": [],
+                        "right_tabs": [],
+                        "right_tabs_swap": []
                 }
+        }
 
-        back_ready_to_swap = {
-                "left": back_left_tabs_ready,
-                "right": back_right_tabs_ready,
-                "left_swap": back_left_swap,
-                "right_swap": back_right_swap
-                }
+        for side, side_content in card_sides.items():
+                tabs_sides = extract_tabs_sides(side_content)
 
-        card_swapped = get_swapped_tabs(front_ready_to_swap, back_ready_to_swap)
+                for tab_side, tab_side_content in tabs_sides.items():
+                        if tab_side_content: # Non-empty tab side
+                                tabs = extract_tabs(tab_side_content)
+                                html_tabs = tabs_to_html(tabs["tabs"])
+                                formatted_tabs = format_tabs(html_tabs)
+                                
+                                card_data[side][tab_side] = formatted_tabs
+                                card_data[side][f"{tab_side}_swap"] = tabs["tabs_to_swap"]
 
-        formatted_front_left_tab_group = format_tab_group(card_swapped["front"]["left_tabs"])
-        formatted_front_right_tab_group = format_tab_group(card_swapped["front"]["right_tabs"])
-
-        formatted_back_left_tab_group = format_tab_group(card_swapped["back"]["left_tabs"])
-        formatted_back_right_tab_group = format_tab_group(card_swapped["back"]["right_tabs"])
+        card_with_swapped_tabs = get_swapped_tabs(card_data)
 
         formatted_card = {
-                "front": (formatted_front_left_tab_group + formatted_front_right_tab_group), 
-                "back": (formatted_back_left_tab_group + formatted_back_right_tab_group)
+                "front": "", 
+                "back": ""
                 }
+
+        for side, side_content in card_sides.items():
+                formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["left_tabs"])
+                formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["right_tabs"])
 
         anki_cards.append(formatted_card)
 

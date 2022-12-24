@@ -2,23 +2,39 @@ from card_error import CardError
 
 
 def get_swapped_tabs(
-    front: {"left": str, "right": str, "left_swap": [int],  "right_swap": [int]},
-    back:  {"left": str, "right": str, "left_swap": [int],  "right_swap": [int]}
+    card_data: {
+        "front": {
+            "left_tabs": str, 
+            "right_tabs": str, 
+            "left_tabs_swap": [int],  
+            "right_tabs_swap": [int]},
+        "back":{
+            "left_tabs": str, 
+            "right_tabs": str, 
+            "left_tabs_swap": [int],  
+            "right_tabs_swap": [int]}}
     ) ->  {
-        "front": {"left_tabs": [str], "right_tabs": [str]},
-        "back": {"left_tabs": [str], "right_tabs": [str]}
+        "front": {
+            "left_tabs": [str], 
+            "right_tabs": [str]},
+        "back": {
+            "left_tabs": [str], 
+            "right_tabs": [str]}
         }:
+    """
+    Take in card_data and return the swapped tabs.
+    """
 
-    front_left_tabs = front["left"]
-    back_left_tabs = back["left"]
-    left_to_swap = front["left_swap"]
-    swapped_left = swap_tabs(front_left_tabs, back_left_tabs, left_to_swap, "left")
+    front_left_tabs = card_data["front"]["left_tabs"]
+    back_left_tabs = card_data["back"]["left_tabs"]
+    left_tabs_to_swap = card_data["front"]["left_tabs_swap"]
+    swapped_left_tabs = swap_tabs(front_left_tabs, back_left_tabs, left_tabs_to_swap, "left_tabs")
 
 
-    front_right_tabs = front["right"]
-    back_right_tabs = back["right"]
-    right_to_swap = front["right_swap"]
-    swapped_right = swap_tabs(front_right_tabs, back_right_tabs, right_to_swap, "right")
+    front_right_tabs = card_data["front"]["right_tabs"]
+    back_right_tabs = card_data["back"]["right_tabs"]
+    right_tabs_to_swap = card_data["front"]["right_tabs_swap"]
+    swapped_right_tabs = swap_tabs(front_right_tabs, back_right_tabs, right_tabs_to_swap, "right_tabs")
 
     return {
         "front": {
@@ -26,8 +42,8 @@ def get_swapped_tabs(
             "right_tabs": front_right_tabs
         },
         "back": {
-            "left_tabs": swapped_left,
-            "right_tabs": swapped_right
+            "left_tabs": swapped_left_tabs,
+            "right_tabs": swapped_right_tabs
         }
     }
 

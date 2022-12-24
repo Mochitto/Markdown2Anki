@@ -82,7 +82,7 @@ So you can for example:
 
 ### Microservices structure
 I would like to keep this image as well!
-![[microservices.webp]]
+![This image](something.png)
 
 
 *********
@@ -115,7 +115,7 @@ So you can for example:
 
 ### Microservices structure
 I would like to keep this image as well!
-![[microservices.webp]]
+![This image](something.png)
 
 # Backside
 
