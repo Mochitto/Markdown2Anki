@@ -1,22 +1,21 @@
+from typing import List
+
 import pygments
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
 
 import mistune
 
-def tabs_to_html(tabs: [{
-        "tab_label": str,
-        "tab_body": str}
-        ]) -> [{
-            "tab_label": str,
-            "tab_body": str}]:
+import card_types as CardTypes
+
+def tabs_to_html(tabs: List[CardTypes.Tabs]) -> List[CardTypes.Tabs]:
     html_tabs = []
     for tab in tabs:
         html_tab = tab_to_html(tab)
         html_tabs.append(html_tab)
     return html_tabs
 
-def tab_to_html(tab: {"tab_label": str, "tab_body": str}) -> {"tab_label": str, "tab_body": str}:
+def tab_to_html(tab: CardTypes.Tab) -> CardTypes.Tab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
     label = tab["tab_label"]
     tab_body_in_html = markdown_to_html_with_highlight(tab["tab_body"])
@@ -81,25 +80,3 @@ class LineWrappingHtmlFormatter(HtmlFormatter): # https://pygments.org/docs/form
                 # it's a line of formatted code
                 wrapped_line = f"<span class='highlight__line'>{t}</span>"
             yield i, wrapped_line
-
-
-# if __name__ == "__main__":  # TODO: Turn this into testing for line wrapping.
-#     test = """
-# ## This is before!
-
-# ---
-
-# ```python
-#     def _wrap_lines(self, source):
-#     for i, t in source:
-#         if i == 1:
-#             # it's a line of formatted code
-#             wrapped_line = f"<span class='highlight__line'>{t}</span>"
-#         yield i, t
-
-# ```
-
-# # Hello there!
-#     """
-    
-#     print(markdown_to_html_with_highlight(test))

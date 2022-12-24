@@ -1,26 +1,10 @@
-from card_error import CardError
+from typing import List
 
+from card_error import CardError
+import card_types as CardTypes 
 
 def get_swapped_tabs(
-    card_data: {
-        "front": {
-            "left_tabs": str, 
-            "right_tabs": str, 
-            "left_tabs_swap": [int],  
-            "right_tabs_swap": [int]},
-        "back":{
-            "left_tabs": str, 
-            "right_tabs": str, 
-            "left_tabs_swap": [int],  
-            "right_tabs_swap": [int]}}
-    ) ->  {
-        "front": {
-            "left_tabs": [str], 
-            "right_tabs": [str]},
-        "back": {
-            "left_tabs": [str], 
-            "right_tabs": [str]}
-        }:
+    card_data: CardTypes.CardWithSwap) ->  CardTypes.CardWithTabs:
     """
     Take in card_data and return the swapped tabs.
     """
@@ -47,7 +31,11 @@ def get_swapped_tabs(
         }
     }
 
-def swap_tabs(front_tabs, back_tabs, tab_indices_to_swap, side):
+def swap_tabs(
+    front_tabs: List[str], 
+    back_tabs: List[str], 
+    tab_indices_to_swap: List[int], 
+    side: str):
     # FIXME: Should tabs be swapped with one of the same index or with the first tab possible?
     # If you change this, make sure you also fix the back_left and back_right variables.
 

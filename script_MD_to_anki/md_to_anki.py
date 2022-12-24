@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from extract import extract_cards, extract_card_sides, extract_tabs_sides, extract_tabs
 from formatters import format_tabs, format_tab_group
@@ -25,7 +26,7 @@ import pprint
 # Errors ----------------------------------
 CARDS = [] # A list of the markdown text of the cards, accessed when there is an error
 
-def markdown_to_anki(markdown: str) -> [str]:
+def markdown_to_anki(markdown: str) -> List[str]:
     cards = extract_cards(markdown) 
 
     if cards:

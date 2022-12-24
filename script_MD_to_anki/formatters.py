@@ -1,15 +1,17 @@
 import re
+from typing import List
 
 from cards_specific_wrappers import wrap_tab, wrap_tab_body, wrap_tab_label, wrap_tab_group
+import card_types as CardTypes
 
-def format_tabs(tabs: [{"tab_label": str, "tab_body": str}]) -> [str]:
+def format_tabs(tabs: List[CardTypes.Tab]) -> List[str]:
     formatted_tabs = []
     for tab in tabs:
         html_tab = format_tab(tab)
         formatted_tabs.append(html_tab)
     return formatted_tabs
 
-def format_tab(tab: {"tab_label": str, "tab_body": str}) -> str:
+def format_tab(tab: CardTypes.Tab) -> str:
     tab_label = tab["tab_label"]
     tab_body = tab["tab_body"]
 

@@ -25,3 +25,11 @@ class CardSideWithSwap(TypedDict):
 class CardWithSwap(TypedDict):
     front: CardSideWithSwap
     back: CardSideWithSwap
+
+class CardSideWithTabs(TypedDict):
+    left_tabs: List[str]
+    right_tabs: List[str]
+
+class CardWithTabs(TypedDict):
+    front: CardSideWithTabs
+    back: CardSideWithTabs
