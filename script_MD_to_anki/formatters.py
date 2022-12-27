@@ -44,8 +44,8 @@ def activate_first_tab(tabs):
 def remove_newlines(text: str) -> str:
     """Remove newlines from the text.
     This is needed because all the newlines INSIDE tags will become <br>, when needed.
-    The remaining newlines are linked to the markdown
+    The remaining newlines are linked to the markdown input
     and become useless as block elements do not need them.
 
-    FIXME maybe?: This might be a useless step depending on mistune's configuration?"""
+    This might be a useless step depending on mistune's configuration?"""
     return re.sub(r"\n", "", text)

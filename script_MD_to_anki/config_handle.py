@@ -35,6 +35,8 @@ BAD_CARDS_FILE = append_outdir_if_relative(config["OUTFILES"]["failed_cards_file
 LOG_FILE = append_outdir_if_relative(config["OUTFILES"]["log_file"])
 
 FAST_FORWARD = config["BEHAVIOR"]["fast_forward"]
+LINENOS = config["BEHAVIOR"]["linenos"]
+
 # Set-up
 os.makedirs(OUT_FOLDER, exist_ok=True) # Build out folder if missing
 

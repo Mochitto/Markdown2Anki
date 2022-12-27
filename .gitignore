@@ -2,6 +2,7 @@
 
 # Project specific folders/files
 anki_outdir
+myenv
 
 # compiled output
 /dist

@@ -7,6 +7,7 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 import mistune
 
 import card_types as CardTypes
+from config_handle import LINENOS
 
 def tabs_to_html(tabs: List[CardTypes.Tab]) -> List[CardTypes.Tab]:
     html_tabs = []
@@ -21,8 +22,6 @@ def tab_to_html(tab: CardTypes.Tab) -> CardTypes.Tab:
     tab_body_in_html = markdown_to_html_with_highlight(tab["tab_body"])
 
     return {"tab_label": label, "tab_body": tab_body_in_html}
-
-LINENOS_TRUE = True # TODO: add config file or something to turn them off
 
 def markdown_to_html_with_highlight(text):
     """
@@ -44,10 +43,10 @@ class HighlightRenderer(mistune.HTMLRenderer):
         except pygments.util.ClassNotFound:
             lexer = guess_lexer(code)
 
-        # TODO: move the wrappers inside of the LineWrappingHtmlFormatter wrap function in the formatter, if possible
-        code_class = "highlight__code highlight--linenos" if LINENOS_TRUE else "highlight__code"
+        code_class = "highlight__code highlight--linenos" if LINENOS else "highlight__code"
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
         highlight_code = pygments.highlight(code, lexer, formatter)
+        
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
         complete_code = f'{section_head}{language_span}{highlight_code.strip()}</section>'
