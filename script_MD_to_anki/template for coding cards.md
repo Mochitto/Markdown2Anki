@@ -1,3 +1,5 @@
+
+Stuff that is added here is not picked up
 # Front side
 
 ## Left tabs
@@ -11,13 +13,6 @@ console.log("hello world!>>>>>>")
 print("hello world!")
 ```
 
-# Backside
-
-## Left tabs
-
-### Hello THis!
-
-"Awala"
 
 ## Right tabs
 

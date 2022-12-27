@@ -4,6 +4,8 @@ import logging
 from card_error import CardError
 import card_types as CardTypes
 
+logger = logging.getLogger(__name__)
+
 def extract_cards(markdown_text: str) -> list[str]:
     """
     Extract the cards from the markdown file.

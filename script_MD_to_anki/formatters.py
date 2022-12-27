@@ -31,7 +31,7 @@ def format_tab_group(tabs_list, add_over_sibling=False):
         tab_group = wrap_tab_group(joined_tabs, add_over_sibling)
         cleaned_tab_group = remove_newlines(tab_group)
     else:
-        return "" # TODO: should this be handled here?
+        return ""
 
     return cleaned_tab_group
 

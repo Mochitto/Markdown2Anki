@@ -1,47 +1,28 @@
 import logging
 import csv
 import sys
+import os
 
 from md_to_anki import markdown_to_anki
 from card_error import CardError
+from config_handle import MD_INPUT_FILE, RESULT_FILE, BAD_CARDS_FILE, FAST_FORWARD
+import logger
+
 
 def main():
     # logging.basicConfig(filename='process.log', level=logging.INFO)
-    formatter = "%(module)s - %(levelname)s: %(message)s"
-    logging.basicConfig(level=logging.INFO, format=formatter)
-    logging.info('Starting cards extraction')
+    logger = logging.getLogger(__name__)
 
-    with open("Template for coding cards.md", "r", encoding="utf-8") as markdown_file:
+    logger.info('Starting cards extraction')
+
+    with open(MD_INPUT_FILE, "r", encoding="utf-8") as markdown_file:
         markdown_input = markdown_file.read()
 
-    # if not cards[0]:
-    #     logging.info('❓ No cards found... Please check input file.')
-    #     sys.exit(0)
-
-    # success_cards = 0
-    # aborted_cards = 0
-    # cards_to_write = []
-
-    # for index, card in enumerate(cards):
-    #     try:
-    #         card_to_write = format_card(card)
-    #     except CardError as error:
-    #         log_card_error(error, index)
-    #         if input("Would you like to continue creating the cards, without this one? (y/N)\n>>> ").lower() != "y":
-    #             logging.info("⛔ Process aborted. No file was created.")
-    #             sys.exit(0)
-    #         else:
-    #             aborted_cards += 1
-    #             continue
-    #     success_cards += 1
-
-    #     cards_to_write.append(card_to_write)
-    #     logging.info(f"✅ Finished processing card number {index+1}...")
     try:
-        cards_with_info = markdown_to_anki(markdown_input, interactive=True)
+        cards_with_info = markdown_to_anki(markdown_input, interactive=True, fast_forward=FAST_FORWARD)
     except CardError as error:
-        print("\n😯 There was an error and no file was created.\nExited with the following error:")
-        print(error)
+        logger.info("\n😯 There was an error and no file was created.\nExited with the following error:")
+        logger.error(error)
         sys.exit(1)
 
     success_cards = cards_with_info["number_of_successful"]
@@ -49,15 +30,12 @@ def main():
     cards_to_write = cards_with_info["cards"]
     failed_cards = cards_with_info["failed_cards"]
 
-    # if aborted_cards:
-    #     logging.info(f"🙈 Failed to create {aborted_cards} card/s...")
-
     if success_cards:
-        logging.info(f"🔥 Created a total of {success_cards} card/s!")
+        logger.info(f"🔥 Created a total of {success_cards} card/s!")
         if aborted_cards:
-            logging.info(f"🙈 Failed to create {aborted_cards} card/s...")
+            logger.info(f"🙈 Failed to create {aborted_cards} card/s...")
 
-        with open("result.csv", "w") as output:
+        with open(RESULT_FILE, "w") as output:
             fieldnames = ["front", "back"]
             writer = csv.DictWriter(output, fieldnames)
             # writer.writeheader() # The headers also get imported by anki
@@ -66,13 +44,13 @@ def main():
             for card in cards_to_write:
                 writer.writerow(card)
         
-        with open("bad_cards.md", "w") as output:
+        with open(BAD_CARDS_FILE, "w") as output:
             output.write("\n\n---\n\n".join(failed_cards))
 
-        logging.info('🎆 File created! 🎆\nYou can now go import your file in Anki :)')
+        logger.info('🎆 File created! 🎆\nYou can now go import your file in Anki :)')
 
     else:
-        logging.info('❓ No cards created... Please check input the file.')
+        logger.info('❓ No cards created... Please check input the file.')
 
     sys.exit(0)
 

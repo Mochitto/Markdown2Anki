@@ -6,7 +6,7 @@ class CardError(Exception):
         self.message = message
 
     def __str__(self):
-        error_message = f"❌ ERROR ❌ {self.message}"
+        error_message = f"{self.message}"
         return error_message
 
 def validate_card_sides(card_sides: CardTypes.CardSides):

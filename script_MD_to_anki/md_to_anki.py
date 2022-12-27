@@ -9,13 +9,14 @@ from card_error import CardError, validate_card_data, validate_card_sides
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
+logger = logging.getLogger(__name__)
 
 # TODO: turn interactive etc. to kwargs
-def markdown_to_anki(markdown: str, interactive=False):
+def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
     cards = extract_cards(markdown) 
 
     if cards[0]:
-        logging.info(f"📦 Found {len(cards)} cards to process...")
+        logger.info(f"📦 Found {len(cards)} cards to process...")
     else:
         raise CardError("No cards were found...")
         
@@ -24,7 +25,7 @@ def markdown_to_anki(markdown: str, interactive=False):
     aborted_cards = 0
     successful_cards = 0
 
-    for card in cards:
+    for index, card in enumerate(cards):
         try: # Handle CardErrors
             card_sides = extract_card_sides(card) 
 
@@ -75,17 +76,25 @@ def markdown_to_anki(markdown: str, interactive=False):
             successful_cards += 1
 
         except CardError as error:
-            if interactive: # TODO: Add ignore errors option; print bad cards but keep running?
-                print(f"\n📔 This is the card that created the error:📔\n{card}\n\n(see card above)")
-                print(error) # TODO: Switch with logging 
+            if fast_forward:
+                logger.error(f"{error}")
+                logger.info(f"❌ Failed to process the card number {index + 1}...")
+                aborted_cards += 1
+                failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
+                continue
+            elif interactive:
+                logger.info(f"\n📔 This is the card that created the error:📔\n{card}\n\n(see card above)")
+                logger.error(error) 
                 
                 user_input = input("❓ Would you like to abort this card and continue? (y/N)\n>>> ").lower()
                 if  user_input == "y" or user_input == "yes":
+                    logger.info(f"❌ Failed to process the card number {index + 1}...")
                     aborted_cards += 1
-                    failed_cards.append(f"{error}\n{card}")
+                    failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                     continue
             raise error
-        # logging.debug(f"📔 Formatted card ready for import 📔\n{formatted_card}\n")
+        logger.debug(f"📔 Formatted card ready for import 📔\n{formatted_card}\n")
+        logger.info(f"✅ Finished processing the card number {index + 1}!")
 
     return {
         "cards": processed_cards,
