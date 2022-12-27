@@ -17,25 +17,6 @@ class SingleLevelFilter(logging.Filter):
         else:
             return (record.levelno == self.passlevel)
 
-class DebugFormatter(logging.Formatter):
-    def format(self, record):
-        # get the format value from the extra dictionary
-        format = record.__dict__.get('format', 'print')
-
-        
-
-        # format the message based on the format value
-        if format == 'pprint':
-            message = pprint.pformat(record.msg)
-        elif format == 'json':
-            message = json.dumps(record.msg)
-        else:
-            message = record.msg
-
-        # format the log record using the original formatter
-        record.msg = message
-        return super().format(record)
-
 # Create a stream handler for STDOUT
 info_handler = logging.StreamHandler(stream=sys.stdout)
 info_handler.addFilter(SingleLevelFilter(logging.INFO, False))
