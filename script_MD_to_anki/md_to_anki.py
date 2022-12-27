@@ -93,7 +93,6 @@ def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
                     failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                     continue
             raise error
-        logger.debug(f"📔 Formatted card ready for import 📔\n{formatted_card}\n")
         logger.info(f"✅ Finished processing the card number {index + 1}!")
 
     return {
