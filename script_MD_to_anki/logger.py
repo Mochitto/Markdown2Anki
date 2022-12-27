@@ -2,6 +2,7 @@ import logging
 import sys
 import json 
 import pprint
+import inspect
 
 from config_handle import LOG_FILE
 
@@ -29,7 +30,7 @@ stderr_handler.setFormatter(logging.Formatter("❌ %(levelname)s (line %(lineno)
 
 debug_handler = logging.StreamHandler()
 debug_handler.addFilter(SingleLevelFilter(logging.DEBUG, False))
-debug_handler.setFormatter(logging.Formatter("🔧 Debugging from: %(module)s, line: %(lineno)d\n%(message)s"))
+debug_handler.setFormatter(logging.Formatter("🔧 %(message)s")) # Should be used with "expressive_debug"
 
 file_handler = logging.FileHandler(LOG_FILE, mode="w", encoding="utf-8", errors="replace")
 file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py): %(message)s"))
@@ -52,6 +53,13 @@ def expressive_debug(logger, debugLabel, debugMessage, format=None):
         "pprint" - pprint.pformat
         "json" - json.dumps, indent=2
     """
+    frames = inspect.getouterframes(inspect.currentframe())
+    # getouterframes gives back a list of frames.
+    # frames[1] represents the previous frame (call on the call-stack), which is the caller of the function
+    # frames[1][0] frame object; contains information on the frame (such as globals or the line number)
+    module = frames[1][0].f_globals['__name__'] # Module of the caller
+    line_number = frames[1][0].f_lineno # Line at which the function was called
+
     if format == 'json':
         message = json.dumps(debugMessage, indent=2)
     elif format == 'pprint':
@@ -60,4 +68,4 @@ def expressive_debug(logger, debugLabel, debugMessage, format=None):
         message = str(debugMessage)
 
     # log the message at the DEBUG level
-    logger.debug(f"🔧 LABEL: {debugLabel}\n{message}")
+    logger.debug(f"From {module}, line: {line_number}: {debugLabel}\n{message}")
