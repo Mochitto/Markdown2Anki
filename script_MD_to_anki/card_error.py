@@ -1,3 +1,5 @@
+import re
+
 import card_types as CardTypes
 
 class CardError(Exception):
@@ -47,3 +49,9 @@ def make_ordinal(n):
     else:
         suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
     return str(n) + suffix
+
+# FIXME maybe?: maybe this is not the best place where to have this function
+def are_clozes_in_card(card: CardTypes.CardWithTabs) -> bool:
+    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
+
+    return bool(re.search(clozes_regex, card["front"]))

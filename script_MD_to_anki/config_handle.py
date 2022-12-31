@@ -31,6 +31,7 @@ MD_INPUT_FILE = append_base_path_if_relative(config["INFILES"]["md_input_file"])
 OUT_FOLDER = append_base_path_if_relative(config["FOLDERS"]["out_folder"])
 
 RESULT_FILE = append_outdir_if_relative(config["OUTFILES"]["anki_csv_file"])
+CLOZES_RESULT_FILE = append_outdir_if_relative(config["OUTFILES"]["clozes_anki_csv_file"])
 BAD_CARDS_FILE = append_outdir_if_relative(config["OUTFILES"]["failed_cards_file"])
 LOG_FILE = append_outdir_if_relative(config["OUTFILES"]["log_file"])
 

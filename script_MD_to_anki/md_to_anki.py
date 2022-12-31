@@ -5,7 +5,7 @@ from extract import extract_cards, extract_card_sides, extract_tabs_sides, extra
 from formatters import format_tabs, format_tab_group
 from tab_swapping import get_swapped_tabs
 from text_to_html import tabs_to_html
-from card_error import CardError, validate_card_data, validate_card_sides
+from card_error import CardError, validate_card_data, validate_card_sides, are_clozes_in_card
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
@@ -21,6 +21,7 @@ def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
         raise CardError("No cards were found...")
         
     processed_cards = []
+    processed_cards_with_cloze = []
     failed_cards = []
     aborted_cards = 0
     successful_cards = 0
@@ -72,7 +73,10 @@ def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
                 formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["left_tabs"])
                 formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["right_tabs"])
 
-            processed_cards.append(formatted_card)
+            if are_clozes_in_card(formatted_card):
+                processed_cards_with_cloze.append(formatted_card)
+            else:
+                processed_cards.append(formatted_card)
             successful_cards += 1
 
         except CardError as error:
@@ -97,6 +101,7 @@ def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
 
     return {
         "cards": processed_cards,
+        "cards_with_clozes": processed_cards_with_cloze,
         "failed_cards": failed_cards,
         "number_of_successful": successful_cards,
         "number_of_failed": aborted_cards

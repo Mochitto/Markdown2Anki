@@ -33,3 +33,7 @@ class CardSideWithTabs(TypedDict):
 class CardWithTabs(TypedDict):
     front: CardSideWithTabs
     back: CardSideWithTabs
+
+class ClozeType(TypedDict):
+    number: int
+    cloze_text: str

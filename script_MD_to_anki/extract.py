@@ -1,6 +1,8 @@
 import re
 import logging
 
+from typing import List
+
 from card_error import CardError
 import card_types as CardTypes
 
@@ -74,3 +76,10 @@ def extract_tabs(left_or_right_block: str) -> CardTypes.TabsList:
         tabs.append({"tab_label": tab_label.strip(), "tab_body": tab_body.strip()})
 
     return {"tabs": tabs, "tabs_to_swap": tabs_to_switch}
+
+def extract_clozes(text: str) -> List[CardTypes.ClozeType]:
+    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}", re.IGNORECASE)
+    
+    clozes_matches = clozes_regex.findall(text)
+
+    return clozes_matches

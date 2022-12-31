@@ -49,3 +49,24 @@ def remove_newlines(text: str) -> str:
 
     This might be a useless step depending on mistune's configuration?"""
     return re.sub(r"\n", "", text)
+
+def clean_from_clozes(text:str) -> str:
+    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
+
+    text_without_clozes = re.sub(clozes_regex, r"\2", text)
+    
+    return text_without_clozes
+
+def inject_clozes(text: str, list_of_clozes) -> str:
+    new_text = text
+
+    for cloze in list_of_clozes:
+        number = cloze[0]
+        clozed_text = cloze[1]
+        escaped_clozed_text = re.escape(cloze[1])
+
+        word_regex = re.compile(fr"\b{clozed_text}\b")
+
+        new_text = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", new_text)
+
+    return new_text

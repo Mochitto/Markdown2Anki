@@ -6,8 +6,11 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 
 import mistune
 
+from extract import extract_clozes
+from formatters import clean_from_clozes, inject_clozes
 import card_types as CardTypes
 from config_handle import LINENOS
+
 
 def tabs_to_html(tabs: List[CardTypes.Tab]) -> List[CardTypes.Tab]:
     html_tabs = []
@@ -44,12 +47,18 @@ class HighlightRenderer(mistune.HTMLRenderer):
             lexer = guess_lexer(code)
 
         code_class = "highlight__code highlight--linenos" if LINENOS else "highlight__code"
+        
+        clozes = extract_clozes(code)
+        code_cleaned_from_clozes = clean_from_clozes(code)
+        
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
-        highlight_code = pygments.highlight(code, lexer, formatter)
+
+        highlighted_code = pygments.highlight(code_cleaned_from_clozes, lexer, formatter)
+        highlighted_code_with_clozes = inject_clozes(highlighted_code, clozes)
         
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
-        complete_code = f'{section_head}{language_span}{highlight_code.strip()}</section>'
+        complete_code = f'{section_head}{language_span}{highlighted_code_with_clozes.strip()}</section>'
 
         return complete_code
 

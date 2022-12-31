@@ -5,7 +5,7 @@ import os
 
 from md_to_anki import markdown_to_anki
 from card_error import CardError
-from config_handle import MD_INPUT_FILE, RESULT_FILE, BAD_CARDS_FILE, FAST_FORWARD
+from config_handle import MD_INPUT_FILE, RESULT_FILE, CLOZES_RESULT_FILE, BAD_CARDS_FILE, FAST_FORWARD
 import logger
 
 
@@ -28,6 +28,8 @@ def main():
     success_cards = cards_with_info["number_of_successful"]
     aborted_cards = cards_with_info["number_of_failed"]
     cards_to_write = cards_with_info["cards"]
+    cards_to_write_with_clozes = cards_with_info["cards_with_clozes"]
+
     failed_cards = cards_with_info["failed_cards"]
 
     if success_cards:
@@ -35,19 +37,30 @@ def main():
         if aborted_cards:
             logger.info(f"🙈 Failed to create {aborted_cards} card/s...")
 
-        with open(RESULT_FILE, "w") as output:
-            fieldnames = ["front", "back"]
-            writer = csv.DictWriter(output, fieldnames)
-            # writer.writeheader() # The headers also get imported by anki
-            # Which creates an extra card every time
+        if cards_to_write_with_clozes:
+            with open(CLOZES_RESULT_FILE, "w") as output:
+                fieldnames = ["front", "back"]
+                writer = csv.DictWriter(output, fieldnames)
+                # writer.writeheader() # The headers also get imported by anki
+                # Which creates an extra card every time
 
-            for card in cards_to_write:
-                writer.writerow(card)
+                for card in cards_to_write_with_clozes:
+                    writer.writerow(card)
+        
+        if cards_to_write:
+            with open(RESULT_FILE, "w") as output:
+                fieldnames = ["front", "back"]
+                writer = csv.DictWriter(output, fieldnames)
+                # writer.writeheader() # The headers also get imported by anki
+                # Which creates an extra card every time
+
+                for card in cards_to_write:
+                    writer.writerow(card)
         
         with open(BAD_CARDS_FILE, "w") as output:
             output.write("\n\n---\n\n".join(failed_cards))
 
-        logger.info('🎆 File created! 🎆\nYou can now go import your file in Anki :)')
+        logger.info('🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)')
 
     else:
         logger.info('❓ No cards created... Please check input the file.')
