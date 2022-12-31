@@ -1,6 +1,11 @@
 import re
+import logging
 
 import card_types as CardTypes
+from logger import expressive_debug
+
+logger = logging.getLogger(__name__)
+
 
 class CardError(Exception):
     """Errors related to the parsing of the card."""

@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 import pygments
@@ -10,6 +11,9 @@ from extract import extract_clozes
 from formatters import clean_from_clozes, inject_clozes
 import card_types as CardTypes
 from config_handle import LINENOS
+from logger import expressive_debug
+
+logger = logging.getLogger(__name__)
 
 
 def tabs_to_html(tabs: List[CardTypes.Tab]) -> List[CardTypes.Tab]:

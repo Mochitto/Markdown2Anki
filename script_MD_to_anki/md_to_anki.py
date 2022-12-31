@@ -6,6 +6,7 @@ from formatters import format_tabs, format_tab_group
 from tab_swapping import get_swapped_tabs
 from text_to_html import tabs_to_html
 from card_error import CardError, validate_card_data, validate_card_sides, are_clozes_in_card
+from logger import expressive_debug
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 

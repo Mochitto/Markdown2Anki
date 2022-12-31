@@ -1,8 +1,12 @@
 import re
+import logging
 from typing import List
 
 from cards_specific_wrappers import wrap_tab, wrap_tab_body, wrap_tab_label, wrap_tab_group
 import card_types as CardTypes
+
+from logger import expressive_debug
+logger = logging.getLogger(__name__)
 
 def format_tabs(tabs: List[CardTypes.Tab]) -> List[str]:
     formatted_tabs = []

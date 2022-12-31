@@ -3,10 +3,11 @@ import csv
 import sys
 import os
 
+from logger import expressive_debug
 from md_to_anki import markdown_to_anki
 from card_error import CardError
 from config_handle import MD_INPUT_FILE, RESULT_FILE, CLOZES_RESULT_FILE, BAD_CARDS_FILE, FAST_FORWARD
-import logger
+
 
 
 def main():

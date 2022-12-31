@@ -1,6 +1,10 @@
 import configparser
 import os
 import datetime
+import logging
+
+from logger import expressive_debug
+logger = logging.getLogger(__name__)
 
 # Built at run-time
 CURRENT_DIR = os.getcwd()

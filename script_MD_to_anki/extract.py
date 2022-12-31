@@ -5,6 +5,7 @@ from typing import List
 
 from card_error import CardError
 import card_types as CardTypes
+from logger import expressive_debug
 
 logger = logging.getLogger(__name__)
 
