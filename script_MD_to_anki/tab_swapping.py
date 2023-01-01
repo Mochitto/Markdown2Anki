@@ -42,7 +42,6 @@ def swap_tabs(
     tab_indices_to_swap: List[int], 
     side: str):
     # FIXME: Should tabs be swapped with one of the same index or with the first tab possible?
-    # If you change this, make sure you also fix the back_left and back_right variables.
 
     front_tabs = front_tabs.copy()
 

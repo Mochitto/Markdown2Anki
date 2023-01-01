@@ -12,7 +12,7 @@ from logger import expressive_debug
 
 logger = logging.getLogger(__name__)
 
-# TODO: turn interactive etc. to kwargs
+# TODO: turn behaviour configs to kwargs
 def markdown_to_anki(markdown: str, interactive=False, fast_forward=False):
     cards = extract_cards(markdown) 
 
