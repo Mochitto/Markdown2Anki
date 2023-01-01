@@ -10,6 +10,7 @@ import mistune
 from extract import extract_clozes
 from formatters import clean_from_clozes, inject_clozes
 import card_types as CardTypes
+from obsidian_link_plugin import plugin_obsidian_link
 from config_handle import LINENOS
 from logger import expressive_debug
 
@@ -40,7 +41,7 @@ def markdown_to_html_with_highlight(text):
         escape=False,
         hard_wrap=True,
         renderer=HighlightRenderer(),
-        plugins=['strikethrough', 'footnotes', 'table', "url", "def_list"])
+        plugins=['strikethrough', 'footnotes', 'table', "url", "def_list", plugin_obsidian_link])
     return markdown(text)
 
 class HighlightRenderer(mistune.HTMLRenderer):

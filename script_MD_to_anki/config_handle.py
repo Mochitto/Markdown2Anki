@@ -38,6 +38,8 @@ LOG_FILE = append_outdir_if_relative(config["OUTFILES"]["log_file"])
 FAST_FORWARD = config["BEHAVIOR"]["fast_forward"]
 LINENOS = config["BEHAVIOR"]["linenos"]
 
+# TODO: validate these variables to make sure they are configured
+VAULT = config["NECESSARY"]["vault_name"]
 # Set-up
 os.makedirs(OUT_FOLDER, exist_ok=True) # Build out folder if missing
 

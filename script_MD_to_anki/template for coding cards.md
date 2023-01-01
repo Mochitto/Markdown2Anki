@@ -8,6 +8,7 @@ Stuff that is added here is not picked up
 ```js
 console.log("hello world!>>>>>>")
 ```
+
 ### PY hello world
 ```python
 print("hello world!")
@@ -34,6 +35,7 @@ What if I have something before?
 ```js
 console.log("hello world!")
 ```
+Learn more [[Logs/Anki coding cards/Anki coding cards kanban|Here]]
 
 *THIS IS PYTHON*
 ```python
