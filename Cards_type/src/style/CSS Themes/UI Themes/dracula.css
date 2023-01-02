@@ -1,0 +1,30 @@
+/* Inspired by: Dracula Theme v1.2.5
+ *
+ * https://github.com/zenorocha/dracula-theme - https://github.com/dracula/pygments/blob/master/dracula.css
+ *
+ * Copyright 2016, All rights reserved
+ *
+ * Code licensed under the MIT license
+ * http://zenorocha.mit-license.org
+ *
+ * @author Rob G <wowmotty@gmail.com>
+ * @author Chris Bracco <chris@cbracco.me>
+ * @author Zeno Rocha <hi@zenorocha.com>
+
+ Custom Ui theme made by @Mochitto, 2023
+ */
+
+ :root {
+    --main-background: #282a36; /* This is used for the tabs' body */
+    --secondary-background: rgb(19, 19, 26); /* This is used for the tabs-bar background */
+    --tabs-label-background: #1c1e28;
+    --accent-background: #f1fa8c;
+    --body-background: white; /* Shows thorugh during "over sibling hover"*/
+
+    --codeline-hover-background: #36384b;
+
+    --main-color: #f8f8f2;
+    --secondary-color: #6272a4;
+    --accent-color: #f1fa8c;
+    --ancillary-color: #949db7;
+ }
