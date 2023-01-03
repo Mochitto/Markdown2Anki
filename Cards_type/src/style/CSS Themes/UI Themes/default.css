@@ -1,14 +1,14 @@
 :root {
     --main-background: #f8f8f8; /* This is used for the tabs' body */
-    --secondary-background: #253d3d; /* This is used for the tabs-bar background */
-    --tabs-label-background: #003a00;
-    --accent-background: #8ecfcf;
+    --secondary-background: #646060; /* This is used for the tabs-bar background */
+    --tabs-label-background: #c2c2c2;
+    --accent-background: #008300;
     --body-background: #000000; /* Shows thorugh during "over sibling hover"*/
 
     --codeline-hover-background: #d1d1d1;
 
     --main-color: #000000;
-    --secondary-color: #6bacac;
-    --accent-color: #8ecfcf;
+    --secondary-color: #4d4d4d;
+    --accent-color: #008300;
     --ancillary-color: rgb(94, 93, 93);
  }

@@ -1,0 +1,14 @@
+:root {
+    --main-background: #f0f0f0; /* This is used for the tabs' body */
+    --secondary-background: #4e4e4e; /* This is used for the tabs-bar background */
+    --tabs-label-background: #585858;
+    --accent-background: #1cc26f;
+    --body-background: #000000; /* Shows thorugh during "over sibling hover"*/
+
+    --codeline-hover-background: #d1d1d1;
+
+    --main-color: #000000;
+    --secondary-color: #d6d6d6;
+    --accent-color: #1cc26f;
+    --ancillary-color: rgb(94, 93, 93);
+ }
