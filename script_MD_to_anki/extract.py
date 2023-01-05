@@ -9,16 +9,19 @@ from logger import expressive_debug
 
 logger = logging.getLogger(__name__)
 
-def extract_cards(markdown_text: str) -> list[str]:
+def extract_cards(markdown_text: str) -> List[str]:
     """
     Extract the cards from the markdown file.
     The break points are "---+" and "***+". Return an array of strings (cards).
     """
-    regex_pattern = r"\n(?:(?:---+?)|(?:\*\*\*+?))\n" # Match hr in markdown
+    regex_pattern = r"(?:(?:---+?)|(?:\*\*\*+?))\n" # Match hr in markdown
 
     cards = re.split(regex_pattern, markdown_text)
 
-    return cards
+    is_not_an_empty_card = lambda card: bool(card)
+    filtered_cards = list(filter(is_not_an_empty_card, cards)) # filter returns an iterable
+
+    return filtered_cards
 
 def extract_card_sides(card: str) -> CardTypes.CardSides:
     """
@@ -33,8 +36,8 @@ def extract_card_sides(card: str) -> CardTypes.CardSides:
 
     front_side_match = front_side_regex.search(stripped_card)
     back_side_match = back_side_regex.search(stripped_card)
-
-    if not front_side_match[1]:
+    
+    if not front_side_match or not front_side_match[1]:
         raise CardError(f"A card without front-side has been found.")
 
     return {
@@ -61,7 +64,7 @@ def extract_tabs_sides(side_fragment: str) -> CardTypes.TabsSides:
 def extract_tabs(left_or_right_block: str) -> CardTypes.TabsList:
     """Extact the tabs, their text and the indexes of tabs to be swapped."""
 
-    tabs_regex = re.compile(r"###\s*(-)?(.+?)\n(.+?)(?=###|##|$)", re.S)
+    tabs_regex = re.compile(r"(?s)###\s*(-)?(.+?)\n(.+?)(?=###|##|$)")
 
     tabs_matches = tabs_regex.findall(left_or_right_block)
 
@@ -80,7 +83,7 @@ def extract_tabs(left_or_right_block: str) -> CardTypes.TabsList:
     return {"tabs": tabs, "tabs_to_swap": tabs_to_switch}
 
 def extract_clozes(text: str) -> List[CardTypes.ClozeType]:
-    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}", re.IGNORECASE)
+    clozes_regex = re.compile(r"(?i){{c(\d)::(.+?)}}")
     
     clozes_matches = clozes_regex.findall(text)
 
