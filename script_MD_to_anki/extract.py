@@ -52,7 +52,7 @@ def extract_tabs_sides(side_fragment: str) -> CardTypes.TabsSides:
     left_tabs_regex = re.compile(r"(?si)##\s*left\s*tabs\s*\n(.*?)(?=##\s*right\s*tabs|$)")
     right_tabs_regex = re.compile(r"(?si)##\s*right\s*tabs\s*\n(.*)")
 
-    # The or is used to avoid IndexErrors and adding a try: except block
+    # The or is used to avoid IndexErrors and having to add a try: except block
     left_tabs_block = re.search(left_tabs_regex, stripped_fragment) or [""] 
     right_tabs_block = re.search(right_tabs_regex, stripped_fragment) or [""]
 

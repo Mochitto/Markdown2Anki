@@ -50,8 +50,7 @@ def remove_newlines(text: str) -> str:
     This is needed because all the newlines INSIDE tags will become <br>, when needed.
     The remaining newlines are linked to the markdown input
     and become useless as block elements do not need them.
-
-    This might be a useless step depending on mistune's configuration?"""
+    """
     return re.sub(r"\n", "", text)
 
 def clean_from_clozes(text:str) -> str:

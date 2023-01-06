@@ -47,11 +47,11 @@ logging.basicConfig(handlers=[
 # Debug logger
 def expressive_debug(logger, debugLabel, debugMessage, format=None):
     """
-    Call logger.debug, after appending the debugLabel to the debugMessage;
+    Call logger.debug, after prepending the debugLabel to the debugMessage;
     If the message is an object, you can format it using json.dumps or pprint.pformat:
     format=
-        "pprint" - pprint.pformat
-        "json" - json.dumps, indent=2
+        "pprint" -> pprint.pformat
+        "json" -> json.dumps, indent=2
     """
     frames = inspect.getouterframes(inspect.currentframe())
     # getouterframes gives back a list of frames.
