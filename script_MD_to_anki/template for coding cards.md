@@ -4,24 +4,49 @@ Stuff that is added here is not picked up
 
 ## Left tabs
 
-### - FIRST CARD
-```js
-console.log("hello world!>>>>>>")
-```
-
-### PY hello world
+### ArgParser
+Initializing the parser 
 ```python
-print("hello world!")
+import argparse
+
+# Instantiate the parser
+parser = argparse.{{c1::ArgumentParser}}(description='Optional app description')
 ```
 
+Adding arguments to the parser
+```python
+# Required positional argument
+parser.{{c1::add_argument}}('pos_arg', type=int,
+                    help='A required integer positional argument')
+```
+
+Parse
+```python
+args = parser.{{c1::parse_args}}()
+```
+
+Accessing the value
+```python
+print("Argument values:")
+print(args.{{c1::pos_arg}})
+```
+
+# Back side
 
 ## Right tabs
 
-### Answer 
-This will probably go instead of first old right tab
+### Explanation
+To parse cli args you can use the built-in module`argparse`. See [[argparse]]
 
-### Extra-tab!
-This is added after the second one!
+The steps are:
+1. Initializing
+2. Adding args (via `add_argument`), which can be:
+	- Positional 
+	- Positional optional (`nargs="?"`)
+	- Optional args (by adding -- before the argument's name)
+	- Switch arguments (`action="store_true"`)
+3. Parse
+4. Accessing the value
 
 ---
 
@@ -29,57 +54,22 @@ This is added after the second one!
 
 ## Left tabs
 
-### SECOND CARD
+### - Question
+# What are microservices?
 
-What if I have something before?
-```js
-console.log("hello world!")
-```
-Learn more [[Logs/Anki coding cards/Anki coding cards kanban|Here]]
+# Back side
 
-*THIS IS PYTHON*
-```python
-def main():
-    # logging.basicConfig(filename='process.log', level=logging.INFO)
-    logging.basicConfig(level=logging.INFO)
-    logging.info('Starting cards extraction')
-    
-    
-    cards = extract_cards(markdown_input)
-    for index, card in enumerate(cards):
-        back_front_sides = extract_front_back(card, index)
-        left_and_right_tabs = extract_left_right_tabs(back_front_sides["front"])
-        left_tabs = extract_tabs(left_and_right_tabs["left_tabs_block"])
-```
-I actually still have some stuff here...
-Such as a list!
-1. AHAHAHAHA
-2. THIS SHSHSHS
-	- And that
+## Left tabs
 
-where is this??
+### Answer
+*Microservices* is an architecture which splits up one big backend (also called monolith) into smaller backends (microservices); each backend application can be created with a different programming language, while all backends are able to communicate with each other via APIs.
 
-### PY hello world
-```python
-print("hello world!")
-```
+See [[Microservices architecture]]
 
 ## Right tabs
 
-### Question 
-This is what goes in the right side of the card.
-The markdown that is in it *goes* in the card.
-So you can for example:
-1. Add markdown to your explanations
-2. I don't know what else
-		- You can have lists!
-| and tables? | I think |
-| --- | ----|
-| yeah like this! |Ayy! |
-
-### Microservices structure
-I would like to keep this image as well!
-![This image](something.png)
+### Extra Explanation
+![Microservices picture](https://www.robinwieruch.de/static/b8ed3e68e8e64b31d4556acc93694182/57e27/16.webp)
 
 
 *********
@@ -88,52 +78,72 @@ I would like to keep this image as well!
 
 ## Left tabs
 
-### - THIRD CARD
-```js
-console.log("hello world!")
-```
-### PY hello world
+### Cloze
+Encode a given string to a url-safe string
 ```python
-print("hello world!")
+import {{c1::urllib.parse}}
+print(urllib.parse.{{c1::quote}}("Müller".encode('utf8')))
 ```
 
-## Right tabs
+Notice: `.encode` is added to make sure the url can support languages other than English.
 
-### - Question 
-This is what goes in the right side of the card.
-The {{c2::markdown}} that is in it *goes* in the card.
-So you can for example:
-1. Add markdown to your explanations
-2. I don't know what else
-		- You can have lists!
-| and tables? | I think |
-| --- | ----|
-| yeah like this! |Ayy! |
+---
+---
+***
+---
 
-### Microservices structure
-I would like to keep this image as well!
-![This image](something.png)
-
-# Backside
+# Back side
 
 ## Left tabs
 
-### JS Hello world with comment 
-```js
-console.log("hello world!")
-```
-This is how you would write this! :)
+### Card
+This is a bad card
 
-### Answer
-This **SHALL BE** added to the left side.
+---
+
+# Front side
 
 ## Right tabs
 
-### Answer 
-This will probably go instead of first old right tab
+### Bad card 2
+Another one
 
-### Extra-tab!
-This is added after the second one!
+---
+
+# frontside
+## lefttabs
+### forEach()
+How does forEach differ from map()?
+
+```js
+
+function addOne(number) {
+	return number + 1
+}
+
+result = [1, 2, 3, 4].forEach(addOne)
+
+```
+
+## rightside
+### map()
+# Map version:
+```js
+
+function addOne(number) {
+	return number + 1
+}
+
+result = [1, 2, 3, 4].map(addOne)
+
+```
+
+---
+
+# frontside
+## lefttabs
+### Fast inverse square root
+
 
 ---
 
@@ -141,53 +151,23 @@ This is added after the second one!
 
 ## Left tabs
 
-### CARD WITH CLOZE
+### Fast inverse square root
+How does this work?
+```C
+float Q_rsqrt( float number )
+{
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
 
-What if I have something before?
-```js
-console.log("hello world!")
+	x2 = number * 0.5F;
+	y  = number;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // {{c1::what the fuck?}} 
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+	return y;
+}
 ```
-
-*THIS IS PYTHON*
-```python
-def main():
-    # logging.basicConfig(filename='process.log', level=logging.INFO)
-    {{c1::logging}}.basicConfig(level=logging.INFO)
-    logging.info('Starting cards extraction')
-    
-    
-    {{c2::cards}} = extract_cards(markdown_input)
-    for index, {{c3::card}} in enumerate(cards):
-        back_front_sides = extract_front_back(card, index)
-        left_and_right_tabs = extract_left_right_tabs(back_front_sides["front"])
-        left_tabs = extract_tabs(left_and_right_tabs["left_tabs_block"])
-```
-I actually still have some stuff here...
-Such as a list!
-1. AHAHAHAHA
-2. THIS SHSHSHS
-	- And that
-
-where is this??
-
-### PY hello world
-```python
-print("hello world!")
-```
-
-## Right tabs
-
-### Question 
-This is what goes in the right side of the card.
-The markdown that is in it *goes* in the card.
-So you can for example:
-1. Add markdown to your explanations
-2. I don't know what else
-		- You can have lists!
-| and tables? | I think |
-| --- | ----|
-| yeah like this! |Ayy! |
-
-### Microservices structure
-I would like to keep this image as well!
-![This image](something.png)

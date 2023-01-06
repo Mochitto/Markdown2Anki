@@ -70,4 +70,4 @@ def swap_tabs(
 
         swapped_tabs = swapped_front_tabs + back_tabs_remaining
 
-    return swapped_tabs if swapped_tabs else front_tabs
+    return swapped_tabs if swapped_tabs else front_tabs + back_tabs
