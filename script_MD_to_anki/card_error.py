@@ -1,7 +1,7 @@
 import re
 import logging
 
-import card_types as CardTypes
+import card_types as Types
 from logger import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -16,15 +16,7 @@ class CardError(Exception):
         error_message = f"{self.message}"
         return error_message
 
-def validate_card_sides(card_sides: CardTypes.CardSides):
-    """
-    Raise an error if:
-        - "front" is empty.
-    """
-    if not card_sides["front"]:
-        raise CardError("The front side of the card is missing.")
-
-def validate_card_data(card_data: CardTypes.CardWithSwap):
+def validate_card_data(card_data: Types.CardWithSwap) -> None:
     """
     Raise an error if:
         - There are no left tabs in the front side of the card
@@ -42,8 +34,8 @@ def validate_card_data(card_data: CardTypes.CardWithSwap):
                     f"The {make_ordinal(index + 1)} tab on the front-{side} side has no corresponding "
                     + f"tab on the back-{side} side to be swapped with.") from error
 
-def make_ordinal(n):
-    ''' 
+def make_ordinal(n:int) -> str:
+    '''
     Convert an integer into its ordinal representation::
     https://stackoverflow.com/a/50992575/19144535
     '''
@@ -56,7 +48,8 @@ def make_ordinal(n):
     return str(n) + suffix
 
 # FIXME maybe?: maybe this is not the best place where to have this function
-def are_clozes_in_card(card: CardTypes.CardWithTabs) -> bool:
+def are_clozes_in_card(card: Types.CardWithTabs) -> bool:
     clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
 
     return bool(re.search(clozes_regex, card["front"]))
+    

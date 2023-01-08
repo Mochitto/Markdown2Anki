@@ -9,7 +9,7 @@ import mistune
 
 from extract import extract_clozes
 from formatters import clean_from_clozes, inject_clozes
-import card_types as CardTypes
+import card_types as Types
 from obsidian_link_plugin import plugin_obsidian_link
 from config_handle import LINENOS
 from logger import expressive_debug
@@ -17,24 +17,20 @@ from logger import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def tabs_to_html(tabs: List[CardTypes.Tab]) -> List[CardTypes.Tab]:
-    html_tabs = []
-    for tab in tabs:
-        html_tab = tab_to_html(tab)
-        html_tabs.append(html_tab)
+def tabs_to_html(tabs: List[Types.MDTab]) -> List[Types.HTMLTab]:
+    html_tabs = [tab_to_html(tab) for tab in tabs]
     return html_tabs
 
-def tab_to_html(tab: CardTypes.Tab) -> CardTypes.Tab:
+def tab_to_html(tab: Types.MDTab) -> Types.HTMLTab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
-    label = tab["tab_label"]
-    tab_body_in_html = markdown_to_html_with_highlight(tab["tab_body"])
+    html_body = markdown_to_html_with_highlight(tab["tab_body"])
 
-    return {"tab_label": label, "tab_body": tab_body_in_html}
+    return {"tab_label": tab["tab_label"], "tab_body": html_body}
 
-def markdown_to_html_with_highlight(text):
+def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
     """
     Parse the text and compile to html;
-    in addition, code blocks are highlighted using
+    Code blocks are highlighted using
     a custom pygments template (see HighlightRenderer)
     """
     markdown = mistune.create_markdown(
@@ -53,7 +49,21 @@ class HighlightRenderer(mistune.HTMLRenderer):
 
         code_class = "highlight__code highlight--linenos" if LINENOS else "highlight__code"
         
+        # step 1: get matches
+        # step 2: clean from clozes
+        # step 3: make a dict with key: hash, value: cloze tuple
+        # step 4: sub each cloze text (\btext\b) with the corresponding hash (iterate over the dict to get the text and hash)
+        # step 5: replace hash with text, once highlighted
+
+        # # The hash is transformed to a sequence of letters so that it can be picked up as a var token by pygments, putting it in a single span
+        # hash_clozed_text = lambda match: str(hash(match[1]))
+        # number_to_letter = "ABCDEFGHIL"
+        # hash_clozed_text_word = lambda match: "".join([number_to_letter[int(number)] if number != "-" else "M" for number in hash_clozed_text(match)])
+
         clozes = extract_clozes(code)
+        
+        expressive_debug(logger, "These are the clozes", clozes, "pprint")
+
         code_cleaned_from_clozes = clean_from_clozes(code)
         
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)

@@ -1,39 +1,50 @@
-from typing import Dict, List, TypedDict
+from typing import Dict, List, TypedDict, TypeGuard, Tuple
+import re
 
-class CardSides(TypedDict):
-    front: str
-    back: str
+# Different kind of strings
+MDString = str
+HTMLString = str
+PathString = str
 
-class TabsSides(TypedDict):
-    left_tabs: str
-    right_tabs: str
 
-class Tab(TypedDict):
+class MDTab(TypedDict):
     tab_label: str
-    tab_body: str
+    tab_body: MDString
 
-class TabsList(TypedDict):
-    tabs: List[Tab]
-    tabs_to_swap: List[int]
 
-class CardSideWithSwap(TypedDict):
-    left_tabs: str
-    left_tabs_to_swap: str
-    right_tabs: str
-    right_tabs_to_swap: str
+class HTMLTab(TypedDict):
+    tab_label: str
+    tab_body: HTMLString
+
+
+class TabsWithSwap(TypedDict):
+    left_tabs: List[HTMLString]
+    left_to_swap: List[int]
+    right_tabs: List[HTMLString]
+    right_to_swap: List[int]
+
 
 class CardWithSwap(TypedDict):
-    front: CardSideWithSwap
-    back: CardSideWithSwap
+    front: TabsWithSwap
+    back: TabsWithSwap
 
+
+# Prepare for processing, post Swap
 class CardSideWithTabs(TypedDict):
-    left_tabs: List[str]
-    right_tabs: List[str]
+    left_tabs: List[HTMLString]
+    right_tabs: List[HTMLString]
 
+
+# See above, grouping
 class CardWithTabs(TypedDict):
     front: CardSideWithTabs
     back: CardSideWithTabs
 
+
+# Should be a tuple, result of findall; should be a dataclass tho
 class ClozeType(TypedDict):
     number: int
     cloze_text: str
+
+
+

@@ -1,8 +1,11 @@
 import re
-import mistune
 import logging
 import urllib
+from typing import Match
 
+from mistune import Markdown
+
+import card_types as Types 
 from config_handle import VAULT
 from logger import expressive_debug
 
@@ -16,13 +19,13 @@ OBSIDIAN_LINK_REGEX = (
     r'(?:\|(.+?))?' # Possible alias 
     r'\]\]')
 
-def parse_inline_obsidian_link(inline_message, matches, state):
+def parse_inline_obsidian_link(inline_message: str, matches: Match[str], state):
     path_to_page = matches.group(1)
     page_alias = matches.group(2) 
 
     return "obsidian_link", path_to_page, page_alias
 
-def render_obsidian_link(path, alias):
+def render_obsidian_link(path: Types.PathString, alias: str):
     encoded_path = urllib.parse.quote(path.encode("utf8"))
     encoded_vault = urllib.parse.quote(VAULT.encode("utf8")) 
     if alias:
@@ -32,7 +35,7 @@ def render_obsidian_link(path, alias):
         last_word = re.split(path_slash_regex, path)[-1]
         return f'<a href="obsidian://open?vault={encoded_vault}&file={encoded_path}">{last_word}</a>'
 
-def plugin_obsidian_link(Markdown):
+def plugin_obsidian_link(Markdown: Markdown):
     Markdown.inline.register_rule("obsidian_link", OBSIDIAN_LINK_REGEX, parse_inline_obsidian_link)
     Markdown.inline.rules.append('obsidian_link')
     if Markdown.renderer.NAME == 'html':
