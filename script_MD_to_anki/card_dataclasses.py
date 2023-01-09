@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from card_error import CardError
 import card_types as Types
+from card_error import CardError
 
 
 # Grouping, Extraction to MDstring

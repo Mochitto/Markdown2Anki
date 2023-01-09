@@ -1,12 +1,9 @@
-import re
 import logging
+import re
+from typing import Dict, List
 
-from typing import List
-
-from card_error import CardError
-import card_types as Types
 import card_dataclasses as Dataclasses
-
+import card_types as Types
 from logger import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -14,8 +11,14 @@ logger = logging.getLogger(__name__)
 
 def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
     """
-    Extract the cards from the markdown file.
-    The break points are "---+" and "***+". Return an array of strings (cards).
+    Extract cards from a markdown text.
+    The delimiters used are markdown's hr.
+    
+    Pattern:
+    ------
+    ---
+    ***
+    ******
     """
     regex_pattern = r"(?:(?:---+?)|(?:\*\*\*+?))\n"  # Match hr in markdown
 
@@ -32,6 +35,16 @@ def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     Extract the text that is under the "Front side" and "Back side",
     return a dictionary with the two text blocks.
     "Back side" is optional.
+
+    Pattern (same for backside):
+    # frontside
+    something
+
+    #fRoNtSiDe
+    something
+
+    # Front Side
+    something
     """
     stripped_card = card.strip()
 
@@ -47,9 +60,23 @@ def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     )
 
 
-def extract_tabs_sides(side_fragment: Types.MDString) -> {"left_tabs": Types.MDString, "right_tabs": Types.MDString}:
+def extract_tabs_sides(side_fragment: Types.MDString) -> Dict[str, Types.MDString]:
     """
     Extract the text that is under the "left tabs" and "right tabs".
+
+    Dict:
+    "left_tabs": MDString
+    "right_tabs": MDString
+
+    Pattern (same for right tabs):
+    ## lefttabs
+    something
+
+    ##LeFtTabS
+    something
+
+    ## Left Tabs
+    something
     """
     stripped_fragment = side_fragment.strip()
 
@@ -65,17 +92,33 @@ def extract_tabs_sides(side_fragment: Types.MDString) -> {"left_tabs": Types.MDS
     }
 
 
-def extract_tabs(left_or_right_block: Types.MDString) -> {"tabs": List[Types.MDTab], "tabs_to_swap": List[int]}:
+def extract_tabs(left_or_right_block: Types.MDString) -> Dict[str, List[Types.MDTab] | List[int]]:
     """
     Extact tabs and the indexes of those to be swapped.
+
+    Dict:
+    "tabs": List[MDTab]
+    "tabs_to_swap: list[int]
+
+    Pattern:
+    ### Something
+    something
+
+    ### -Something
+    something
+    
+    ###-Something
+    something
+
+    Match until: ### | ## | $
     """
 
     tabs_regex = re.compile(r"(?s)###\s*(-)?(.+?)\n(.+?)(?=###|##|$)")
 
     tabs_matches = tabs_regex.findall(left_or_right_block)
 
-    tabs = []
-    tabs_to_switch = []
+    tabs: List[Types.MDTab] = []
+    tabs_to_switch: List[int] = []
     for index, match in enumerate(tabs_matches):
         switch_flag = match[0]
         if switch_flag:
@@ -83,12 +126,20 @@ def extract_tabs(left_or_right_block: Types.MDString) -> {"tabs": List[Types.MDT
 
         tab_label = match[1]
         tab_body = match[2]
-        tabs.append({"tab_label": tab_label.strip(), "tab_body": tab_body.strip()})
 
+        tabs.append({"tab_label": tab_label.strip(), "tab_body": tab_body.strip()})
+    
     return {"tabs": tabs, "tabs_to_swap": tabs_to_switch}
 
 
 def extract_clozes(text: Types.MDString) -> List[Types.ClozeType]:
+    """
+    Extract clozes from text.
+
+    Pattern:
+    {{c1::something}}
+    {{C9::something}}
+    """
     clozes_regex = re.compile(r"(?i){{c(\d)::(.+?)}}")
 
     clozes_matches = clozes_regex.findall(text)

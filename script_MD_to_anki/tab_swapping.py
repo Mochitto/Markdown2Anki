@@ -1,9 +1,8 @@
 import logging
 from typing import List, Tuple
 
-from card_error import CardError
 import card_types as Types
-
+from card_error import CardError
 from logger import expressive_debug
 
 logger = logging.getLogger(__name__)

@@ -1,11 +1,12 @@
-import re
 import logging
+import re
 from typing import List
 
-from cards_specific_wrappers import wrap_tab, wrap_tab_body, wrap_tab_label, wrap_tab_group
 import card_types as Types
-
+from cards_specific_wrappers import (wrap_tab, wrap_tab_body, wrap_tab_group,
+                                     wrap_tab_label)
 from logger import expressive_debug
+
 logger = logging.getLogger(__name__)
 
 def format_tabs(tabs: List[Types.HTMLTab]) -> List[Types.HTMLString]:

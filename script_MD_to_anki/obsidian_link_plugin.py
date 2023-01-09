@@ -1,11 +1,9 @@
-import re
 import logging
-import urllib
+import re
+import urllib.parse
 from typing import Match
 
-from mistune import Markdown
-
-import card_types as Types 
+import card_types as Types
 from config_handle import VAULT
 from logger import expressive_debug
 
@@ -35,7 +33,7 @@ def render_obsidian_link(path: Types.PathString, alias: str):
         last_word = re.split(path_slash_regex, path)[-1]
         return f'<a href="obsidian://open?vault={encoded_vault}&file={encoded_path}">{last_word}</a>'
 
-def plugin_obsidian_link(Markdown: Markdown):
+def plugin_obsidian_link(Markdown):
     Markdown.inline.register_rule("obsidian_link", OBSIDIAN_LINK_REGEX, parse_inline_obsidian_link)
     Markdown.inline.rules.append('obsidian_link')
     if Markdown.renderer.NAME == 'html':

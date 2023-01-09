@@ -3,6 +3,7 @@
 # Project specific folders/files
 anki_outdir
 myenv
+.mypy_cache
 
 # compiled output
 /dist

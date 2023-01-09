@@ -1,10 +1,11 @@
-import logging
-import sys
-import json 
-import pprint
 import inspect
+import json
+import logging
+import pprint
+import sys
 
 from config_handle import LOG_FILE
+
 
 # Create a logger object
 class SingleLevelFilter(logging.Filter):

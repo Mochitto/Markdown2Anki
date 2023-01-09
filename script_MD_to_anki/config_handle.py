@@ -1,6 +1,7 @@
 import configparser
-import os
 import datetime
+import os
+
 import card_types as Types
 
 # Built at run-time
@@ -30,8 +31,8 @@ CLOZES_RESULT_FILE = append_path_if_relative( OUT_FOLDER, config["OUTFILES"]["cl
 BAD_CARDS_FILE = append_path_if_relative( OUT_FOLDER, config["OUTFILES"]["failed_cards_file"])
 LOG_FILE = append_path_if_relative( OUT_FOLDER, config["OUTFILES"]["log_file"])
 
-FAST_FORWARD = config["BEHAVIOR"]["fast_forward"]
-LINENOS = config["BEHAVIOR"]["linenos"]
+FAST_FORWARD = bool(config["BEHAVIOR"]["fast_forward"])
+LINENOS = bool(config["BEHAVIOR"]["linenos"])
 
 # TODO: validate these variables to make sure they are configured
 VAULT = config["NECESSARY"]["vault_name"]

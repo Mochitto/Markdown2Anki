@@ -1,5 +1,5 @@
-from typing import Dict, List, TypedDict, TypeGuard, Tuple
 import re
+from typing import Dict, List, Literal, Tuple, TypedDict, TypeGuard
 
 # Different kind of strings
 MDString = str
@@ -19,9 +19,9 @@ class HTMLTab(TypedDict):
 
 class TabsWithSwap(TypedDict):
     left_tabs: List[HTMLString]
-    left_to_swap: List[int]
+    left_tabs_swap: List[int]
     right_tabs: List[HTMLString]
-    right_to_swap: List[int]
+    right_tabs_swap: List[int]
 
 
 class CardWithSwap(TypedDict):

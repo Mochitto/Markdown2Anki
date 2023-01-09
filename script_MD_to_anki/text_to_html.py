@@ -1,18 +1,17 @@
 import logging
 from typing import List
 
-import pygments
-from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_lexer_by_name, guess_lexer
-
 import mistune
+import pygments
 
+import card_types as Types
+from config_handle import LINENOS
 from extract import extract_clozes
 from formatters import clean_from_clozes, inject_clozes
-import card_types as Types
-from obsidian_link_plugin import plugin_obsidian_link
-from config_handle import LINENOS
 from logger import expressive_debug
+from obsidian_link_plugin import plugin_obsidian_link
+from pygments.formatters.html import HtmlFormatter
+from pygments.lexers import get_lexer_by_name, guess_lexer
 
 logger = logging.getLogger(__name__)
 

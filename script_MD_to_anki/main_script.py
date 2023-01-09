@@ -1,13 +1,13 @@
-import logging
 import csv
-import sys
+import logging
 import os
+import sys
 
+from card_error import CardError
+from config_handle import (BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD,
+                           MD_INPUT_FILE, RESULT_FILE)
 from logger import expressive_debug
 from md_to_anki import markdown_to_anki
-from card_error import CardError
-from config_handle import MD_INPUT_FILE, RESULT_FILE, CLOZES_RESULT_FILE, BAD_CARDS_FILE, FAST_FORWARD
-
 
 
 def main():
