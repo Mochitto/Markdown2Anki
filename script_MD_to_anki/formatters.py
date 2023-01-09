@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import List
+from typing import List, Dict, Tuple
 
 import card_types as Types
 from cards_specific_wrappers import (wrap_tab, wrap_tab_body, wrap_tab_group,
@@ -57,15 +57,14 @@ def clean_from_clozes(text:Types.MDString) -> Types.MDString:
     
     return text_without_clozes
 
-def inject_clozes(text: Types.HTMLString, list_of_clozes) -> Types.HTMLString:
+def inject_clozes(text: Types.HTMLString, hashed_clozes: Dict[str, Tuple[str, str]]) -> Types.HTMLString:
     new_text = text
 
-    for cloze in list_of_clozes:
-        number = cloze[0]
-        clozed_text = cloze[1]
-        escaped_clozed_text = re.escape(cloze[1])
+    for hashed_cloze, cloze_match in hashed_clozes.items():
+        number = cloze_match[0]
+        clozed_text = cloze_match[1]
 
-        word_regex = re.compile(fr"\b{clozed_text}\b")
+        word_regex = re.compile(fr"\b{hashed_cloze}\b")
 
         new_text = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", new_text)
 

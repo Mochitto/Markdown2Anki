@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple, Dict
 
 import mistune
 import pygments
 
 import card_types as Types
+from card_error import CardError
 from config_handle import LINENOS
 from extract import extract_clozes
 from formatters import clean_from_clozes, inject_clozes
@@ -15,6 +16,7 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 
 logger = logging.getLogger(__name__)
 
+import re
 
 def tabs_to_html(tabs: List[Types.MDTab]) -> List[Types.HTMLTab]:
     html_tabs = [tab_to_html(tab) for tab in tabs]
@@ -59,16 +61,54 @@ class HighlightRenderer(mistune.HTMLRenderer):
         # number_to_letter = "ABCDEFGHIL"
         # hash_clozed_text_word = lambda match: "".join([number_to_letter[int(number)] if number != "-" else "M" for number in hash_clozed_text(match)])
 
-        clozes = extract_clozes(code)
-        
-        expressive_debug(logger, "These are the clozes", clozes, "pprint")
+        def hash_clozes(clozes: List[Tuple[str, str]]) -> Dict[str, Tuple[str, str]]:
+            """
+            Transform matches from re.findall into a dictionary that has:
+            keys: hashed match
+            values: (cloze's number, match)
+            """
 
-        code_cleaned_from_clozes = clean_from_clozes(code)
+            # A dictionary built to use with translate()
+            # key: ord(number), value: letter + "-" : Z
+            NUMBER_TO_LETTER_TRANSLATION = {
+                    48: 'A', 49: 'B', 50: 'C', 51: 'D', 52: 'E',
+                    53: 'F', 54: 'G', 55: 'H', 56: 'I', 57: 'J', 
+                    45: 'Z'
+                    }
+            
+            result = dict()
+            for cloze_number, cloze_text in clozes:
+                hash_number = str(hash(cloze_text))
+
+                hash_in_letters = hash_number.translate(NUMBER_TO_LETTER_TRANSLATION)
+                result[hash_in_letters] = (cloze_number, cloze_text)
+
+            return result
+            
+        def replace_clozes_with_hashes(markdown_code: Types.MDString, hashed_clozes: Dict[str, Tuple[str, str]]) -> Types.MDString: 
+            
+            if not hashed_clozes:
+                return markdown_code
+
+            code_with_hashes = markdown_code
+            for hash_key, cloze_match in hashed_clozes.items():
+                cloze_regex = re.compile(rf"\b{cloze_match[1]}\b")
+                code_with_hashes, number_of_substitutions = re.subn(cloze_regex, hash_key, code_with_hashes)
+                if not number_of_substitutions:
+                    raise CardError("Bad formatting in code's cloze: clozes in code must be whole words and not have substrings of other clozes") # TODO: change me to a better, Error
+                
+            return code_with_hashes
+
+        clozes = extract_clozes(code)
+        hashed_clozes = hash_clozes(clozes)
         
+        code_cleaned_from_clozes = clean_from_clozes(code)
+        code_with_hashed_clozes = replace_clozes_with_hashes(code_cleaned_from_clozes, hashed_clozes)
+
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
 
-        highlighted_code = pygments.highlight(code_cleaned_from_clozes, lexer, formatter)
-        highlighted_code_with_clozes = inject_clozes(highlighted_code, clozes)
+        highlighted_code = pygments.highlight(code_with_hashed_clozes, lexer, formatter)
+        highlighted_code_with_clozes = inject_clozes(highlighted_code, hashed_clozes)
         
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
