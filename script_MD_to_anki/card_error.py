@@ -3,7 +3,7 @@ import re
 from typing import Dict
 
 import card_types as Types
-from logger import expressive_debug
+from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

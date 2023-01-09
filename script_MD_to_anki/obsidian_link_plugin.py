@@ -5,7 +5,7 @@ from typing import Match
 
 import card_types as Types
 from config_handle import VAULT
-from logger import expressive_debug
+from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

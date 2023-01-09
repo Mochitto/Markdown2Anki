@@ -5,7 +5,7 @@ from typing import List
 import card_types as Types
 from cards_specific_wrappers import (wrap_tab, wrap_tab_body, wrap_tab_group,
                                      wrap_tab_label)
-from logger import expressive_debug
+from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

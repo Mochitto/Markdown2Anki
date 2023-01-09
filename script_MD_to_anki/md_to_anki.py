@@ -5,7 +5,7 @@ from typing import List
 import card_types as Types
 from card_error import CardError, are_clozes_in_card
 from extract import extract_cards
-from logger import expressive_debug
+from debug_tools import expressive_debug
 from process_card import process_card
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions

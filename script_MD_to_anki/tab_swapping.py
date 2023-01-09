@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 import card_types as Types
 from card_error import CardError
-from logger import expressive_debug
+from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

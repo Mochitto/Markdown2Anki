@@ -6,7 +6,7 @@ import card_types as Types
 from card_error import validate_card_data
 from extract import extract_card_sides, extract_tabs, extract_tabs_sides
 from formatters import format_tab_group, format_tabs
-from logger import expressive_debug
+from debug_tools import expressive_debug
 from tab_swapping import get_swapped_tabs
 from text_to_html import tabs_to_html
 

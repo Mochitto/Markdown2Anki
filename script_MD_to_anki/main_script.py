@@ -6,9 +6,9 @@ import sys
 from card_error import CardError
 from config_handle import (BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD,
                            MD_INPUT_FILE, RESULT_FILE)
-from logger import expressive_debug
+from debug_tools import expressive_debug
 from md_to_anki import markdown_to_anki
-
+import logger
 
 def main():
     # logging.basicConfig(filename='process.log', level=logging.INFO)
