@@ -1,20 +1,19 @@
 import csv
 import logging
-import os
 import sys
 
 from card_error import CardError
-from config_handle import (BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD,
-                           MD_INPUT_FILE, RESULT_FILE)
+from config_handle import BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD, MD_INPUT_FILE, RESULT_FILE
 from debug_tools import expressive_debug
 from md_to_anki import markdown_to_anki
-import logger
+import logger as basicConfig
+
 
 def main():
     # logging.basicConfig(filename='process.log', level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-    logger.info('Starting cards extraction')
+    logger.info("Starting cards extraction")
 
     with open(MD_INPUT_FILE, "r", encoding="utf-8") as markdown_file:
         markdown_input = markdown_file.read()
@@ -39,7 +38,7 @@ def main():
             logger.info(f"🙈 Failed to create {aborted_cards} card/s...")
 
         if cards_to_write_with_clozes:
-            with open(CLOZES_RESULT_FILE, "w") as output:
+            with open(CLOZES_RESULT_FILE, "w", encoding="utf-8") as output:
                 fieldnames = ["front", "back"]
                 writer = csv.DictWriter(output, fieldnames)
                 # writer.writeheader() # The headers also get imported by anki
@@ -47,9 +46,9 @@ def main():
 
                 for card in cards_to_write_with_clozes:
                     writer.writerow(card)
-        
+
         if cards_to_write:
-            with open(RESULT_FILE, "w") as output:
+            with open(RESULT_FILE, "w", encoding="utf-8") as output:
                 fieldnames = ["front", "back"]
                 writer = csv.DictWriter(output, fieldnames)
                 # writer.writeheader() # The headers also get imported by anki
@@ -57,16 +56,17 @@ def main():
 
                 for card in cards_to_write:
                     writer.writerow(card)
-        
-        with open(BAD_CARDS_FILE, "w") as output:
+
+        with open(BAD_CARDS_FILE, "w", encoding="utf-8") as output:
             output.write("\n\n---\n\n".join(failed_cards))
 
-        logger.info('🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)')
+        logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
 
     else:
-        logger.info('❓ No cards created... Please check input the file.')
+        logger.info("❓ No cards created... Please check input the file.")
 
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

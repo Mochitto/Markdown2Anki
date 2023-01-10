@@ -1,5 +1,4 @@
-import re
-from typing import Dict, List, Literal, Tuple, TypedDict, TypeGuard
+from typing import List, TypedDict
 
 # Different kind of strings
 MDString = str
@@ -45,6 +44,3 @@ class CardWithTabs(TypedDict):
 class ClozeType(TypedDict):
     number: int
     cloze_text: str
-
-
-

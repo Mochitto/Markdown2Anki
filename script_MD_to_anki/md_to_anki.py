@@ -1,12 +1,11 @@
 import logging
-from dataclasses import asdict
-from typing import List
 
 import card_types as Types
-from card_error import CardError, are_clozes_in_card
+from card_error import CardError
 from extract import extract_cards
 from debug_tools import expressive_debug
 from process_card import process_card
+from process_clozes import are_clozes_in_card
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
@@ -63,5 +62,5 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
         "cards_with_clozes": processed_cards_with_cloze,
         "failed_cards": failed_cards,
         "number_of_successful": successful_cards,
-        "number_of_failed": aborted_cards
+        "number_of_failed": aborted_cards,
     }

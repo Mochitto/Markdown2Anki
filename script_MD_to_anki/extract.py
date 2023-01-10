@@ -13,7 +13,7 @@ def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
     """
     Extract cards from a markdown text.
     The delimiters used are markdown's hr.
-    
+
     Pattern:
     ------
     ---
@@ -55,8 +55,7 @@ def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     back_side_match = back_side_regex.search(stripped_card)
 
     return Dataclasses.MDCard(
-        front=front_side_match[1] if front_side_match else "",
-        back=back_side_match[1] if back_side_match else ""
+        front=front_side_match[1] if front_side_match else "", back=back_side_match[1] if back_side_match else ""
     )
 
 
@@ -88,7 +87,7 @@ def extract_tabs_sides(side_fragment: Types.MDString) -> Dict[str, Types.MDStrin
 
     return {
         "left_tabs": left_tabs_block[1] if left_tabs_block else "",
-        "right_tabs": right_tabs_block[1] if right_tabs_block else ""
+        "right_tabs": right_tabs_block[1] if right_tabs_block else "",
     }
 
 
@@ -106,7 +105,7 @@ def extract_tabs(left_or_right_block: Types.MDString) -> Dict[str, List[Types.MD
 
     ### -Something
     something
-    
+
     ###-Something
     something
 
@@ -128,20 +127,5 @@ def extract_tabs(left_or_right_block: Types.MDString) -> Dict[str, List[Types.MD
         tab_body = match[2]
 
         tabs.append({"tab_label": tab_label.strip(), "tab_body": tab_body.strip()})
-    
+
     return {"tabs": tabs, "tabs_to_swap": tabs_to_switch}
-
-
-def extract_clozes(text: Types.MDString) -> List[Types.ClozeType]:
-    """
-    Extract clozes from text.
-
-    Pattern:
-    {{c1::something}}
-    {{C9::something}}
-    """
-    clozes_regex = re.compile(r"(?i){{c(\d)::(.+?)}}")
-
-    clozes_matches = clozes_regex.findall(text)
-
-    return clozes_matches

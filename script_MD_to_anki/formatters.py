@@ -1,17 +1,18 @@
 import logging
 import re
-from typing import List, Dict, Tuple
+from typing import Dict, List, Tuple
 
 import card_types as Types
-from cards_specific_wrappers import (wrap_tab, wrap_tab_body, wrap_tab_group,
-                                     wrap_tab_label)
+from cards_specific_wrappers import wrap_tab, wrap_tab_body, wrap_tab_group, wrap_tab_label
 from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
+
 def format_tabs(tabs: List[Types.HTMLTab]) -> List[Types.HTMLString]:
     formatted_tabs = [format_tab(tab) for tab in tabs]
     return formatted_tabs
+
 
 def format_tab(tab: Types.HTMLTab) -> Types.HTMLString:
     tab_label = tab["tab_label"]
@@ -21,6 +22,7 @@ def format_tab(tab: Types.HTMLTab) -> Types.HTMLString:
     wrapped_body = wrap_tab_body(tab_body)
 
     return wrap_tab(wrapped_label, wrapped_body)
+
 
 def format_tab_group(tabs_list: List[Types.HTMLString], add_over_sibling=False) -> Types.HTMLString:
     tabs = tabs_list.copy()
@@ -36,11 +38,13 @@ def format_tab_group(tabs_list: List[Types.HTMLString], add_over_sibling=False) 
 
     return cleaned_tab_group
 
+
 def activate_first_tab(tabs: List[Types.HTMLString]) -> List[Types.HTMLString]:
     new_tabs = tabs.copy()
 
     new_tabs[0] = re.sub(r'(class="tab)"', r'\1 tab--isactive"', new_tabs[0])
     return new_tabs
+
 
 def remove_newlines(text: Types.HTMLString) -> Types.HTMLString:
     """Remove newlines from the text.
@@ -49,23 +53,3 @@ def remove_newlines(text: Types.HTMLString) -> Types.HTMLString:
     and become useless as block elements do not need them.
     """
     return re.sub(r"\n", "", text)
-
-def clean_from_clozes(text:Types.MDString) -> Types.MDString:
-    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
-
-    text_without_clozes = re.sub(clozes_regex, r"\2", text)
-    
-    return text_without_clozes
-
-def inject_clozes(text: Types.HTMLString, hashed_clozes: Dict[str, Tuple[str, str]]) -> Types.HTMLString:
-    new_text = text
-
-    for hashed_cloze, cloze_match in hashed_clozes.items():
-        number = cloze_match[0]
-        clozed_text = cloze_match[1]
-
-        word_regex = re.compile(fr"\b{hashed_cloze}\b")
-
-        new_text = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", new_text)
-
-    return new_text

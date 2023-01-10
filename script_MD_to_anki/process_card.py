@@ -26,7 +26,7 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
 
     Dict:
     "front": HTMLString
-    "back": HTMLString 
+    "back": HTMLString
 
     "# type: ignore" is needed when using dict keys dinamically, sadly.
     mypy issue: https://github.com/python/mypy/issues/7178
@@ -34,18 +34,8 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
     card_sides = extract_card_sides(markdown)
 
     card_data: Types.CardWithSwap = {
-        "front": {
-            "left_tabs": [],
-            "left_tabs_swap": [],
-            "right_tabs": [],
-            "right_tabs_swap": []
-        },
-        "back": {
-            "left_tabs": [],
-            "left_tabs_swap": [],
-            "right_tabs": [],
-            "right_tabs_swap": []
-        }
+        "front": {"left_tabs": [], "left_tabs_swap": [], "right_tabs": [], "right_tabs_swap": []},
+        "back": {"left_tabs": [], "left_tabs_swap": [], "right_tabs": [], "right_tabs_swap": []},
     }
 
     for side, side_content in asdict(card_sides).items():
@@ -55,24 +45,21 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
             if not tab_side_content:  # Non-empty tab side
                 continue
             tabs_info = extract_tabs(tab_side_content)
-            tabs: List[Types.MDTab] = tabs_info["tabs"] # type: ignore
+            tabs: List[Types.MDTab] = tabs_info["tabs"]  # type: ignore
             html_tabs = tabs_to_html(tabs)
             formatted_tabs = format_tabs(html_tabs)
 
-            card_data[side][tab_side] = formatted_tabs # type: ignore
-            card_data[side][f"{tab_side}_swap"] = tabs_info["tabs_to_swap"] # type: ignore
+            card_data[side][tab_side] = formatted_tabs  # type: ignore
+            card_data[side][f"{tab_side}_swap"] = tabs_info["tabs_to_swap"]  # type: ignore
 
     validate_card_data(card_data)
 
     card_with_swapped_tabs = get_swapped_tabs(card_data)
 
-    formatted_card = {
-        "front": "",
-        "back": ""
-    }
+    formatted_card = {"front": "", "back": ""}
 
     for side in asdict(card_sides).keys():
-        formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["left_tabs"]) # type: ignore
-        formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["right_tabs"]) # type: ignore
+        formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["left_tabs"])  # type: ignore
+        formatted_card[side] += format_tab_group(card_with_swapped_tabs[side]["right_tabs"])  # type: ignore
 
     return formatted_card

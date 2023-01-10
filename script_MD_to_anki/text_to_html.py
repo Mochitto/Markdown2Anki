@@ -1,32 +1,41 @@
 import logging
-from typing import List, Tuple, Dict
+import re
+from typing import Dict, List, Tuple
+
 
 import mistune
 import pygments
+from pygments.formatters.html import HtmlFormatter
+from pygments.lexers import get_lexer_by_name, guess_lexer
 
 import card_types as Types
 from card_error import CardError
 from config_handle import LINENOS
-from extract import extract_clozes
-from formatters import clean_from_clozes, inject_clozes
 from debug_tools import expressive_debug
 from obsidian_link_plugin import plugin_obsidian_link
-from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_lexer_by_name, guess_lexer
+from process_clozes import (
+    clean_code_from_clozes,
+    get_clozes,
+    hash_clozes,
+    inject_clozes,
+    replace_cloze_text_with_hashes,
+)
+
 
 logger = logging.getLogger(__name__)
 
-import re
 
 def tabs_to_html(tabs: List[Types.MDTab]) -> List[Types.HTMLTab]:
     html_tabs = [tab_to_html(tab) for tab in tabs]
     return html_tabs
+
 
 def tab_to_html(tab: Types.MDTab) -> Types.HTMLTab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
     html_body = markdown_to_html_with_highlight(tab["tab_body"])
 
     return {"tab_label": tab["tab_label"], "tab_body": html_body}
+
 
 def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
     """
@@ -38,8 +47,10 @@ def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
         escape=False,
         hard_wrap=True,
         renderer=HighlightRenderer(),
-        plugins=['strikethrough', 'footnotes', 'table', "url", "def_list", plugin_obsidian_link])
+        plugins=["strikethrough", "footnotes", "table", "url", "def_list", plugin_obsidian_link],
+    )
     return markdown(text)
+
 
 class HighlightRenderer(mistune.HTMLRenderer):
     def block_code(self, code, info=None):
@@ -49,74 +60,25 @@ class HighlightRenderer(mistune.HTMLRenderer):
             lexer = guess_lexer(code)
 
         code_class = "highlight__code highlight--linenos" if LINENOS else "highlight__code"
-        
-        # step 1: get matches
-        # step 2: clean from clozes
-        # step 3: make a dict with key: hash, value: cloze tuple
-        # step 4: sub each cloze text (\btext\b) with the corresponding hash (iterate over the dict to get the text and hash)
-        # step 5: replace hash with text, once highlighted
-
-        # # The hash is transformed to a sequence of letters so that it can be picked up as a var token by pygments, putting it in a single span
-        # hash_clozed_text = lambda match: str(hash(match[1]))
-        # number_to_letter = "ABCDEFGHIL"
-        # hash_clozed_text_word = lambda match: "".join([number_to_letter[int(number)] if number != "-" else "M" for number in hash_clozed_text(match)])
-
-        def hash_clozes(clozes: List[Tuple[str, str]]) -> Dict[str, Tuple[str, str]]:
-            """
-            Transform matches from re.findall into a dictionary that has:
-            keys: hashed match
-            values: (cloze's number, match)
-            """
-
-            # A dictionary built to use with translate()
-            # key: ord(number), value: letter + "-" : Z
-            NUMBER_TO_LETTER_TRANSLATION = {
-                    48: 'A', 49: 'B', 50: 'C', 51: 'D', 52: 'E',
-                    53: 'F', 54: 'G', 55: 'H', 56: 'I', 57: 'J', 
-                    45: 'Z'
-                    }
-            
-            result = dict()
-            for cloze_number, cloze_text in clozes:
-                hash_number = str(hash(cloze_text))
-
-                hash_in_letters = hash_number.translate(NUMBER_TO_LETTER_TRANSLATION)
-                result[hash_in_letters] = (cloze_number, cloze_text)
-
-            return result
-            
-        def replace_clozes_with_hashes(markdown_code: Types.MDString, hashed_clozes: Dict[str, Tuple[str, str]]) -> Types.MDString: 
-            
-            if not hashed_clozes:
-                return markdown_code
-
-            code_with_hashes = markdown_code
-            for hash_key, cloze_match in hashed_clozes.items():
-                cloze_regex = re.compile(rf"\b{cloze_match[1]}\b")
-                code_with_hashes, number_of_substitutions = re.subn(cloze_regex, hash_key, code_with_hashes)
-                if not number_of_substitutions:
-                    raise CardError("Bad formatting in code's cloze: clozes in code must be whole words and not have substrings of other clozes") # TODO: change me to a better, Error
-                
-            return code_with_hashes
-
-        clozes = extract_clozes(code)
-        hashed_clozes = hash_clozes(clozes)
-        
-        code_cleaned_from_clozes = clean_from_clozes(code)
-        code_with_hashed_clozes = replace_clozes_with_hashes(code_cleaned_from_clozes, hashed_clozes)
-
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
+
+        # Clozes handling # TODO optimization: some steps can be avoided if there are no clozes
+        clozes = get_clozes(code)
+        hashed_clozes = hash_clozes(clozes)
+        code_cleaned_from_clozes = clean_code_from_clozes(code)
+        code_with_hashed_clozes = replace_cloze_text_with_hashes(code_cleaned_from_clozes, hashed_clozes)
 
         highlighted_code = pygments.highlight(code_with_hashed_clozes, lexer, formatter)
         highlighted_code_with_clozes = inject_clozes(highlighted_code, hashed_clozes)
-        
+
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
-        complete_code = f'{section_head}{language_span}{highlighted_code_with_clozes.strip()}</section>'
+        complete_code = f"{section_head}{language_span}{highlighted_code_with_clozes.strip()}</section>"
 
         return complete_code
 
-class LineWrappingHtmlFormatter(HtmlFormatter): # https://pygments.org/docs/formatters/#HtmlFormatter
+
+class LineWrappingHtmlFormatter(HtmlFormatter):  # https://pygments.org/docs/formatters/#HtmlFormatter
     def wrap(self, source):
         """
         Wrap the ``source``, which is a generator yielding
@@ -128,7 +90,7 @@ class LineWrappingHtmlFormatter(HtmlFormatter): # https://pygments.org/docs/form
         if self.wrapcode:
             output = self._wrap_code(output)
 
-        output = self._wrap_lines(source)    
+        output = self._wrap_lines(source)
         output = self._wrap_pre(output)
 
         return output

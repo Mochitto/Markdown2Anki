@@ -13,4 +13,3 @@ class MDCard:
     def __post_init__(self):
         if not self.front:
             raise CardError("The front side of the card is missing.")
-

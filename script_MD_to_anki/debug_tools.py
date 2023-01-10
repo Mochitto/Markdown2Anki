@@ -15,12 +15,12 @@ def expressive_debug(logger, debugLabel, debugMessage, format=None):
     # getouterframes gives back a list of frames.
     # frames[1] represents the previous frame (call on the call-stack), which is the caller of the function
     # frames[1][0] frame object; contains information on the frame (such as globals or the line number)
-    module = frames[1][0].f_globals['__name__'] # Module of the caller
-    line_number = frames[1][0].f_lineno # Line at which the function was called
+    module = frames[1][0].f_globals["__name__"]  # Module of the caller
+    line_number = frames[1][0].f_lineno  # Line at which the function was called
 
-    if format == 'json':
+    if format == "json":
         message = json.dumps(debugMessage, indent=2)
-    elif format == 'pprint':
+    elif format == "pprint":
         message = pprint.pformat(debugMessage)
     else:
         message = str(debugMessage)

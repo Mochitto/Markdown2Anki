@@ -12,9 +12,9 @@ class SingleLevelFilter(logging.Filter):
 
     def filter(self, record):
         if self.reject:
-            return (record.levelno != self.passlevel)
-        else:
-            return (record.levelno == self.passlevel)
+            return record.levelno != self.passlevel
+        return record.levelno == self.passlevel
+
 
 # Create a stream handler for STDOUT
 info_handler = logging.StreamHandler(stream=sys.stdout)
@@ -28,15 +28,12 @@ stderr_handler.setFormatter(logging.Formatter("❌ %(levelname)s (line %(lineno)
 
 debug_handler = logging.StreamHandler()
 debug_handler.addFilter(SingleLevelFilter(logging.DEBUG, False))
-debug_handler.setFormatter(logging.Formatter("🔧 %(message)s")) # Should be used with "expressive_debug"
+debug_handler.setFormatter(logging.Formatter("🔧 %(message)s"))  # Should be used with "expressive_debug"
 
 file_handler = logging.FileHandler(LOG_FILE, mode="w", encoding="utf-8", errors="replace")
-file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py): %(message)s"))
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py): %(message)s")
+)
 file_handler.setLevel(logging.DEBUG)
 
-logging.basicConfig(handlers=[
-    debug_handler,
-    info_handler,
-    stderr_handler,
-    file_handler
-], level=logging.DEBUG)
+logging.basicConfig(handlers=[debug_handler, info_handler, stderr_handler, file_handler], level=logging.DEBUG)
