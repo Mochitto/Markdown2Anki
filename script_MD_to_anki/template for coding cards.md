@@ -171,3 +171,14 @@ float Q_rsqrt( float number )
 	return y;
 }
 ```
+
+---
+
+#frontside
+##lefttabs
+### Image test
+![mochitto](https://avatars.githubusercontent.com/u/98263539?v=4)
+![Local demo](./test_images/Demo.png)
+![[old_cards.png | 400]]
+![[Highlight_component_concept_art.jpg | 400]]
+![[Capycorn.jpg | 400]]

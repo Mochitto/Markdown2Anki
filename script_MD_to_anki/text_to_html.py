@@ -1,7 +1,8 @@
+import html
 import logging
 import re
+import os
 from typing import Dict, List, Tuple
-
 
 import mistune
 import pygments
@@ -13,6 +14,7 @@ from card_error import CardError
 from config_handle import LINENOS
 from debug_tools import expressive_debug
 from obsidian_link_plugin import plugin_obsidian_link
+from obsidian_image_plugin import plugin_obsidian_image
 from process_clozes import (
     clean_code_from_clozes,
     get_clozes,
@@ -47,7 +49,7 @@ def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
         escape=False,
         hard_wrap=True,
         renderer=HighlightRenderer(),
-        plugins=["strikethrough", "footnotes", "table", "url", "def_list", plugin_obsidian_link],
+        plugins=["strikethrough", "footnotes", "table", "url", "def_list", plugin_obsidian_link, plugin_obsidian_image],
     )
     return markdown(text)
 
@@ -77,6 +79,19 @@ class HighlightRenderer(mistune.HTMLRenderer):
 
         return complete_code
 
+    def image(self, src, alt="", title=None):
+        # NOTE: Doesn't support title for now; can add if requested
+        src = self._safe_url(src)
+        alt = html.escape(alt)
+        
+        is_hyperlink = bool(re.match(r"https?://", src))
+
+        if is_hyperlink:
+            return f'<img src="{src}" alt={alt}>' if alt else f'<img src="{src}">'
+        else:
+            path_slash_regex = re.compile(r"[\\\/]")  # Support for multiple OSs
+            last_word = re.split(path_slash_regex, src)[-1]
+            return f'<img src="{last_word}" alt={alt}>' if alt else f'<img src="{last_word}">'
 
 class LineWrappingHtmlFormatter(HtmlFormatter):  # https://pygments.org/docs/formatters/#HtmlFormatter
     def wrap(self, source):

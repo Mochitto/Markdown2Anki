@@ -28,11 +28,11 @@ def hash_clozes(clozes: List[Tuple[str, str]]) -> Dict[str, Tuple[str, str]]:
     """
     Transform matches from re.findall into a dictionary that has:
     keys: hashed match
-    values: (cloze's number, match)
+    values: (cloze's number, cloze's text)
     """
 
     # A dictionary built to use with translate()
-    # key: ord(number), value: letter + "-" : Z
+    # {key: ord(number), value: letter} + "-" : Z
     number_to_letter_translation = {
         48: "A",
         49: "B",

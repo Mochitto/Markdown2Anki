@@ -6,6 +6,7 @@ from extract import extract_cards
 from debug_tools import expressive_debug
 from process_card import process_card
 from process_clozes import are_clozes_in_card
+from process_images import get_images_to_copy
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: turn behaviour configs to kwargs
-def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=False):
+def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=False, images_dir=None, folders_to_exclude=[]):
     cards = extract_cards(markdown)
 
     if cards[0]:
@@ -24,12 +25,18 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
     processed_cards = []
     processed_cards_with_cloze = []
     failed_cards = []
+    images_to_copy = {}
     aborted_cards = 0
     successful_cards = 0
 
     for index, card in enumerate(cards):
         try:  # Handle CardErrors
             formatted_card = process_card(card)
+
+            if images_dir:
+                images = get_images_to_copy(formatted_card, images_dir, folders_to_exclude)
+                images_to_copy.update(images)
+                # TODO: Add check for images not found to send to debug/Find a better way to handle errors
 
             if are_clozes_in_card(formatted_card):
                 processed_cards_with_cloze.append(formatted_card)
@@ -63,4 +70,5 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
         "failed_cards": failed_cards,
         "number_of_successful": successful_cards,
         "number_of_failed": aborted_cards,
+        "images_to_copy": images_to_copy
     }

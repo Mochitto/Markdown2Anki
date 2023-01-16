@@ -3,14 +3,14 @@ import logging
 import sys
 
 from card_error import CardError
-from config_handle import BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD, MD_INPUT_FILE, RESULT_FILE
+from config_handle import BAD_CARDS_FILE, CLOZES_RESULT_FILE, FAST_FORWARD, MD_INPUT_FILE, RESULT_FILE, IMAGES_DIR, IMAGES_OUT_FOLDER, FOLDERS_TO_EXCLUDE
 from debug_tools import expressive_debug
 from md_to_anki import markdown_to_anki
+from process_images import copy_images_to_folder
 import logger as basicConfig
 
 
 def main():
-    # logging.basicConfig(filename='process.log', level=logging.INFO)
     logger = logging.getLogger(__name__)
 
     logger.info("Starting cards extraction")
@@ -19,7 +19,7 @@ def main():
         markdown_input = markdown_file.read()
 
     try:
-        cards_with_info = markdown_to_anki(markdown_input, interactive=True, fast_forward=FAST_FORWARD)
+        cards_with_info = markdown_to_anki(markdown_input, interactive=True, fast_forward=FAST_FORWARD, images_dir=IMAGES_DIR, folders_to_exclude=FOLDERS_TO_EXCLUDE)
     except CardError as error:
         logger.info("\n😯 There was an error and no file was created.\nExited with the following error:")
         logger.error(error)
@@ -29,8 +29,16 @@ def main():
     aborted_cards = cards_with_info["number_of_failed"]
     cards_to_write = cards_with_info["cards"]
     cards_to_write_with_clozes = cards_with_info["cards_with_clozes"]
+    images_to_copy = cards_with_info["images_to_copy"]
 
     failed_cards = cards_with_info["failed_cards"]
+
+    number_of_copied_images, images_error_messages = copy_images_to_folder(images_to_copy, IMAGES_OUT_FOLDER)
+
+    if number_of_copied_images: #TODO: add emojis
+        logger.info(f"Copied a total of {number_of_copied_images} images!")
+    for message in images_error_messages:
+        logger.error(f"Failed to copy an image: {message}")
 
     if success_cards:
         logger.info(f"🔥 Created a total of {success_cards} card/s!")

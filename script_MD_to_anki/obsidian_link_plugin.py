@@ -12,14 +12,14 @@ logger = logging.getLogger(__name__)
 OBSIDIAN_LINK_REGEX = (
     # [[Something]]
     # [[Something|This is the alias]]
-    r"\[\["
+    r"(?<!!)\[\[" # Match only if there is no "!", differentiate it from Obsidian images
     r"(.+?)"  # Match path to page
     r"(?:\|(.+?))?"  # Possible alias
     r"\]\]"
 )
 
 
-def parse_inline_obsidian_link(inline_message: str, matches: Match[str], state):
+def parse_inline_obsidian_link(inline_message: Types.MDString, matches: Match[str], state):
     path_to_page = matches.group(1)
     page_alias = matches.group(2)
 
