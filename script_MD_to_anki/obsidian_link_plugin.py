@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 OBSIDIAN_LINK_REGEX = (
     # [[Something]]
     # [[Something|This is the alias]]
-    r"(?<!!)\[\[" # Match only if there is no "!", differentiate it from Obsidian images
+    r"(?<!!)\[\["  # Match only if there is no "!", differentiate it from Obsidian images
     r"(.+?)"  # Match path to page
     r"(?:\|(.+?))?"  # Possible alias
     r"\]\]"

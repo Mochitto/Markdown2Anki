@@ -9,7 +9,7 @@ from debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def get_clozes(text: Types.MDString) -> List[Types.ClozeType]:
+def get_clozes(text: Types.MDString) -> List[Tuple[str, str]]:
     """
     Extract clozes from text.
 

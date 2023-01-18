@@ -14,7 +14,13 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: turn behaviour configs to kwargs
-def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=False, images_dir=None, folders_to_exclude=[]):
+def markdown_to_anki(
+    markdown: Types.MDString,
+    interactive=False,
+    fast_forward=False,
+    images_dir=None,
+    folders_to_exclude=[],
+):
     cards = extract_cards(markdown)
 
     if cards[0]:
@@ -34,7 +40,9 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
             formatted_card = process_card(card)
 
             if images_dir:
-                images = get_images_to_copy(formatted_card, images_dir, folders_to_exclude)
+                images = get_images_to_copy(
+                    formatted_card, images_dir, folders_to_exclude
+                )
                 images_to_copy.update(images)
                 # TODO: Add check for images not found to send to debug/Find a better way to handle errors
 
@@ -52,10 +60,14 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
                 failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                 continue
             elif interactive:
-                logger.info(f"\n📔 This is the card that created the error:📔\n{card}\n\n(see card above)")
+                logger.info(
+                    f"\n📔 This is the card that created the error:📔\n{card}\n\n(see card above)"
+                )
                 logger.error(error)
 
-                user_input = input("❓ Would you like to abort this card and continue? (y/N)\n>>> ").lower()
+                user_input = input(
+                    "❓ Would you like to abort this card and continue? (y/N)\n>>> "
+                ).lower()
                 if user_input == "y" or user_input == "yes":
                     logger.info(f"❌ Failed to process the card number {index + 1}...")
                     aborted_cards += 1
@@ -70,5 +82,5 @@ def markdown_to_anki(markdown: Types.MDString, interactive=False, fast_forward=F
         "failed_cards": failed_cards,
         "number_of_successful": successful_cards,
         "number_of_failed": aborted_cards,
-        "images_to_copy": images_to_copy
+        "images_to_copy": images_to_copy,
     }

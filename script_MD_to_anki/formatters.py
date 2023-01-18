@@ -1,9 +1,14 @@
 import logging
 import re
-from typing import Dict, List, Tuple
+from typing import List
 
 import card_types as Types
-from cards_specific_wrappers import wrap_tab, wrap_tab_body, wrap_tab_group, wrap_tab_label
+from cards_specific_wrappers import (
+    wrap_tab,
+    wrap_tab_body,
+    wrap_tab_group,
+    wrap_tab_label,
+)
 from debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -24,7 +29,9 @@ def format_tab(tab: Types.HTMLTab) -> Types.HTMLString:
     return wrap_tab(wrapped_label, wrapped_body)
 
 
-def format_tab_group(tabs_list: List[Types.HTMLString], add_over_sibling=False) -> Types.HTMLString:
+def format_tab_group(
+    tabs_list: List[Types.HTMLString], add_over_sibling=False
+) -> Types.HTMLString:
     tabs = tabs_list.copy()
 
     if tabs:

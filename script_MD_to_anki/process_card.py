@@ -34,8 +34,18 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
     card_sides = extract_card_sides(markdown)
 
     card_data: Types.CardWithSwap = {
-        "front": {"left_tabs": [], "left_tabs_swap": [], "right_tabs": [], "right_tabs_swap": []},
-        "back": {"left_tabs": [], "left_tabs_swap": [], "right_tabs": [], "right_tabs_swap": []},
+        "front": {
+            "left_tabs": [],
+            "left_tabs_swap": [],
+            "right_tabs": [],
+            "right_tabs_swap": [],
+        },
+        "back": {
+            "left_tabs": [],
+            "left_tabs_swap": [],
+            "right_tabs": [],
+            "right_tabs_swap": [],
+        },
     }
 
     for side, side_content in asdict(card_sides).items():

@@ -17,7 +17,9 @@ OBSIDIAN_IMAGE_REGEX = (
 )
 
 
-def parse_inline_obsidian_image(inline_message: Types.MDString, matches: Match[str], state):
+def parse_inline_obsidian_image(
+    inline_message: Types.MDString, matches: Match[str], state
+):
     path_to_image = matches.group(1)
     image_width = matches.group(2)
 
@@ -29,15 +31,25 @@ def render_obsidian_image(path_to_image: Types.PathString, image_width: str):
     is_hyperlink = bool(re.match(r"https?://", path_to_image))
 
     if is_hyperlink:
-        return f'<img src="{path_to_image}" style="width:{image_width}px">' if image_width else f'<img src="{path_to_image}">'
+        return (
+            f'<img src="{path_to_image}" style="width:{image_width}px">'
+            if image_width
+            else f'<img src="{path_to_image}">'
+        )
     else:
         path_slash_regex = re.compile(r"[\\\/]")  # Support for multiple OSs
         last_word = re.split(path_slash_regex, path_to_image)[-1]
-        return f'<img src="{last_word}" style="width:{image_width}px">' if image_width else f'<img src="{last_word}">'
+        return (
+            f'<img src="{last_word}" style="width:{image_width}px">'
+            if image_width
+            else f'<img src="{last_word}">'
+        )
 
 
 def plugin_obsidian_image(Markdown):
-    Markdown.inline.register_rule("obsidian_image", OBSIDIAN_IMAGE_REGEX, parse_inline_obsidian_image)
+    Markdown.inline.register_rule(
+        "obsidian_image", OBSIDIAN_IMAGE_REGEX, parse_inline_obsidian_image
+    )
     Markdown.inline.rules.append("obsidian_image")
     if Markdown.renderer.NAME == "html":
         Markdown.renderer.register("obsidian_image", render_obsidian_image)

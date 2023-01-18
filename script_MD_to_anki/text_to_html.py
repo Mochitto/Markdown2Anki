@@ -1,8 +1,7 @@
 import html
 import logging
 import re
-import os
-from typing import Dict, List, Tuple
+from typing import List
 
 import mistune
 import pygments
@@ -10,7 +9,6 @@ from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
 
 import card_types as Types
-from card_error import CardError
 from config_handle import LINENOS
 from debug_tools import expressive_debug
 from obsidian_link_plugin import plugin_obsidian_link
@@ -49,26 +47,38 @@ def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
         escape=False,
         hard_wrap=True,
         renderer=HighlightRenderer(),
-        plugins=["strikethrough", "footnotes", "table", "url", "def_list", plugin_obsidian_link, plugin_obsidian_image],
+        plugins=[
+            "strikethrough",
+            "footnotes",
+            "table",
+            "url",
+            "def_list",
+            plugin_obsidian_link,
+            plugin_obsidian_image,
+        ],
     )
     return markdown(text)
 
 
 class HighlightRenderer(mistune.HTMLRenderer):
-    def block_code(self, code, info=None):
+    def block_code(self, code, info=""):
         try:
             lexer = get_lexer_by_name(info)
         except pygments.util.ClassNotFound:
             lexer = guess_lexer(code)
 
-        code_class = "highlight__code highlight--linenos" if LINENOS else "highlight__code"
+        code_class = (
+            "highlight__code highlight--linenos" if LINENOS else "highlight__code"
+        )
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
 
         # Clozes handling # TODO optimization: some steps can be avoided if there are no clozes
         clozes = get_clozes(code)
         hashed_clozes = hash_clozes(clozes)
         code_cleaned_from_clozes = clean_code_from_clozes(code)
-        code_with_hashed_clozes = replace_cloze_text_with_hashes(code_cleaned_from_clozes, hashed_clozes)
+        code_with_hashed_clozes = replace_cloze_text_with_hashes(
+            code_cleaned_from_clozes, hashed_clozes
+        )
 
         highlighted_code = pygments.highlight(code_with_hashed_clozes, lexer, formatter)
         highlighted_code_with_clozes = inject_clozes(highlighted_code, hashed_clozes)
@@ -83,7 +93,7 @@ class HighlightRenderer(mistune.HTMLRenderer):
         # NOTE: Doesn't support title for now; can add if requested
         src = self._safe_url(src)
         alt = html.escape(alt)
-        
+
         is_hyperlink = bool(re.match(r"https?://", src))
 
         if is_hyperlink:
@@ -91,9 +101,16 @@ class HighlightRenderer(mistune.HTMLRenderer):
         else:
             path_slash_regex = re.compile(r"[\\\/]")  # Support for multiple OSs
             last_word = re.split(path_slash_regex, src)[-1]
-            return f'<img src="{last_word}" alt={alt}>' if alt else f'<img src="{last_word}">'
+            return (
+                f'<img src="{last_word}" alt={alt}>'
+                if alt
+                else f'<img src="{last_word}">'
+            )
 
-class LineWrappingHtmlFormatter(HtmlFormatter):  # https://pygments.org/docs/formatters/#HtmlFormatter
+
+class LineWrappingHtmlFormatter(
+    HtmlFormatter
+):  # https://pygments.org/docs/formatters/#HtmlFormatter
     def wrap(self, source):
         """
         Wrap the ``source``, which is a generator yielding
@@ -118,4 +135,4 @@ class LineWrappingHtmlFormatter(HtmlFormatter):  # https://pygments.org/docs/for
             if i == 1:
                 # it's a line of formatted code
                 wrapped_line = f"<span class='highlight__line'>{t}</span>"
-            yield i, wrapped_line
+            yield i, wrapped_line  # FIXME maybe? when i != 1; yield i, t?

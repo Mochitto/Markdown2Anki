@@ -38,9 +38,3 @@ class CardSideWithTabs(TypedDict):
 class CardWithTabs(TypedDict):
     front: CardSideWithTabs
     back: CardSideWithTabs
-
-
-# Should be a tuple, result of findall; should be a dataclass tho
-class ClozeType(TypedDict):
-    number: int
-    cloze_text: str
