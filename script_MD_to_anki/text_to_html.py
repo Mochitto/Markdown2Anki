@@ -13,13 +13,6 @@ import card_types as Types
 from debug_tools import expressive_debug
 from obsidian_link_plugin import ObsidianLinkPlugin
 from obsidian_image_plugin import ObsidianImagePlugin
-from process_clozes import (
-    clean_code_from_clozes,
-    get_clozes,
-    hash_clozes,
-    inject_clozes,
-    replace_cloze_text_with_hashes,
-)
 
 
 logger = logging.getLogger(__name__)
@@ -85,19 +78,11 @@ class HighlightRenderer(mistune.HTMLRenderer):
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
 
         # Clozes handling # TODO optimization: some steps can be avoided if there are no clozes
-        clozes = get_clozes(code)
-        hashed_clozes = hash_clozes(clozes)
-        code_cleaned_from_clozes = clean_code_from_clozes(code)
-        code_with_hashed_clozes = replace_cloze_text_with_hashes(
-            code_cleaned_from_clozes, hashed_clozes
-        )
-
-        highlighted_code = pygments.highlight(code_with_hashed_clozes, lexer, formatter)
-        highlighted_code_with_clozes = inject_clozes(highlighted_code, hashed_clozes)
+        highlighted_code = pygments.highlight(code, lexer, formatter)
 
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
-        complete_code = f"{section_head}{language_span}{highlighted_code_with_clozes.strip()}</section>"
+        complete_code = f"{section_head}{language_span}{highlighted_code.strip()}</section>"
 
         return complete_code
 

@@ -74,7 +74,9 @@ def replace_cloze_text_with_hashes(
     code_with_hashes = markdown_code
     for hash_key, cloze_match in hashed_clozes.items():
         cloze_regex = re.compile(rf"\b{cloze_match[1]}\b")
-        code_with_hashes, number_of_substitutions = re.subn(cloze_regex, hash_key, code_with_hashes)
+        code_with_hashes, number_of_substitutions = re.subn(
+            cloze_regex, hash_key, code_with_hashes
+        )
         if not number_of_substitutions:
             raise CardError(
                 "Bad formatting in code's cloze; clozes should:\n"
@@ -97,12 +99,15 @@ def clean_code_from_clozes(text: Types.MDString) -> Types.MDString:
     return text_without_clozes
 
 
-def inject_clozes(text: Types.HTMLString, hashed_clozes: Dict[str, Tuple[str, str]]) -> Types.HTMLString:
+def inject_clozes(
+    card: Dict[str, Types.MDString], hashed_clozes: Dict[str, Tuple[str, str]]
+) -> Dict[str, Types.MDString]:
     """
     Replace the hashes in the text with the corresponding cloze:
     HSJDKASKHDAKS -> {{c1::my cloze}}
     """
-    new_text = text
+    front = card["front"]
+    back = card["back"]
 
     for hashed_cloze, cloze_match in hashed_clozes.items():
         number = cloze_match[0]
@@ -110,12 +115,16 @@ def inject_clozes(text: Types.HTMLString, hashed_clozes: Dict[str, Tuple[str, st
 
         word_regex = re.compile(rf"\b{hashed_cloze}\b")
 
-        new_text = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", new_text)
+        front = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", front)
+        back = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", back)
 
-    return new_text
+    return {
+        "front": front,
+        "back": back
+    }
 
 
-def are_clozes_in_card(card: Dict[str, Types.HTMLString]) -> bool:
+def are_clozes_in_card(card: Types.MDString) -> bool:
     """
     Check if in the front of the card there is at least one cloze
 
@@ -128,6 +137,5 @@ def are_clozes_in_card(card: Dict[str, Types.HTMLString]) -> bool:
     {{C5::something else}}
     """
     clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
-    front = card["front"]
 
-    return bool(clozes_regex.search(front))
+    return bool(clozes_regex.search(card))

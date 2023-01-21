@@ -5,7 +5,14 @@ from card_error import CardError
 from extract import extract_cards
 from debug_tools import expressive_debug
 from process_card import process_card
-from process_clozes import are_clozes_in_card
+from process_clozes import (
+    get_clozes,
+    hash_clozes,
+    clean_code_from_clozes,
+    replace_cloze_text_with_hashes,
+    inject_clozes,
+    are_clozes_in_card,
+)
 from process_images import get_images_to_copy
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
@@ -47,10 +54,31 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
     images_to_copy = {}
     aborted_cards = 0
     successful_cards = 0
-
     for index, card in enumerate(cards):
+        # card is not immutable: it can change when clozes are found
         try:  # Handle CardErrors
-            formatted_card = process_card(card, vault, linenos=linenos)
+            cloze_card_flag = False
+
+            if are_clozes_in_card(card):
+                cloze_card_flag = True
+
+                clozes = get_clozes(card)
+                hash_dictionary = hash_clozes(clozes)
+
+                card_without_clozes = clean_code_from_clozes(card)
+                card_with_hashes = replace_cloze_text_with_hashes(
+                    card_without_clozes, hash_dictionary
+                )
+
+                formatted_card_without_clozes = process_card(
+                    card_with_hashes, vault, linenos=linenos
+                )
+
+                formatted_card = inject_clozes(
+                    formatted_card_without_clozes, hash_dictionary
+                )
+            else:
+                formatted_card = process_card(card, vault, linenos=linenos)
 
             if images_dir:
                 images = get_images_to_copy(
@@ -59,10 +87,11 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                 images_to_copy.update(images)
                 # TODO: Add check for images not found to send to debug/Find a better way to handle errors
 
-            if are_clozes_in_card(formatted_card):
+            if cloze_card_flag:
                 processed_cards_with_cloze.append(formatted_card)
             else:
                 processed_cards.append(formatted_card)
+
             successful_cards += 1
 
         except CardError as error:
