@@ -13,7 +13,7 @@ from text_to_html import tabs_to_html
 logger = logging.getLogger(__name__)
 
 
-def process_card(markdown: Types.MDString, **options) -> Dict[str, Types.HTMLString]:
+def process_card(markdown: Types.MDString, vault, **options) -> Dict[str, Types.HTMLString]:
     """
     Process a card in markdown to HTML.
 
@@ -62,7 +62,7 @@ def process_card(markdown: Types.MDString, **options) -> Dict[str, Types.HTMLStr
                 continue
             tabs_info = extract_tabs(tab_side_content)
             tabs: List[Types.MDTab] = tabs_info["tabs"]  # type: ignore
-            html_tabs = tabs_to_html(tabs, linenos_in_highlight)
+            html_tabs = tabs_to_html(tabs, vault, linenos_in_highlight)
             formatted_tabs = format_tabs(html_tabs)
 
             card_data[side][tab_side] = formatted_tabs  # type: ignore

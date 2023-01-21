@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: create type with returning values
-def markdown_to_anki(markdown: Types.MDString, **options):
+def markdown_to_anki(markdown: Types.MDString, vault, **options):
     """
     Create anki cards from markdown.
     Return a dictionary with the processed cards and extra information.
@@ -50,7 +50,7 @@ def markdown_to_anki(markdown: Types.MDString, **options):
 
     for index, card in enumerate(cards):
         try:  # Handle CardErrors
-            formatted_card = process_card(card, linenos=linenos)
+            formatted_card = process_card(card, vault, linenos=linenos)
 
             if images_dir:
                 images = get_images_to_copy(

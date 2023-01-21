@@ -5,13 +5,14 @@ from typing import List
 
 import mistune
 import pygments
-from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_lexer_by_name, guess_lexer
+import pygments.util
+import pygments.lexers
+import pygments.formatters.html
 
 import card_types as Types
 from debug_tools import expressive_debug
-from obsidian_link_plugin import plugin_obsidian_link
-from obsidian_image_plugin import plugin_obsidian_image
+from obsidian_link_plugin import ObsidianLinkPlugin
+from obsidian_image_plugin import ObsidianImagePlugin
 from process_clozes import (
     clean_code_from_clozes,
     get_clozes,
@@ -24,20 +25,22 @@ from process_clozes import (
 logger = logging.getLogger(__name__)
 
 
-def tabs_to_html(tabs: List[Types.MDTab], linenos=True) -> List[Types.HTMLTab]:
-    html_tabs = [tab_to_html(tab, linenos) for tab in tabs]
+def tabs_to_html(tabs: List[Types.MDTab], vault, linenos=True) -> List[Types.HTMLTab]:
+    html_tabs = [tab_to_html(tab, vault, linenos) for tab in tabs]
     return html_tabs
 
 
 # DELME: entry point for process_card
-def tab_to_html(tab: Types.MDTab, linenos=True) -> Types.HTMLTab:
+def tab_to_html(tab: Types.MDTab, vault, linenos=True) -> Types.HTMLTab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
-    html_body = markdown_to_html_with_highlight(tab["tab_body"], linenos)
+    html_body = markdown_to_html_with_highlight(tab["tab_body"], vault, linenos)
 
     return {"tab_label": tab["tab_label"], "tab_body": html_body}
 
 
-def markdown_to_html_with_highlight(text: Types.MDString, linenos=True) -> Types.HTMLString:
+def markdown_to_html_with_highlight(
+    text: Types.MDString, vault: str, linenos=True
+) -> Types.HTMLString:
     """
     Parse the text and compile to html;
     Code blocks are highlighted using
@@ -53,10 +56,15 @@ def markdown_to_html_with_highlight(text: Types.MDString, linenos=True) -> Types
             "table",
             "url",
             "def_list",
-            plugin_obsidian_link,
-            plugin_obsidian_image,
         ],
     )
+
+    obsidian_image = ObsidianImagePlugin()
+    obsidian_image.plugin(markdown)
+
+    obsidian_link = ObsidianLinkPlugin(vault=vault)
+    obsidian_link.plugin(markdown)
+
     return markdown(text)
 
 
@@ -67,9 +75,9 @@ class HighlightRenderer(mistune.HTMLRenderer):
 
     def block_code(self, code, info=""):
         try:
-            lexer = get_lexer_by_name(info)
+            lexer = pygments.lexers.get_lexer_by_name(info)
         except pygments.util.ClassNotFound:
-            lexer = guess_lexer(code)
+            lexer = pygments.lexers.guess_lexer(code)
 
         code_class = (
             "highlight__code highlight--linenos" if self.linenos else "highlight__code"
@@ -112,9 +120,8 @@ class HighlightRenderer(mistune.HTMLRenderer):
             )
 
 
-class LineWrappingHtmlFormatter(
-    HtmlFormatter
-):  # https://pygments.org/docs/formatters/#HtmlFormatter
+class LineWrappingHtmlFormatter(pygments.formatters.html.HtmlFormatter):
+    # https://pygments.org/docs/formatters/#HtmlFormatter
     def wrap(self, source):
         """
         Wrap the ``source``, which is a generator yielding
@@ -135,8 +142,9 @@ class LineWrappingHtmlFormatter(
         """
         Wrap each line in a span with the 'highlight__line' class.
         """
-        for i, t in source:
-            if i == 1:
+        for line_number, line_text in source:
+            wrapped_line = line_text
+            if line_number == 1:
                 # it's a line of formatted code
-                wrapped_line = f"<span class='highlight__line'>{t}</span>"
-            yield i, wrapped_line  # FIXME maybe? when i != 1; yield i, t?
+                wrapped_line = f"<span class='highlight__line'>{line_text}</span>"
+            yield line_number, wrapped_line  # FIXME maybe? when line_number != 1; yield line_number, line_text?
