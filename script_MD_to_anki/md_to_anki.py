@@ -97,8 +97,8 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
 
         except CardError as error:
             if fast_forward:
-                logger.error(f"{error}")
-                logger.info(f"❌ Failed to process the card number {index + 1}...")
+                logger.info(f"|--- ❌ Failed to process the card number {index + 1}...")
+                logger.error(f"|------- ERROR: {error}")
                 aborted_cards += 1
                 failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                 continue
@@ -112,12 +112,12 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                     "❓ Would you like to abort this card and continue? (y/N)\n>>> "
                 ).lower()
                 if user_input == "y" or user_input == "yes":
-                    logger.info(f"❌ Failed to process the card number {index + 1}...")
+                    logger.info(f"|--- ❌ Failed to process the card number {index + 1}...")
                     aborted_cards += 1
                     failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                     continue
             raise error
-        logger.info(f"✅ Finished processing the card number {index + 1}!")
+        logger.info(f"|--- ✅ Finished processing the card number {index + 1}!")
 
     return {
         "cards": processed_cards,

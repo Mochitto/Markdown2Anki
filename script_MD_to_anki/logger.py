@@ -24,7 +24,7 @@ info_handler.setFormatter(logging.Formatter("%(message)s"))
 stderr_handler = logging.StreamHandler(stream=sys.stderr)
 stderr_handler.addFilter(SingleLevelFilter(logging.INFO, True))
 stderr_handler.addFilter(SingleLevelFilter(logging.DEBUG, True))
-stderr_handler.setFormatter(logging.Formatter("❌ %(levelname)s (line %(lineno)d from %(module)s.py): %(message)s"))
+stderr_handler.setFormatter(logging.Formatter("%(message)s"))
 
 debug_handler = logging.StreamHandler()
 debug_handler.addFilter(SingleLevelFilter(logging.DEBUG, False))
@@ -32,7 +32,7 @@ debug_handler.setFormatter(logging.Formatter("🔧 %(message)s"))  # Should be u
 
 file_handler = logging.FileHandler(LOG_FILE, mode="w", encoding="utf-8", errors="replace")
 file_handler.setFormatter(
-    logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py): %(message)s")
+    logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py) %(levelname)s: %(message)s")
 )
 file_handler.setLevel(logging.DEBUG)
 
