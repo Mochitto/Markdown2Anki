@@ -1,8 +1,9 @@
+import re
 import logging
+from typing import List
 
 import card_types as Types
 from card_error import CardError
-from extract import extract_cards
 from debug_tools import expressive_debug
 from process_card import process_card
 from process_clozes import (
@@ -126,3 +127,24 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
         "number_of_failed": aborted_cards,
         "images_to_copy": images_to_copy,
     }
+
+
+def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
+    """
+    Extract cards from a markdown text.
+    The delimiters used are markdown's hr.
+
+    Pattern:
+    ------
+    ---
+    ***
+    ******
+    """
+    regex_pattern = r"(?:(?:---+?)|(?:\*\*\*+?))\n"  # Match hr in markdown
+
+    cards = re.split(regex_pattern, markdown_text)
+
+    # the lambda function is used to discard 'empty cards'
+    filtered_cards = list(filter(lambda card: bool(card), cards))  # filter returns an iterable
+
+    return filtered_cards

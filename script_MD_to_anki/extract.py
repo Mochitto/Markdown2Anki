@@ -9,27 +9,6 @@ from debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
-    """
-    Extract cards from a markdown text.
-    The delimiters used are markdown's hr.
-
-    Pattern:
-    ------
-    ---
-    ***
-    ******
-    """
-    regex_pattern = r"(?:(?:---+?)|(?:\*\*\*+?))\n"  # Match hr in markdown
-
-    cards = re.split(regex_pattern, markdown_text)
-
-    is_not_an_empty_card = lambda card: bool(card)
-    filtered_cards = list(filter(is_not_an_empty_card, cards))  # filter returns an iterable
-
-    return filtered_cards
-
-
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
     Extract the text that is under the "Front side" and "Back side",
