@@ -4,6 +4,7 @@ import sys
 
 from card_error import CardError
 from config_handle import (
+    LINENOS,
     BAD_CARDS_FILE,
     CLOZES_RESULT_FILE,
     FAST_FORWARD,
@@ -30,6 +31,7 @@ def main():
     try:
         cards_with_info = markdown_to_anki(
             markdown_input,
+            linenos=LINENOS,
             interactive=True,
             fast_forward=FAST_FORWARD,
             images_dir=IMAGES_DIR,

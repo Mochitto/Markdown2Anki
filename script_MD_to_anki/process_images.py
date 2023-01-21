@@ -13,7 +13,7 @@ def find_image_path(
     image_filename: str,
     starting_dir: Types.PathString,
     directories_to_esclude: List[str] = [],
-):
+) -> Types.PathString | None:
     """
     Finds the path to the image file with a tree walk, starting from "starting_dir" and excluding
     directories that are in "directories_to_exclude".
@@ -38,9 +38,9 @@ def get_images_sources(text: Types.HTMLString) -> Set[Types.PathString]:
 
     Pattern:
     src="something.png"
-    src="Awaadjklsakjd"
-    Doesn't match:
+    SRC="ASDJHASKDJaSLKDJj"
 
+    Doesn't match:
     src="https://whatever"
     SRC="HTTPS://BIG"
     """
@@ -56,6 +56,7 @@ def get_images_to_copy(
 ) -> Dict[str, Types.PathString | None]:
     """
     Find images to copy from card/s, looking from "starting_dir" and excluding "folders_to_esclude".
+
     Return Dict:
     key: image's filename
     value: path to Image

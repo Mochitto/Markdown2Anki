@@ -9,7 +9,6 @@ from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
 
 import card_types as Types
-from config_handle import LINENOS
 from debug_tools import expressive_debug
 from obsidian_link_plugin import plugin_obsidian_link
 from obsidian_image_plugin import plugin_obsidian_image
@@ -25,19 +24,20 @@ from process_clozes import (
 logger = logging.getLogger(__name__)
 
 
-def tabs_to_html(tabs: List[Types.MDTab]) -> List[Types.HTMLTab]:
-    html_tabs = [tab_to_html(tab) for tab in tabs]
+def tabs_to_html(tabs: List[Types.MDTab], linenos=True) -> List[Types.HTMLTab]:
+    html_tabs = [tab_to_html(tab, linenos) for tab in tabs]
     return html_tabs
 
 
-def tab_to_html(tab: Types.MDTab) -> Types.HTMLTab:
+# DELME: entry point for process_card
+def tab_to_html(tab: Types.MDTab, linenos=True) -> Types.HTMLTab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
-    html_body = markdown_to_html_with_highlight(tab["tab_body"])
+    html_body = markdown_to_html_with_highlight(tab["tab_body"], linenos)
 
     return {"tab_label": tab["tab_label"], "tab_body": html_body}
 
 
-def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
+def markdown_to_html_with_highlight(text: Types.MDString, linenos=True) -> Types.HTMLString:
     """
     Parse the text and compile to html;
     Code blocks are highlighted using
@@ -46,7 +46,7 @@ def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
     markdown = mistune.create_markdown(
         escape=False,
         hard_wrap=True,
-        renderer=HighlightRenderer(),
+        renderer=HighlightRenderer(linenos=linenos),
         plugins=[
             "strikethrough",
             "footnotes",
@@ -61,6 +61,10 @@ def markdown_to_html_with_highlight(text: Types.MDString) -> Types.HTMLString:
 
 
 class HighlightRenderer(mistune.HTMLRenderer):
+    def __init__(self, linenos=True, escape=True, allow_harmful_protocols=None):
+        super().__init__(escape, allow_harmful_protocols)
+        self.linenos = linenos
+
     def block_code(self, code, info=""):
         try:
             lexer = get_lexer_by_name(info)
@@ -68,7 +72,7 @@ class HighlightRenderer(mistune.HTMLRenderer):
             lexer = guess_lexer(code)
 
         code_class = (
-            "highlight__code highlight--linenos" if LINENOS else "highlight__code"
+            "highlight__code highlight--linenos" if self.linenos else "highlight__code"
         )
         formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
 

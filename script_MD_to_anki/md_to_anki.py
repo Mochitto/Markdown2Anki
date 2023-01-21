@@ -13,14 +13,27 @@ from process_images import get_images_to_copy
 logger = logging.getLogger(__name__)
 
 
-# TODO: turn behaviour configs to kwargs
-def markdown_to_anki(
-    markdown: Types.MDString,
-    interactive=False,
-    fast_forward=False,
-    images_dir=None,
-    folders_to_exclude=[],
-):
+# TODO: create type with returning values
+def markdown_to_anki(markdown: Types.MDString, **options):
+    """
+    Create anki cards from markdown.
+    Return a dictionary with the processed cards and extra information.
+
+    **options kwargs:
+    linenos (Bool=False): whether or not to add line-numbers to highlighted code
+    interactive (Bool=False): ask the user to continue or stop upon errors
+    fast_forward (Bool=False): continue processing cards even when there's errors
+    images_dir (Types.PathString=None): abs path to the directory where imges can be found
+    folders_to_exclude (list[str]=[]): list of folders names to exclude when looking for images
+    """
+
+    # Unpacking kwargs
+    linenos = options.get("linenos", True)
+    interactive = options.get("interactive", False)
+    fast_forward = options.get("fast_forward", False)
+    images_dir = options.get("images_dir", None)
+    folders_to_exclude = options.get("folders_to_exclude", list())
+
     cards = extract_cards(markdown)
 
     if cards[0]:
@@ -37,7 +50,7 @@ def markdown_to_anki(
 
     for index, card in enumerate(cards):
         try:  # Handle CardErrors
-            formatted_card = process_card(card)
+            formatted_card = process_card(card, linenos=linenos)
 
             if images_dir:
                 images = get_images_to_copy(

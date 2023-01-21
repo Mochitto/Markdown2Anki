@@ -13,9 +13,12 @@ from text_to_html import tabs_to_html
 logger = logging.getLogger(__name__)
 
 
-def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
+def process_card(markdown: Types.MDString, **options) -> Dict[str, Types.HTMLString]:
     """
     Process a card in markdown to HTML.
+
+    **options kwargs:
+        linenos=True: add line numbers to the highlighted code
 
     The steps are:
     1. Extraction of data (matching with regex, from the extract module)
@@ -24,13 +27,16 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
     4. Swapping tabs (tab_swapping module)
     5. Formatting tab groups to match front-end specs (formatters module)
 
-    Dict:
+    Returning dict:
     "front": HTMLString
     "back": HTMLString
 
     "# type: ignore" is needed when using dict keys dinamically, sadly.
     mypy issue: https://github.com/python/mypy/issues/7178
     """
+
+    linenos_in_highlight = options.get('linenos', True)
+
     card_sides = extract_card_sides(markdown)
 
     card_data: Types.CardWithSwap = {
@@ -56,7 +62,7 @@ def process_card(markdown: Types.MDString) -> Dict[str, Types.HTMLString]:
                 continue
             tabs_info = extract_tabs(tab_side_content)
             tabs: List[Types.MDTab] = tabs_info["tabs"]  # type: ignore
-            html_tabs = tabs_to_html(tabs)
+            html_tabs = tabs_to_html(tabs, linenos_in_highlight)
             formatted_tabs = format_tabs(html_tabs)
 
             card_data[side][tab_side] = formatted_tabs  # type: ignore
