@@ -2,6 +2,7 @@ import csv
 import logging
 import sys
 
+import logger as basicConfig
 from card_error import CardError
 from config_handle import (
     LINENOS,
@@ -15,10 +16,10 @@ from config_handle import (
     IMAGES_OUT_FOLDER,
     FOLDERS_TO_EXCLUDE,
 )
-from debug_tools import expressive_debug
 from md_to_anki import markdown_to_anki
-from process_images import copy_images_to_folder
-import logger as basicConfig
+from output_handler import copy_images_to_folder, write_cards_to_csv, write_failed_cards
+
+from debug_tools import expressive_debug
 
 
 def main():
@@ -46,53 +47,27 @@ def main():
         logger.error(error)
         sys.exit(1)
 
-    success_cards = cards_with_info["number_of_successful"]
-    aborted_cards = cards_with_info["number_of_failed"]
+    images_to_copy = cards_with_info["images_to_copy"]
     cards_to_write = cards_with_info["cards"]
     cards_to_write_with_clozes = cards_with_info["cards_with_clozes"]
-    images_to_copy = cards_with_info["images_to_copy"]
 
+    success_cards = cards_with_info["number_of_successful"]
+    aborted_cards = cards_with_info["number_of_failed"]
     failed_cards = cards_with_info["failed_cards"]
 
-    number_of_copied_images, images_error_messages = copy_images_to_folder(
-        images_to_copy, IMAGES_OUT_FOLDER
-    )
+    if aborted_cards:
+        logger.info(f"🙈 Failed to process {aborted_cards} card/s...")
+        write_failed_cards(failed_cards, BAD_CARDS_FILE)
 
-    if number_of_copied_images:  # TODO: add emojis
-        logger.info(f"Copied a total of {number_of_copied_images} images!")
-    for message in images_error_messages:
-        logger.error(f"Failed to copy an image: {message}")
+    if images_to_copy:
+        copy_images_to_folder(images_to_copy, IMAGES_OUT_FOLDER)
 
     if success_cards:
-        logger.info(f"🔥 Created a total of {success_cards} card/s!")
-        if aborted_cards:
-            logger.info(f"🙈 Failed to create {aborted_cards} card/s...")
-
-        if cards_to_write_with_clozes:
-            with open(CLOZES_RESULT_FILE, "w", encoding="utf-8") as output:
-                fieldnames = ["front", "back"]
-                writer = csv.DictWriter(output, fieldnames)
-                # writer.writeheader() # The headers also get imported by anki
-                # Which creates an extra card every time
-
-                for card in cards_to_write_with_clozes:
-                    writer.writerow(card)
-
-        if cards_to_write:
-            with open(RESULT_FILE, "w", encoding="utf-8") as output:
-                fieldnames = ["front", "back"]
-                writer = csv.DictWriter(output, fieldnames)
-                # writer.writeheader() # The headers also get imported by anki
-                # Which creates an extra card every time
-
-                for card in cards_to_write:
-                    writer.writerow(card)
-
-        with open(BAD_CARDS_FILE, "w", encoding="utf-8") as output:
-            output.write("\n\n---\n\n".join(failed_cards))
+        logger.info(f"🔥 Found a total of {success_cards} card/s!")
+        write_cards_to_csv(cards_to_write, RESULT_FILE)
+        write_cards_to_csv(cards_to_write_with_clozes, CLOZES_RESULT_FILE)
 
         logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
-
     else:
         logger.info("❓ No cards created... Please check input the file.")
 
