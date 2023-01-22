@@ -2,9 +2,9 @@ import logging
 import re
 from typing import Dict, List
 
-import card_dataclasses as Dataclasses
-import card_types as Types
-from debug_tools import expressive_debug
+import md_2_anki.utils.card_dataclasses as Dataclasses
+import md_2_anki.utils.card_types as Types
+from md_2_anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

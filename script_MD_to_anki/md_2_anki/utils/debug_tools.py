@@ -1,3 +1,13 @@
+"""
+This module exposes a function that can be used
+to debug objects more easily through  the
+pprint and json modules.
+
+It is to be imported in all/most modules in the
+source code, to make the use of expressive_debug
+easy and quick.
+Said imports are to be removed for production.
+"""
 import inspect
 import json
 import pprint

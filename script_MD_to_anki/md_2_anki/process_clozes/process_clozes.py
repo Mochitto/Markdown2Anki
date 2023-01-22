@@ -2,9 +2,9 @@ import logging
 import re
 from typing import Dict, List, Tuple
 
-import card_types as Types
-from card_error import CardError
-from debug_tools import expressive_debug
+import md_2_anki.utils.card_types as Types
+from md_2_anki.utils.card_error import CardError
+from md_2_anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

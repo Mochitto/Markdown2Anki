@@ -1,9 +1,8 @@
-import csv
 import logging
 import sys
 
 import logger as basicConfig
-from card_error import CardError
+from md_2_anki.utils.card_error import CardError
 from config_handle import (
     LINENOS,
     VAULT,
@@ -16,10 +15,10 @@ from config_handle import (
     IMAGES_OUT_FOLDER,
     FOLDERS_TO_EXCLUDE,
 )
-from md_to_anki import markdown_to_anki
+from md_2_anki.md_to_anki import markdown_to_anki
 from output_handler import copy_images_to_folder, write_cards_to_csv, write_failed_cards
 
-from debug_tools import expressive_debug
+from md_2_anki.utils.debug_tools import expressive_debug
 
 
 def main():

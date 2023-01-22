@@ -5,9 +5,8 @@ from typing import Match
 
 import mistune
 
-import card_types as Types
-from config_handle import VAULT
-from debug_tools import expressive_debug
+import md_2_anki.utils.card_types as Types
+from md_2_anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class ObsidianLinkPlugin:
 
     def render_obsidian_link(self, path: Types.PathString, alias: str):
         encoded_path = urllib.parse.quote(path.encode("utf8"))
-        encoded_vault = urllib.parse.quote(VAULT.encode("utf8"))
+        encoded_vault = urllib.parse.quote(self.valut.encode("utf8"))
         if alias:
             return f'<a href="obsidian://open?vault={encoded_vault}&file={encoded_path}">{alias}</a>'
         else:

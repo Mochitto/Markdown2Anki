@@ -1,10 +1,9 @@
-import shutil
 import os
 import re
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set
 import logging
 
-import card_types as Types
+import md_2_anki.utils.card_types as Types
 
 logger = logging.getLogger(__name__)
 

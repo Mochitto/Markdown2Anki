@@ -3,7 +3,7 @@ import datetime
 import os
 import re
 
-import card_types as Types
+import md_2_anki.utils.card_types as Types
 
 # Built at run-time
 CURRENT_DIR = os.getcwd()

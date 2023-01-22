@@ -2,11 +2,11 @@ import re
 import logging
 from typing import List
 
-import card_types as Types
-from card_error import CardError
-from debug_tools import expressive_debug
-from process_card import process_card
-from process_clozes import (
+import md_2_anki.utils.card_types as Types
+from md_2_anki.utils.card_error import CardError
+from md_2_anki.utils.debug_tools import expressive_debug
+from md_2_anki.process_card.process_card import process_card
+from md_2_anki.process_clozes.process_clozes import (
     get_clozes,
     hash_clozes,
     clean_code_from_clozes,
@@ -14,7 +14,7 @@ from process_clozes import (
     inject_clozes,
     are_clozes_in_card,
 )
-from process_images import get_images_to_copy
+from md_2_anki.process_images.process_images import get_images_to_copy
 
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 

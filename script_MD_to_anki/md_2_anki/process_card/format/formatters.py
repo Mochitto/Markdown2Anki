@@ -2,14 +2,14 @@ import logging
 import re
 from typing import List
 
-import card_types as Types
-from cards_specific_wrappers import (
+import md_2_anki.utils.card_types as Types
+from md_2_anki.process_card.format.cards_specific_wrappers import (
     wrap_tab,
     wrap_tab_body,
     wrap_tab_group,
     wrap_tab_label,
 )
-from debug_tools import expressive_debug
+from md_2_anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

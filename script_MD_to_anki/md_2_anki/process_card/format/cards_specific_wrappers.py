@@ -1,6 +1,6 @@
 import logging
 
-from debug_tools import expressive_debug
+from md_2_anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 

@@ -9,10 +9,10 @@ import pygments.util
 import pygments.lexers
 import pygments.formatters.html
 
-import card_types as Types
-from debug_tools import expressive_debug
-from obsidian_link_plugin import ObsidianLinkPlugin
-from obsidian_image_plugin import ObsidianImagePlugin
+from md_2_anki.process_card.compile.custom_plugins.obsidian_image_plugin import ObsidianImagePlugin
+from md_2_anki.process_card.compile.custom_plugins.obsidian_link_plugin import ObsidianLinkPlugin
+from md_2_anki.utils.debug_tools import expressive_debug
+import md_2_anki.utils.card_types as Types
 
 
 logger = logging.getLogger(__name__)

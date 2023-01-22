@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-import card_types as Types
-from card_error import CardError
+import md_2_anki.utils.card_types as Types
+from md_2_anki.utils.card_error import CardError
 
 
 # Grouping, Extraction to MDstring
