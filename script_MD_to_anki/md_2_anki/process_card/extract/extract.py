@@ -27,14 +27,17 @@ def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
     stripped_card = card.strip()
 
-    front_side_regex = re.compile(r"(?si)#\s*front\s*side\s*\n(.*?)(?:\#\s*back\s*side\s*\n|$)")
+    front_side_regex = re.compile(
+        r"(?si)#\s*front\s*side\s*\n(.*?)(?:\#\s*back\s*side\s*\n|$)"
+    )
     back_side_regex = re.compile(r"(?si)#\s*back\s*side\s*\n(.*)")
 
     front_side_match = front_side_regex.search(stripped_card)
     back_side_match = back_side_regex.search(stripped_card)
 
     return Dataclasses.MDCard(
-        front=front_side_match[1] if front_side_match else "", back=back_side_match[1] if back_side_match else ""
+        front=front_side_match[1] if front_side_match else "",
+        back=back_side_match[1] if back_side_match else "",
     )
 
 
@@ -58,7 +61,9 @@ def extract_tabs_sides(side_fragment: Types.MDString) -> Dict[str, Types.MDStrin
     """
     stripped_fragment = side_fragment.strip()
 
-    left_tabs_regex = re.compile(r"(?si)##\s*left\s*tabs\s*\n(.*?)(?=##\s*right\s*tabs|$)")
+    left_tabs_regex = re.compile(
+        r"(?si)##\s*left\s*tabs\s*\n(.*?)(?=##\s*right\s*tabs|$)"
+    )
     right_tabs_regex = re.compile(r"(?si)##\s*right\s*tabs\s*\n(.*)")
 
     left_tabs_block = re.search(left_tabs_regex, stripped_fragment)
@@ -70,7 +75,9 @@ def extract_tabs_sides(side_fragment: Types.MDString) -> Dict[str, Types.MDStrin
     }
 
 
-def extract_tabs(left_or_right_block: Types.MDString) -> Dict[str, List[Types.MDTab] | List[int]]:
+def extract_tabs(
+    left_or_right_block: Types.MDString,
+) -> Dict[str, List[Types.MDTab] | List[int]]:
     """
     Extact tabs and the indexes of those to be swapped.
 

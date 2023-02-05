@@ -4,7 +4,11 @@ from typing import Dict, List
 
 import md_2_anki.utils.card_types as Types
 from md_2_anki.process_card.compile.text_to_html import tabs_to_html
-from md_2_anki.process_card.extract.extract import extract_card_sides, extract_tabs, extract_tabs_sides
+from md_2_anki.process_card.extract.extract import (
+    extract_card_sides,
+    extract_tabs,
+    extract_tabs_sides,
+)
 from md_2_anki.process_card.format.formatters import format_tab_group, format_tabs
 from md_2_anki.process_card.swap.tab_swapping import get_swapped_tabs
 from md_2_anki.utils.card_error import validate_card_data
@@ -14,7 +18,9 @@ from md_2_anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def process_card(markdown: Types.MDString, vault, **options) -> Dict[str, Types.HTMLString]:
+def process_card(
+    markdown: Types.MDString, vault, **options
+) -> Dict[str, Types.HTMLString]:
     """
     Process a card in markdown to HTML.
 
@@ -36,7 +42,7 @@ def process_card(markdown: Types.MDString, vault, **options) -> Dict[str, Types.
     mypy issue: https://github.com/python/mypy/issues/7178
     """
 
-    linenos_in_highlight = options.get('linenos', True)
+    linenos_in_highlight = options.get("linenos", True)
 
     card_sides = extract_card_sides(markdown)
 

@@ -112,7 +112,9 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                     "❓ Would you like to abort this card and continue? (y/N)\n>>> "
                 ).lower()
                 if user_input == "y" or user_input == "yes":
-                    logger.info(f"|--- ❌ Failed to process the card number {index + 1}...")
+                    logger.info(
+                        f"|--- ❌ Failed to process the card number {index + 1}..."
+                    )
                     aborted_cards += 1
                     failed_cards.append(f"❌ ERROR ❌ - {error}\n{card}")
                     continue
@@ -145,6 +147,8 @@ def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
     cards = re.split(regex_pattern, markdown_text)
 
     # the lambda function is used to discard 'empty cards'
-    filtered_cards = list(filter(lambda card: bool(card), cards))  # filter returns an iterable
+    filtered_cards = list(
+        filter(lambda card: bool(card), cards)
+    )  # filter returns an iterable
 
     return filtered_cards

@@ -16,7 +16,7 @@ class SingleLevelFilter(logging.Filter):
         return record.levelno == self.passlevel
 
 
-def setup_logging(log_file_path: Types.PathString)-> None:
+def setup_logging() -> None:
     info_handler = logging.StreamHandler(stream=sys.stdout)
     info_handler.addFilter(SingleLevelFilter(logging.INFO, False))
     info_handler.setFormatter(logging.Formatter("%(message)s"))
@@ -28,12 +28,25 @@ def setup_logging(log_file_path: Types.PathString)-> None:
 
     debug_handler = logging.StreamHandler()
     debug_handler.addFilter(SingleLevelFilter(logging.DEBUG, False))
-    debug_handler.setFormatter(logging.Formatter("🔧 %(message)s"))  # Should be used with "expressive_debug"
+    debug_handler.setFormatter(
+        logging.Formatter("🔧 %(message)s")
+    )  # Should be used with "expressive_debug"
 
-    file_handler = logging.FileHandler(log_file_path, mode="w", encoding="utf-8", errors="replace")
+    logging.basicConfig(
+        handlers=[debug_handler, info_handler, stderr_handler],
+        level=logging.DEBUG,
+    )
+
+
+def setup_file_logging(logger: logging.Logger, log_file_path: Types.PathString):
+    file_handler = logging.FileHandler(
+        log_file_path, mode="w", encoding="utf-8", errors="replace"
+    )
     file_handler.setFormatter(
-        logging.Formatter("%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py) %(levelname)s: %(message)s")
+        logging.Formatter(
+            "%(asctime)s - %(levelname)s (line %(lineno)d from %(module)s.py) %(levelname)s: %(message)s"
+        )
     )
     file_handler.setLevel(logging.DEBUG)
 
-    logging.basicConfig(handlers=[debug_handler, info_handler, stderr_handler, file_handler], level=logging.DEBUG)
+    logger.addHandler(file_handler)

@@ -17,6 +17,7 @@ class ObsidianLinkPlugin:
     This utilizes Obsidian's URI:
     https://help.obsidian.md/Advanced+topics/Using+obsidian+URI
     """
+
     def __init__(self, vault: Types.PathString) -> None:
         self.valut = vault
 
@@ -29,7 +30,9 @@ class ObsidianLinkPlugin:
             r"\]\]"
         )
 
-    def parse_inline_obsidian_link(self, inline_message: Types.MDString, matches: Match[str], state):
+    def parse_inline_obsidian_link(
+        self, inline_message: Types.MDString, matches: Match[str], state
+    ):
         path_to_page = matches.group(1)
         page_alias = matches.group(2)
 
@@ -46,7 +49,9 @@ class ObsidianLinkPlugin:
             return f'<a href="obsidian://open?vault={encoded_vault}&file={encoded_path}">{last_word}</a>'
 
     def plugin(self, Markdown: mistune.Markdown):
-        Markdown.inline.register_rule("obsidian_link", self.OBSIDIAN_LINK_REGEX, self.parse_inline_obsidian_link)
+        Markdown.inline.register_rule(
+            "obsidian_link", self.OBSIDIAN_LINK_REGEX, self.parse_inline_obsidian_link
+        )
         Markdown.inline.rules.append("obsidian_link")
         if Markdown.renderer.NAME == "html":
             Markdown.renderer.register("obsidian_link", self.render_obsidian_link)

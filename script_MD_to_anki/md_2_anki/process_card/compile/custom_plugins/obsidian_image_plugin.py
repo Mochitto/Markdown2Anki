@@ -14,6 +14,7 @@ class ObsidianImagePlugin:
     """
     Plugin to add support for the embedding syntax used in obsidian.
     """
+
     def __init__(self) -> None:
 
         self.OBSIDIAN_IMAGE_REGEX = (

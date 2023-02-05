@@ -25,13 +25,13 @@ def copy_images_to_folder(
     success = 0
     for image, path_to_image in images_to_copy.items():
         if not path_to_image:
-            logger.warning(f"|--- Couldn't copy \"{image}\" (File not found)")
+            logger.warning(f'|--- Couldn\'t copy "{image}" (File not found)')
             continue
 
         destination_path = os.path.join(outdir_folder, image)
 
         if os.path.exists(destination_path):
-            logger.warning(f"|--- Skipping \"{image}\": it's already in the folder")
+            logger.warning(f'|--- Skipping "{image}": it\'s already in the folder')
             continue  # There is an image already
 
         try:
@@ -44,14 +44,18 @@ def copy_images_to_folder(
             TypeError,
             IsADirectoryError,
         ) as error:
-            logger.error(f"|--- Failed to copy an image: '{image}' ({error.__class__.__name__}).")
+            logger.error(
+                f"|--- Failed to copy an image: '{image}' ({error.__class__.__name__})."
+            )
             continue
 
     if success:
         logger.info(f"|--- Copied a total of {success} images!")
 
 
-def write_cards_to_csv(cloze_cards: List[Dict[str, Types.HTMLString]], file_path: Types.PathString) -> None:
+def write_cards_to_csv(
+    cloze_cards: List[Dict[str, Types.HTMLString]], file_path: Types.PathString
+) -> None:
     """
     Write the cloze cards in a csv file at the given path.
     """
@@ -64,6 +68,8 @@ def write_cards_to_csv(cloze_cards: List[Dict[str, Types.HTMLString]], file_path
                 writer.writerow(card)
 
 
-def write_failed_cards(failed_cards: List[Types.MDString], file_path: Types.PathString) -> None:
+def write_failed_cards(
+    failed_cards: List[Types.MDString], file_path: Types.PathString
+) -> None:
     with open(file_path, "w", encoding="utf-8") as output:
         output.write("\n\n---\n\n".join(failed_cards))

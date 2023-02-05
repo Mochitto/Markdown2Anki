@@ -9,8 +9,12 @@ import pygments.util
 import pygments.lexers
 import pygments.formatters.html
 
-from md_2_anki.process_card.compile.custom_plugins.obsidian_image_plugin import ObsidianImagePlugin
-from md_2_anki.process_card.compile.custom_plugins.obsidian_link_plugin import ObsidianLinkPlugin
+from md_2_anki.process_card.compile.custom_plugins.obsidian_image_plugin import (
+    ObsidianImagePlugin,
+)
+from md_2_anki.process_card.compile.custom_plugins.obsidian_link_plugin import (
+    ObsidianLinkPlugin,
+)
 from md_2_anki.utils.debug_tools import expressive_debug
 import md_2_anki.utils.card_types as Types
 
@@ -82,7 +86,9 @@ class HighlightRenderer(mistune.HTMLRenderer):
 
         section_head = '<section class="highlight highlight--linenos">'
         language_span = f'<span class="highlight__language">{lexer.name}</span>'
-        complete_code = f"{section_head}{language_span}{highlighted_code.strip()}</section>"
+        complete_code = (
+            f"{section_head}{language_span}{highlighted_code.strip()}</section>"
+        )
 
         return complete_code
 

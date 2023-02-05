@@ -118,10 +118,7 @@ def inject_clozes(
         front = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", front)
         back = re.sub(word_regex, f"{{{{c{number}::{clozed_text}}}}}", back)
 
-    return {
-        "front": front,
-        "back": back
-    }
+    return {"front": front, "back": back}
 
 
 def are_clozes_in_card(card: Types.MDString) -> bool:

@@ -1,0 +1,31 @@
+
+$$\      $$\ $$$$$$$\         $$$$$$\         $$$$$$\            $$\       $$\ 
+$$$\    $$$ |$$  __$$\       $$  __$$\       $$  __$$\           $$ |      \__|
+$$$$\  $$$$ |$$ |  $$ |      \__/  $$ |      $$ /  $$ |$$$$$$$\  $$ |  $$\ $$\ 
+$$\$$\$$ $$ |$$ |  $$ |       $$$$$$  |      $$$$$$$$ |$$  __$$\ $$ | $$  |$$ |
+$$ \$$$  $$ |$$ |  $$ |      $$  ____/       $$  __$$ |$$ |  $$ |$$$$$$  / $$ |
+$$ |\$  /$$ |$$ |  $$ |      $$ |            $$ |  $$ |$$ |  $$ |$$  _$$<  $$ |
+$$ | \_/ $$ |$$$$$$$  |      $$$$$$$$\       $$ |  $$ |$$ |  $$ |$$ | \$$\ $$ |
+\__|     \__|\_______/       \________|      \__|  \__|\__|  \__|\__|  \__|\__|
+                                                                               
+Version: 1.0.0                                                                               
+-------------------------------------------------------------------------------                                                                               
+Welcome to MD 2 Anki! 💕
+
+Before starting, we need to create your configuration file. 🔧
+
+The configuration file will allow you to maintain your configuration between 
+versions and tailor the behaviour of the app to your liking. 🐙
+
+You can come back to this screen to reconfigure the location of the file by
+running "MD2Anki -cf" or "MD2Anki --configfile".
+
+❗Notice: if a configuration is already present (for example, when updating),
+the old configuration is maintained and, if new options have been added, 
+updated with new options.
+
+You can exit this menu at any point by writing "exit".
+
+Please input an absolute path to an existing folder where your config file will
+be added.
+
