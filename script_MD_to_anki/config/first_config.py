@@ -30,21 +30,21 @@ def welcome_user(configfile_name: str, path_to_link:Types.PathString, add_type_h
 
     create_link_to_config_file(this_directory, configfile_path, path_to_link)
 
-    fileConfig = setup_typeConfig(configfile_directory)
+    fileConfig = setup_typeConfig(configfile_directory, add_type_hints)
 
     # Handle update or creation of config file
     if os.path.exists(configfile_path):
         # Update the existing configuration
         with open(configfile_path, "r+") as config_file:
             config_file_content = config_file.read()
-            updated_config = fileConfig.heal_file(config_file_content, add_type_hints)
+            updated_config = fileConfig.heal_config(config_file_content)
             config_file.seek(0)
             config_file.write(updated_config)
             logger.info("🔧 Config file healed and location updated!")
     else:
         # Create configuration
         with open(configfile_path, "w") as config_file:
-            config_file_content = fileConfig.create_config(add_type_hints)
+            config_file_content = fileConfig.create_config()
             config_file.write(config_file_content)
             logger.info("🔧 Config file created!")
             logger.info("You should now configure it to your liking, before using the program ⭐")

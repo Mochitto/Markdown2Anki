@@ -62,7 +62,7 @@ def handle_configs() -> Dict[str, Any]:
         welcome_user(configfile_name=CONFIGFILE_NAME, path_to_link=CONFIG_LINK_PATH, add_type_hints=ADD_TYPES_TO_CONFIG)
         sys.exit(0)
 
-    fileConfig = setup_typeConfig(config_dir)
+    fileConfig = setup_typeConfig(config_dir, ADD_TYPES_TO_CONFIG)
     file_config_content = get_file_config_content(os.path.join(config_dir, config_file))
 
     cli_config = get_CLI_config()
@@ -70,7 +70,7 @@ def handle_configs() -> Dict[str, Any]:
         welcome_user(configfile_name=CONFIGFILE_NAME, path_to_link=CONFIG_LINK_PATH, add_type_hints=ADD_TYPES_TO_CONFIG)
         sys.exit(0)
     elif cli_config["Heal config?"]:
-        healed_config = fileConfig.heal_file(file_config_content, format_with_types=ADD_TYPES_TO_CONFIG)
+        healed_config = fileConfig.heal_config(file_config_content)
         write_file_config_content(os.path.join(config_dir, config_file), healed_config)
         logger.info("🩹 File healed!")
         sys.exit(0)

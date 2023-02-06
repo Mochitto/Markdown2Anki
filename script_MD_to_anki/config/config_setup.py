@@ -11,13 +11,13 @@ import casters as cas
 
 logger = logging.getLogger(__name__)
 
-def setup_typeConfig(base_path: Types.PathString) -> TypeConfig:
+def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfig:
     """
     Initialize a TypeConfig object with the needed types
     and options.
     """
     
-    fileConfig = TypeConfig()
+    fileConfig = TypeConfig(type_hints)
 
     fileConfig.add_type("ExistingPath", val.validate_existing_path, cas.cast_existing_path, "The given path doesn't exist.")
     fileConfig.add_type("AbsolutePath", val.validate_absolute_path, cas.cast_absolute_path, "The given path is not absolute.")
