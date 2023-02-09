@@ -8,9 +8,9 @@ from utils import common_types as Types
 import md_2_anki.utils.card_types as CardTypes
 from utils.debug_tools import expressive_debug
 
-from first_config import welcome_user
-from parse_args import CommandLineArgsParser
-from config_setup import setup_typeConfig
+from .first_config import welcome_user
+from .parse_args import CommandLineArgsParser
+from .config_setup import setup_typeConfig
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +95,6 @@ def handle_configs() -> Dict[str, Any]:
         for option, value in cli_config.items():
             if value == None:
                 cli_config.pop(option)
-    expressive_debug(logger, "cli config", cli_config, "pprint")
 
     valid_cli_config, cli_errors = fileConfig.validate_config(cli_config)
     file_config, file_errors = fileConfig.parse_config(file_config_content)
@@ -111,19 +110,14 @@ def handle_configs() -> Dict[str, Any]:
             logger.error(f"|--- {option}: {error}")
         sys.exit(1)
 
-    expressive_debug(logger, "valid CLI config", valid_cli_config, "pprint")
-
     result_config = fileConfig.merge_config(valid_cli_config, file_config)
+    result_config["config directory"] = config_dir
 
     return result_config
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    # There is a bug in type config when validating data.
-    # Once that's solved, the config handle should be working and
-    # Perform all the needed operations
-
     # The next step is making the project work again (plugging config handle in main)
     # And then writing tests for all of the parts before moving on to changing
     # The extraction step

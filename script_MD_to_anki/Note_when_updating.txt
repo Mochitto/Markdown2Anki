@@ -1,3 +1,5 @@
 When updating, remember to update the following things:
 - Python's setup version number
 - Version number in the welcome_message.txt
+
+And to remove expressive debug (can use grep | xargs sed)

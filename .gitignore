@@ -1,4 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+link_to_config_dir.ini
+
+
 
 # Project specific folders/files
 anki_outdir

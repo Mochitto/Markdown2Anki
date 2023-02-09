@@ -1,3 +1,4 @@
+import os
 import logging
 import sys
 
@@ -16,36 +17,24 @@ logger = logging.getLogger(__name__)
 def main():
     # Basic logging config with handlers
     setup_logging()
-    # I should check for the config value here at line 24 instead than doin it in the file
-    # Check for config file
-    #   If exists:
-    #       continue the program
-    #   If doesn't exist:
-    #       run creation
+    config = handle_configs()
+    expressive_debug(logger, "Config from main", config, "pprint")
 
-
-    cli_args = CommandLineArgsParser.parse_args(sys.argv[1:])
-    file_config = get_config_file()
-    config = MergeConfigs(
-        command_line_args=cli_args, config_from_file=file_config
-    ).merged_config
-
-    setup_file_logging(logger=logger, log_file_path=)
+    setup_file_logging(logger, os.path.join(config["config directory"], "debug_log.txt"))
 
     logger.info("Starting cards extraction")
 
-    with open(config["md_input_file"], "r", encoding="utf-8") as markdown_file:
+    with open(config["input md file path"], "r", encoding="utf-8") as markdown_file:
         markdown_input = markdown_file.read()
-
     try:
         cards_with_info = markdown_to_anki(
             markdown_input,
-            config["vault_name"],
-            linenos=config["linenos"],
+            config["Obsidian valut name"],
+            linenos=config["line numbers?"],
             interactive=True,
-            fast_forward=config["fast_forward"],
-            images_dir=config["images_dir"],
-            folders_to_exclude=config["folders_to_exclude"],
+            fast_forward=config["fast forward?"],
+            images_dir=config["search images folder"],
+            folders_to_exclude=config["folders to exclude"],
         )
     except CardError as error:
         logger.info(
@@ -62,17 +51,20 @@ def main():
     aborted_cards = cards_with_info["number_of_failed"]
     failed_cards = cards_with_info["failed_cards"]
 
+    # TODO: Use clear file? by writing to the input file if true
+    # And saving what was in the file in a backup in the config folder
+
     if aborted_cards:
         logger.info(f"🙈 Failed to process {aborted_cards} card/s...")
-        write_failed_cards(failed_cards, config["failed_cards_file"])
+        write_failed_cards(failed_cards, config["bad cards file path"])
 
     if images_to_copy:
-        copy_images_to_folder(images_to_copy, config["images_out_folder"])
+        copy_images_to_folder(images_to_copy, config["images out-folder"])
 
     if success_cards:
         logger.info(f"🔥 Found a total of {success_cards} card/s!")
-        write_cards_to_csv(cards_to_write, config["anki_csv_file"])
-        write_cards_to_csv(cards_to_write_with_clozes, config["clozes_anki_csv_file"])
+        write_cards_to_csv(cards_to_write, os.path.join(config["config directory"], "basic_anki_cards.csv"))
+        write_cards_to_csv(cards_to_write_with_clozes, os.path.join(config["config directory"], "clozed_anki_cards.csv"))
 
         logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
     else:

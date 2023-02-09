@@ -38,7 +38,7 @@ CommandLineArgsParser.add_argument(
     "-hc",
     "--healconfig",
     dest="Heal config?",
-    help="R|If pheals a broken configuration file.\n" + "Example: --healconfig",
+    help="R|If present, heals a broken configuration file.\n" + "Example: --healconfig",
     action="store_true",
     default=None,
 )
