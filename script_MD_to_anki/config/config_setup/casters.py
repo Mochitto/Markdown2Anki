@@ -12,12 +12,14 @@ def cast_existing_path(option: str) -> Types.PathString:
 def cast_absolute_path(option: str) -> Types.PathString:
     return option
 
+
 def cast_new_folder(option: str) -> Types.PathString:
     """
     Creates folder if missing.
     """
     os.makedirs(option, exist_ok=True)
     return option
+
 
 def cast_folders_list(option: str) -> List[str]:
     if option is None:

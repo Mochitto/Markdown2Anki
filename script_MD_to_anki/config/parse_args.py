@@ -1,6 +1,5 @@
 import logging
 import argparse
-import sys
 
 from md_2_anki.utils import expressive_debug
 
@@ -39,11 +38,10 @@ CommandLineArgsParser.add_argument(
     "-hc",
     "--healconfig",
     dest="Heal config?",
-    help="R|If pheals a broken configuration file.\n"
-    + "Example: --healconfig",
+    help="R|If pheals a broken configuration file.\n" + "Example: --healconfig",
     action="store_true",
-    default=None
-    )
+    default=None,
+)
 
 CommandLineArgsParser.add_argument(
     "-lc",
@@ -52,8 +50,8 @@ CommandLineArgsParser.add_argument(
     help="R|If present, shows the welcome screen and allows you to link to an existing config file\n or to create a new one, if missing.\n"
     + "Example: --linkconfig",
     action="store_true",
-    default=None
-    )
+    default=None,
+)
 
 # I/O options
 CommandLineArgsParser.add_argument(
@@ -63,7 +61,7 @@ CommandLineArgsParser.add_argument(
     metavar="'YOUR VAULT'",
     help="R|The name of the obsidian vault where the input file is from.\n"
     + "Example: -v 'My obsidian vault'",
-    )
+)
 
 CommandLineArgsParser.add_argument(
     "-f",

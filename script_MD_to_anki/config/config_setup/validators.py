@@ -11,6 +11,7 @@ def validate_existing_path(option: str) -> bool:
         return False
     return is_absolute and does_exist
 
+
 def validate_absolute_path(option: str) -> bool:
     try:
         is_absolute = os.path.isabs(option)
@@ -22,7 +23,7 @@ def validate_absolute_path(option: str) -> bool:
 def validate_folders_list(option: str) -> bool:
     try:
         are_plain_names = os.path.sep not in option
-    except TypeError: # option is None
+    except TypeError:  # option is None
         return True
     return are_plain_names
 

@@ -6,26 +6,56 @@ from type_config import TypeConfig
 import md_2_anki.utils.card_types as Types
 from md_2_anki.utils.debug_tools import expressive_debug
 
-import validators as val
-import casters as cas
+from . import validators as val
+from . import casters as cas
 
 logger = logging.getLogger(__name__)
+
 
 def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfig:
     """
     Initialize a TypeConfig object with the needed types
     and options.
     """
-    
+
     fileConfig = TypeConfig(type_hints)
 
-    fileConfig.add_type("ExistingPath", val.validate_existing_path, cas.cast_existing_path, "The given path doesn't exist.")
-    fileConfig.add_type("AbsolutePath", val.validate_absolute_path, cas.cast_absolute_path, "The given path is not absolute.")
-    fileConfig.add_type("NewFolder", val.validate_absolute_path, cas.cast_new_folder, "The given path to the folder is not absolute.")
-    fileConfig.add_type("FoldersList", val.validate_folders_list, cas.cast_folders_list, "Folders names must not contain slashes; only the name is needed.")
-    fileConfig.add_type("bool", val.validate_bool, cas.cast_bool, "Must be one of these (caps is ignored): true, t, yes, y, false, f, no, n")
-    fileConfig.add_type("str", val.validate_str, cas.cast_str, "Somehow this is not a string. Write an issue to the project's github please; this shouldn't happen.")
-
+    fileConfig.add_type(
+        "ExistingPath",
+        val.validate_existing_path,
+        cas.cast_existing_path,
+        "The given path doesn't exist.",
+    )
+    fileConfig.add_type(
+        "AbsolutePath",
+        val.validate_absolute_path,
+        cas.cast_absolute_path,
+        "The given path is not absolute.",
+    )
+    fileConfig.add_type(
+        "NewFolder",
+        val.validate_absolute_path,
+        cas.cast_new_folder,
+        "The given path to the folder is not absolute.",
+    )
+    fileConfig.add_type(
+        "FoldersList",
+        val.validate_folders_list,
+        cas.cast_folders_list,
+        "Folders names must not contain slashes; only the name is needed.",
+    )
+    fileConfig.add_type(
+        "bool",
+        val.validate_bool,
+        cas.cast_bool,
+        "Must be one of these (caps is ignored): true, t, yes, y, false, f, no, n",
+    )
+    fileConfig.add_type(
+        "str",
+        val.validate_str,
+        cas.cast_str,
+        "Somehow this is not a string. Write an issue to the project's github please; this shouldn't happen.",
+    )
 
     fileConfig.add_option(
         type="str",

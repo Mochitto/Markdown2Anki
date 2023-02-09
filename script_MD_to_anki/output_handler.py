@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # FIXME: Could use some better error handling maybe
 def copy_images_to_folder(
     images_to_copy: Dict[str, Types.PathString | None], outdir_folder: Types.PathString
-) -> None:  # DOCS TODO: write that there is no metadata copied
+) -> None:
     """
     Copy the images to the outdir folder and return (number of copied images, list of errors, if there was any).
     Raise CardError if the image to copy doesn't exist.

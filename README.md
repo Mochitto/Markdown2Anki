@@ -35,3 +35,6 @@ These are the sources where they can be found:
 - [Ghosts](https://www.youtube.com/watch?v=kXF3VYYa5TI): Louie Zong (Youtube channel)
 - [Widget the cat](https://www.instagram.com/p/CkribpgLiHu/): @widgetthemidget2020 (Instagram account)
 - [Lime the frog](https://www.instagram.com/p/Cktf5HFvufL/): @limethefrog (Instagram account)
+
+## DOCS TODO:
+- images copying: no metadata is copyed when copying the images.
