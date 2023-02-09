@@ -15,20 +15,21 @@ from md_2_anki.process_card.compile.custom_plugins.obsidian_image_plugin import 
 from md_2_anki.process_card.compile.custom_plugins.obsidian_link_plugin import (
     ObsidianLinkPlugin,
 )
-from md_2_anki.utils.debug_tools import expressive_debug
-import md_2_anki.utils.card_types as Types
+from utils.debug_tools import expressive_debug
+import md_2_anki.utils.common_types as Types
+import md_2_anki.utils.card_types as CardTypes
 
 
 logger = logging.getLogger(__name__)
 
 
-def tabs_to_html(tabs: List[Types.MDTab], vault, linenos=True) -> List[Types.HTMLTab]:
+def tabs_to_html(tabs: List[CardTypes.MDTab], vault, linenos=True) -> List[CardTypes.HTMLTab]:
     html_tabs = [tab_to_html(tab, vault, linenos) for tab in tabs]
     return html_tabs
 
 
 # DELME: entry point for process_card
-def tab_to_html(tab: Types.MDTab, vault, linenos=True) -> Types.HTMLTab:
+def tab_to_html(tab: CardTypes.MDTab, vault, linenos=True) -> CardTypes.HTMLTab:
     """Compile the tab to html and wrap it in cards' specific wrappers"""
     html_body = markdown_to_html_with_highlight(tab["tab_body"], vault, linenos)
 

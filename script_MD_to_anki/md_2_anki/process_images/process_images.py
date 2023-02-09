@@ -3,7 +3,7 @@ import re
 from typing import Dict, List, Set
 import logging
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.common_types as Types
 
 logger = logging.getLogger(__name__)
 

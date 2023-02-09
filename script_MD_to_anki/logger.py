@@ -1,8 +1,9 @@
 import logging
 import sys
 
-import md_2_anki.utils.card_types as Types
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils import common_types as Types
+import md_2_anki.utils.card_types as CardTypes
+from utils.debug_tools import expressive_debug
 
 # Create a logger object
 class SingleLevelFilter(logging.Filter):

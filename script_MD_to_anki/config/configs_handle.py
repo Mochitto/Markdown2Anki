@@ -4,8 +4,9 @@ import sys
 from typing import Tuple, Dict, Any
 import logging
 
-import md_2_anki.utils.card_types as Types
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils import common_types as Types
+import md_2_anki.utils.card_types as CardTypes
+from utils.debug_tools import expressive_debug
 
 from first_config import welcome_user
 from parse_args import CommandLineArgsParser

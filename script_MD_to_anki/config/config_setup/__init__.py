@@ -3,8 +3,9 @@ import logging
 
 from type_config import TypeConfig
 
-import md_2_anki.utils.card_types as Types
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils import common_types as Types
+import md_2_anki.utils.card_types as CardTypes
+from utils.debug_tools import expressive_debug
 
 from . import validators as val
 from . import casters as cas

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.common_types as Types
 from md_2_anki.utils.card_error import CardError
 
 

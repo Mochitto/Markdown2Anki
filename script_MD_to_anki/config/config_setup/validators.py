@@ -1,6 +1,6 @@
 import os
 
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils.debug_tools import expressive_debug
 
 
 def validate_existing_path(option: str) -> bool:

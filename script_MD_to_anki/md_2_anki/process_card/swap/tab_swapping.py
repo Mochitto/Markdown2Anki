@@ -1,14 +1,14 @@
 import logging
 from typing import List
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.card_types as CardTypes
 from md_2_anki.utils.card_error import CardError
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
 
-def get_swapped_tabs(card_data: Types.CardWithSwap) -> Types.CardWithTabs:
+def get_swapped_tabs(card_data: CardTypes.CardWithSwap) -> CardTypes.CardWithTabs:
     """
     Take in card_data and return the swapped tabs.
     """

@@ -1,12 +1,14 @@
 import logging
 import sys
 
-from logger import setup_logging, setup_file_logging 
 from md_2_anki.utils.card_error import CardError
 from md_2_anki.md_to_anki import markdown_to_anki
-from output_handler import copy_images_to_folder, write_cards_to_csv, write_failed_cards
 
-from md_2_anki.utils.debug_tools import expressive_debug
+from logger import setup_logging, setup_file_logging 
+from output_handler import copy_images_to_folder, write_cards_to_csv, write_failed_cards
+from config.configs_handle import handle_configs
+
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ def main():
         command_line_args=cli_args, config_from_file=file_config
     ).merged_config
 
-    # setup_logging(config["log_file"])
+    setup_file_logging(logger=logger, log_file_path=)
 
     logger.info("Starting cards extraction")
 

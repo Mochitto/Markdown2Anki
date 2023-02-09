@@ -2,9 +2,8 @@ import re
 import logging
 from typing import List
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.common_types as Types
 from md_2_anki.utils.card_error import CardError
-from md_2_anki.utils.debug_tools import expressive_debug
 from md_2_anki.process_card.process_card import process_card
 from md_2_anki.process_clozes.process_clozes import (
     get_clozes,
@@ -16,6 +15,7 @@ from md_2_anki.process_clozes.process_clozes import (
 )
 from md_2_anki.process_images.process_images import get_images_to_copy
 
+from utils.debug_tools import expressive_debug
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
 logger = logging.getLogger(__name__)

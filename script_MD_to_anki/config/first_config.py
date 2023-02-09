@@ -3,7 +3,8 @@ import sys
 import logging
 
 from config_setup import setup_typeConfig
-import md_2_anki.utils.card_types as Types
+from utils import common_types as Types
+import md_2_anki.utils.card_types as CardTypes
 
 logger = logging.getLogger(__name__)
 

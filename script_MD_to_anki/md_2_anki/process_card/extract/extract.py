@@ -3,8 +3,9 @@ import re
 from typing import Dict, List
 
 import md_2_anki.utils.card_dataclasses as Dataclasses
-import md_2_anki.utils.card_types as Types
-from md_2_anki.utils.debug_tools import expressive_debug
+import md_2_anki.utils.common_types as Types
+import md_2_anki.utils.card_types as CardTypes
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ def extract_tabs_sides(side_fragment: Types.MDString) -> Dict[str, Types.MDStrin
 
 def extract_tabs(
     left_or_right_block: Types.MDString,
-) -> Dict[str, List[Types.MDTab] | List[int]]:
+) -> Dict[str, List[CardTypes.MDTab] | List[int]]:
     """
     Extact tabs and the indexes of those to be swapped.
 
@@ -102,7 +103,7 @@ def extract_tabs(
 
     tabs_matches = tabs_regex.findall(left_or_right_block)
 
-    tabs: List[Types.MDTab] = []
+    tabs: List[CardTypes.MDTab] = []
     tabs_to_switch: List[int] = []
     for index, match in enumerate(tabs_matches):
         switch_flag = match[0]

@@ -1,7 +1,7 @@
 import logging
 
-import md_2_anki.utils.card_types as Types
-from md_2_anki.utils.debug_tools import expressive_debug
+import md_2_anki.utils.card_types as CardTypes
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class CardError(Exception):
         return error_message
 
 
-def validate_card_data(card_data: Types.CardWithSwap) -> None:
+def validate_card_data(card_data: CardTypes.CardWithSwap) -> None:
     """
     Raise an error if:
         - There are no left tabs in the front side of the card

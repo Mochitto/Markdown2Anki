@@ -2,24 +2,25 @@ import logging
 import re
 from typing import List
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.common_types as Types
+import md_2_anki.utils.card_types as CardTypes
 from md_2_anki.process_card.format.cards_specific_wrappers import (
     wrap_tab,
     wrap_tab_body,
     wrap_tab_group,
     wrap_tab_label,
 )
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
 
-def format_tabs(tabs: List[Types.HTMLTab]) -> List[Types.HTMLString]:
+def format_tabs(tabs: List[CardTypes.HTMLTab]) -> List[Types.HTMLString]:
     formatted_tabs = [format_tab(tab) for tab in tabs]
     return formatted_tabs
 
 
-def format_tab(tab: Types.HTMLTab) -> Types.HTMLString:
+def format_tab(tab: CardTypes.HTMLTab) -> Types.HTMLString:
     tab_label = tab["tab_label"]
     tab_body = tab["tab_body"]
 

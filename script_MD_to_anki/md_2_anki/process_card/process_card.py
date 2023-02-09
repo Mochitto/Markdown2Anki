@@ -2,7 +2,8 @@ import logging
 from dataclasses import asdict
 from typing import Dict, List
 
-import md_2_anki.utils.card_types as Types
+import md_2_anki.utils.common_types as Types
+import md_2_anki.utils.card_types as CardTypes
 from md_2_anki.process_card.compile.text_to_html import tabs_to_html
 from md_2_anki.process_card.extract.extract import (
     extract_card_sides,
@@ -13,7 +14,7 @@ from md_2_anki.process_card.format.formatters import format_tab_group, format_ta
 from md_2_anki.process_card.swap.tab_swapping import get_swapped_tabs
 from md_2_anki.utils.card_error import validate_card_data
 
-from md_2_anki.utils.debug_tools import expressive_debug
+from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,7 @@ def process_card(
 
     card_sides = extract_card_sides(markdown)
 
-    card_data: Types.CardWithSwap = {
+    card_data: CardTypes.CardWithSwap = {
         "front": {
             "left_tabs": [],
             "left_tabs_swap": [],
@@ -68,7 +69,7 @@ def process_card(
             if not tab_side_content:  # Non-empty tab side
                 continue
             tabs_info = extract_tabs(tab_side_content)
-            tabs: List[Types.MDTab] = tabs_info["tabs"]  # type: ignore
+            tabs: List[CardTypes.MDTab] = tabs_info["tabs"]  # type: ignore
             html_tabs = tabs_to_html(tabs, vault, linenos_in_highlight)
             formatted_tabs = format_tabs(html_tabs)
 
