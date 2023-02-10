@@ -61,6 +61,9 @@ def handle_configs() -> Dict[str, Any]:
     CONFIG_LINK_PATH = "link_to_config_dir.ini"
     CONFIGFILE_NAME = "md2anki.config.ini"
 
+    # This will overwrite the input file 
+    bad_file_as_input = False
+
     try:
         config_dir, config_file = get_configfile_paths(CONFIG_LINK_PATH)
     except FileNotFoundError:
@@ -96,18 +99,25 @@ def handle_configs() -> Dict[str, Any]:
             if value == None:
                 cli_config.pop(option)
 
-    valid_cli_config, cli_errors = fileConfig.validate_config(cli_config)
     file_config, file_errors = fileConfig.parse_config(file_config_content)
 
+    # Pop is used so that this extra option doesn't break the validation
+    if cli_config.pop("Bad file as input?"):
+        # None will let the user know the value is unset with an error
+        bad_file_path = file_config.get("bad cards file path", None)
+        cli_config["input md file path"] = bad_file_path
+
+    valid_cli_config, cli_errors = fileConfig.validate_config(cli_config)
+        
     if cli_errors or file_errors:
         if cli_errors:
             logger.error("❌ An error occurred while parsing the CLI arguments:")
-        for option, error in cli_errors.items():
-            logger.error(f"|--- {option}: {error}")
+            for option, error in cli_errors.items():
+                logger.error(f"|--- {option}: {error}")
         if file_errors:
             logger.error("❌ An error occurred while parsing the config file:")
-        for option, error in file_errors.items():
-            logger.error(f"|--- {option}: {error}")
+            for option, error in file_errors.items():
+                logger.error(f"|--- {option}: {error}")
         sys.exit(1)
 
     result_config = fileConfig.merge_config(valid_cli_config, file_config)
