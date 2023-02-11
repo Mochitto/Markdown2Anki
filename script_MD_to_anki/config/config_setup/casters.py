@@ -38,3 +38,7 @@ def cast_bool(option: str) -> bool:
 
 def cast_str(option: str) -> str:
     return option
+
+def cast_int(option: str) -> int:
+    return int(option)
+    

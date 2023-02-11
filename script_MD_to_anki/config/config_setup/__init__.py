@@ -57,6 +57,12 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
         cas.cast_str,
         "Somehow this is not a string. Write an issue to the project's github please; this shouldn't happen.",
     )
+    fileConfig.add_type(
+        "int",
+        val.validate_int,
+        cas.cast_int,
+        "The option is not an integer."
+        )
 
     fileConfig.add_option(
         type="str",
@@ -93,6 +99,18 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
     )
 
     # Behaviour
+
+    fileConfig.add_option(
+        type="int",
+        option="Number of backups",
+        help=(
+            "The number of backup files to keep (a backup is created every time you process your input file and is a copy of it)\n"
+            "Backups can be very useful when \"Clear file?\" is set to True."
+            ),
+        important_help="Must be an integer. Defaults to 10.",
+        default="10"
+    )
+
     fileConfig.add_option(
         type="bool",
         option="clear file?",
