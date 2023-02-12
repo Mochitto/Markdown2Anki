@@ -121,3 +121,5 @@ def clear_file(file_to_clear: Types.PathString) -> None:
     """
     with open(file_to_clear, "w"):
         pass
+
+    logging.info(f"🧹 Cleared the input file!")
