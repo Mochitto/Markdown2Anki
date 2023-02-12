@@ -115,3 +115,4 @@ def get_input_config_path() -> Types.PathString:
             )
 
     return config_path
+

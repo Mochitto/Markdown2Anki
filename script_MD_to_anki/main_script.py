@@ -6,7 +6,7 @@ from md_2_anki.utils.card_error import CardError
 from md_2_anki.md_to_anki import markdown_to_anki
 
 from logger import setup_logging, setup_file_logging 
-from output_handler import copy_images_to_folder, write_cards_to_csv, write_failed_cards
+import output_handler as out
 from config.configs_handle import handle_configs
 
 from utils.debug_tools import expressive_debug
@@ -18,10 +18,9 @@ def main():
     # Basic logging config with handlers
     setup_logging()
     config = handle_configs()
-    expressive_debug(logger, "Config from main", config, "pprint")
-
     setup_file_logging(logger, os.path.join(config["config directory"], "debug_log.txt"))
 
+    expressive_debug(logger, "Config from main", config, "pprint")
     logger.info("Starting cards extraction")
 
     with open(config["input md file path"], "r", encoding="utf-8") as markdown_file:
@@ -51,20 +50,31 @@ def main():
     aborted_cards = cards_with_info["number_of_failed"]
     failed_cards = cards_with_info["failed_cards"]
 
-    # TODO: Use clear file? by writing to the input file if true
-    # And saving what was in the file in a backup in the config folder
-
     if aborted_cards:
         logger.info(f"🙈 Failed to process {aborted_cards} card/s...")
-        write_failed_cards(failed_cards, config["bad cards file path"])
+        out.write_failed_cards(failed_cards, config["bad cards file path"])
 
     if images_to_copy:
-        copy_images_to_folder(images_to_copy, config["images out-folder"])
+        out.copy_images_to_folder(images_to_copy, config["images out-folder"])
 
     if success_cards:
         logger.info(f"🔥 Found a total of {success_cards} card/s!")
-        write_cards_to_csv(cards_to_write, os.path.join(config["config directory"], "basic_anki_cards.csv"))
-        write_cards_to_csv(cards_to_write_with_clozes, os.path.join(config["config directory"], "clozed_anki_cards.csv"))
+        out.write_cards_to_csv(cards_to_write, os.path.join(config["config directory"], "basic_anki_cards.csv"))
+        out.write_cards_to_csv(cards_to_write_with_clozes, os.path.join(config["config directory"], "clozed_anki_cards.csv"))
+
+        # Handle backups
+        out.backup_file(
+            config["input md file path"], 
+            os.path.join(config["config directory"], "backups")
+        )
+
+        out.clear_backups(
+                os.path.join(config["config directory"], "backups"),
+                config["Number of backups"]
+        )
+
+        if config["clear file?"]:
+            out.clear_file(config["input md file path"])
 
         logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
     else:

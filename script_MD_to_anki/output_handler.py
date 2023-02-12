@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 from typing import Dict, List
+from datetime import datetime
 
 from utils import common_types as Types
 import md_2_anki.utils.card_types as CardTypes
@@ -74,3 +75,49 @@ def write_failed_cards(
 ) -> None:
     with open(file_path, "w", encoding="utf-8") as output:
         output.write("\n\n---\n\n".join(failed_cards))
+
+def backup_file(file_path: Types.PathString, output_folder: Types.PathString) -> None:
+    """
+    Create a copy of the file at file_path iin the output_folder
+    with a new file name that "{now.isoformat}.md".
+    """
+    # It's good to make sure that the folder exists every time, in case
+    # It gets deleted
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder, exist_ok=True)
+
+    file_name = f"{datetime.now().isoformat()}.md"
+    
+    with open(file_path, "r") as file_to_backup:
+        file_content = file_to_backup.read()
+
+    with open(os.path.join(output_folder, file_name), "w") as backup_file:
+        backup_file.write(file_content)
+    
+    logger.info(f"✅ Backup file created correctly with the name {file_name}!")
+
+def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None:
+    """
+    Remove the oldest files from the given backup_folder if
+    their number is higher than the limit of files number.
+    """
+    folder_content = os.scandir(backups_folder)
+
+    files_ordered_by_creation = sorted(folder_content, key=lambda file: os.path.getmtime(file), reverse=True)
+
+    if len(files_ordered_by_creation) > limit_of_files:
+        files_to_delete = files_ordered_by_creation[limit_of_files:]
+        
+        total = 0
+        for file in files_to_delete:
+            os.remove(file.path)
+            total += 1
+
+        logging.info(f"🚮 Cleaned up {total} backup files.") 
+
+def clear_file(file_to_clear: Types.PathString) -> None:
+    """
+    Clears (makes blank) the content of the given file.
+    """
+    with open(file_to_clear, "w"):
+        pass

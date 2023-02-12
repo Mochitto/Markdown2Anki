@@ -57,6 +57,15 @@ def write_file_config_content(
 
 
 def handle_configs() -> Dict[str, Any]:
+    """
+    Handle both arguments from the CLI and from the config file.
+    If there are special CLI commands, the operations linked to them
+    are carried out, often resulting in exiting the program.
+    If there are errors in the parsing, the errors are printed to 
+    using logging and exit the program.
+    If there are no errors during parssing, return the config dictionary with
+    the validated data.
+    """
     ADD_TYPES_TO_CONFIG = True
     CONFIG_LINK_PATH = "link_to_config_dir.ini"
     CONFIGFILE_NAME = "md2anki.config.ini"
