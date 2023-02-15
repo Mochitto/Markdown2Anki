@@ -2,6 +2,7 @@ from typing import List, TypedDict
 
 from . import common_types as Types
 
+
 class MDTab(TypedDict):
     tab_label: str
     tab_body: Types.MDString

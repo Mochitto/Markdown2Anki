@@ -4,7 +4,6 @@ import logging
 from type_config import TypeConfig
 
 from utils import common_types as Types
-import md_2_anki.utils.card_types as CardTypes
 from utils.debug_tools import expressive_debug
 
 from . import validators as val
@@ -58,11 +57,8 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
         "Somehow this is not a string. Write an issue to the project's github please; this shouldn't happen.",
     )
     fileConfig.add_type(
-        "int",
-        val.validate_int,
-        cas.cast_int,
-        "The option is not an integer."
-        )
+        "int", val.validate_int, cas.cast_int, "The option is not an integer."
+    )
 
     fileConfig.add_option(
         type="str",
@@ -105,10 +101,10 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
         option="Number of backups",
         help=(
             "The number of backup files to keep (a backup is created every time you process your input file and is a copy of it)\n"
-            "Backups can be very useful when \"Clear file?\" is set to True."
-            ),
+            'Backups can be very useful when "Clear file?" is set to True.'
+        ),
         important_help="Must be an integer. Defaults to 10.",
-        default="10"
+        default="10",
     )
 
     fileConfig.add_option(

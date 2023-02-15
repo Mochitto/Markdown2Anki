@@ -16,6 +16,7 @@ from md_2_anki.process_clozes.process_clozes import (
 from md_2_anki.process_images.process_images import get_images_to_copy
 
 from utils.debug_tools import expressive_debug
+
 # NOTE: if changes are made to the cards' HTML/CSS/JS, you also want to look into cards_specific_wrappers' functions
 
 logger = logging.getLogger(__name__)

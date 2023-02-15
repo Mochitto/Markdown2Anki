@@ -56,42 +56,39 @@ def write_file_config_content(
         config_file.write(content)
 
 
-def handle_configs() -> Dict[str, Any]:
+def handle_configs(
+    config_link_path: Types.PathString,
+    configfile_name: Types.PathString,
+    add_types_to_config: bool = False,
+) -> Dict[str, Any]:
     """
     Handle both arguments from the CLI and from the config file.
     If there are special CLI commands, the operations linked to them
     are carried out, often resulting in exiting the program.
-    If there are errors in the parsing, the errors are printed to 
+    If there are errors in the parsing, the errors are printed to
     using logging and exit the program.
     If there are no errors during parssing, return the config dictionary with
     the validated data.
     """
-    ADD_TYPES_TO_CONFIG = True
-    CONFIG_LINK_PATH = "link_to_config_dir.ini"
-    CONFIGFILE_NAME = "md2anki.config.ini"
-
-    # This will overwrite the input file 
-    bad_file_as_input = False
-
     try:
-        config_dir, config_file = get_configfile_paths(CONFIG_LINK_PATH)
+        config_dir, config_file = get_configfile_paths(config_link_path)
     except FileNotFoundError:
         welcome_user(
-            configfile_name=CONFIGFILE_NAME,
-            path_to_link=CONFIG_LINK_PATH,
-            add_type_hints=ADD_TYPES_TO_CONFIG,
+            configfile_name=configfile_name,
+            path_to_link=config_link_path,
+            add_type_hints=add_types_to_config,
         )
         sys.exit(0)
 
-    fileConfig = setup_typeConfig(config_dir, ADD_TYPES_TO_CONFIG)
+    fileConfig = setup_typeConfig(config_dir, add_types_to_config)
     file_config_content = get_file_config_content(os.path.join(config_dir, config_file))
 
     cli_config = get_CLI_config()
     if cli_config["Link config?"]:
         welcome_user(
-            configfile_name=CONFIGFILE_NAME,
-            path_to_link=CONFIG_LINK_PATH,
-            add_type_hints=ADD_TYPES_TO_CONFIG,
+            configfile_name=configfile_name,
+            path_to_link=config_link_path,
+            add_type_hints=add_types_to_config,
         )
         sys.exit(0)
     elif cli_config["Heal config?"]:
@@ -117,7 +114,7 @@ def handle_configs() -> Dict[str, Any]:
         cli_config["input md file path"] = bad_file_path
 
     valid_cli_config, cli_errors = fileConfig.validate_config(cli_config)
-        
+
     if cli_errors or file_errors:
         if cli_errors:
             logger.error("❌ An error occurred while parsing the CLI arguments:")

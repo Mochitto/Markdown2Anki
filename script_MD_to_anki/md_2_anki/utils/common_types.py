@@ -2,4 +2,3 @@
 MDString = str
 HTMLString = str
 PathString = str
-

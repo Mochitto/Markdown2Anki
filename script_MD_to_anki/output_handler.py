@@ -76,6 +76,7 @@ def write_failed_cards(
     with open(file_path, "w", encoding="utf-8") as output:
         output.write("\n\n---\n\n".join(failed_cards))
 
+
 def backup_file(file_path: Types.PathString, output_folder: Types.PathString) -> None:
     """
     Create a copy of the file at file_path iin the output_folder
@@ -87,14 +88,15 @@ def backup_file(file_path: Types.PathString, output_folder: Types.PathString) ->
         os.makedirs(output_folder, exist_ok=True)
 
     file_name = f"{datetime.now().isoformat()}.md"
-    
+
     with open(file_path, "r") as file_to_backup:
         file_content = file_to_backup.read()
 
     with open(os.path.join(output_folder, file_name), "w") as backup_file:
         backup_file.write(file_content)
-    
+
     logger.info(f"✅ Backup file created correctly with the name {file_name}!")
+
 
 def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None:
     """
@@ -103,17 +105,20 @@ def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None
     """
     folder_content = os.scandir(backups_folder)
 
-    files_ordered_by_creation = sorted(folder_content, key=lambda file: os.path.getmtime(file), reverse=True)
+    files_ordered_by_creation = sorted(
+        folder_content, key=lambda file: os.path.getmtime(file), reverse=True
+    )
 
     if len(files_ordered_by_creation) > limit_of_files:
         files_to_delete = files_ordered_by_creation[limit_of_files:]
-        
+
         total = 0
         for file in files_to_delete:
             os.remove(file.path)
             total += 1
 
-        logging.info(f"🚮 Cleaned up {total} backup files.") 
+        logging.info(f"🚮 Cleaned up {total} backup files.")
+
 
 def clear_file(file_to_clear: Types.PathString) -> None:
     """

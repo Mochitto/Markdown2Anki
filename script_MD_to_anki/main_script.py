@@ -5,7 +5,7 @@ import sys
 from md_2_anki.utils.card_error import CardError
 from md_2_anki.md_to_anki import markdown_to_anki
 
-from logger import setup_logging, setup_file_logging 
+import logger as log
 import output_handler as out
 from config.configs_handle import handle_configs
 
@@ -13,12 +13,19 @@ from utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
+# DEV CONFIG
+CONFIG_LINK_PATH = "link_to_config_dir.ini"
+CONFIGFILE_NAME = "md2anki.config.ini"
+ADD_TYPES_TO_CONFIG = True
+
 
 def main():
     # Basic logging config with handlers
-    setup_logging()
-    config = handle_configs()
-    setup_file_logging(logger, os.path.join(config["config directory"], "debug_log.txt"))
+    log.setup_logging()
+    config = handle_configs(CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG)
+    log.setup_file_logging(
+        logger, os.path.join(config["config directory"], "debug_log.txt")
+    )
 
     expressive_debug(logger, "Config from main", config, "pprint")
     logger.info("Starting cards extraction")
@@ -59,18 +66,24 @@ def main():
 
     if success_cards:
         logger.info(f"🔥 Found a total of {success_cards} card/s!")
-        out.write_cards_to_csv(cards_to_write, os.path.join(config["config directory"], "basic_anki_cards.csv"))
-        out.write_cards_to_csv(cards_to_write_with_clozes, os.path.join(config["config directory"], "clozed_anki_cards.csv"))
+        out.write_cards_to_csv(
+            cards_to_write,
+            os.path.join(config["config directory"], "basic_anki_cards.csv"),
+        )
+        out.write_cards_to_csv(
+            cards_to_write_with_clozes,
+            os.path.join(config["config directory"], "clozed_anki_cards.csv"),
+        )
 
         # Handle backups
         out.backup_file(
-            config["input md file path"], 
-            os.path.join(config["config directory"], "backups")
+            config["input md file path"],
+            os.path.join(config["config directory"], "backups"),
         )
 
         out.clear_backups(
-                os.path.join(config["config directory"], "backups"),
-                config["Number of backups"]
+            os.path.join(config["config directory"], "backups"),
+            config["Number of backups"],
         )
 
         if config["clear file?"]:

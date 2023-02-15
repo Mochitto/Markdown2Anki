@@ -57,11 +57,11 @@ CommandLineArgsParser.add_argument(
     "-bf",
     "--badfile",
     dest="Bad file as input?",
-    help="R|If present, uses the bad file as input instead of using the \"input md file\", useful if you fix the bad cards in the same file where they are put.\n"
+    help='R|If present, uses the bad file as input instead of using the "input md file", useful if you fix the bad cards in the same file where they are put.\n'
     + "Example: --badfile",
     action="store_true",
-    default=False
-        )
+    default=False,
+)
 
 # I/O options
 CommandLineArgsParser.add_argument(

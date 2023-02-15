@@ -37,4 +37,3 @@ def expressive_debug(logger, debugLabel, debugMessage, format=None):
 
     # log the message at the DEBUG level
     logger.debug(f"From {module}, line: {line_number}: {debugLabel}\n{message}\n")
-

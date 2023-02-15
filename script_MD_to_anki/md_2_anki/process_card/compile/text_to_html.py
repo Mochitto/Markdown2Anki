@@ -23,7 +23,9 @@ import md_2_anki.utils.card_types as CardTypes
 logger = logging.getLogger(__name__)
 
 
-def tabs_to_html(tabs: List[CardTypes.MDTab], vault, linenos=True) -> List[CardTypes.HTMLTab]:
+def tabs_to_html(
+    tabs: List[CardTypes.MDTab], vault, linenos=True
+) -> List[CardTypes.HTMLTab]:
     html_tabs = [tab_to_html(tab, vault, linenos) for tab in tabs]
     return html_tabs
 

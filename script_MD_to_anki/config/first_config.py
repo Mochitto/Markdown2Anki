@@ -12,11 +12,13 @@ logger = logging.getLogger(__name__)
 def welcome_user(
     configfile_name: str, path_to_link: Types.PathString, add_type_hints=False
 ):
-    # If True, this adds type hints to the config file
-    # Useful for debugging; probably confusing for the user
-
-    # When there is no config, there can't be a log file;
-    logging.basicConfig(level=logging.DEBUG, format="%(message)s")
+    """
+    Welcome the user by printing the content of
+    "welcome_message.txt", which is in the same directory as
+    this module.
+    Get input from the user to obtain an existing absolute path
+    to the directory where they want their output data to be.
+    """
 
     this_directory, _ = os.path.split(os.path.abspath(__file__))
 
@@ -115,4 +117,3 @@ def get_input_config_path() -> Types.PathString:
             )
 
     return config_path
-

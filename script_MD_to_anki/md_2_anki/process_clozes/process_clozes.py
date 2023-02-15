@@ -17,7 +17,7 @@ def get_clozes(text: Types.MDString) -> List[Tuple[str, str]]:
     {{c1::something}}
     {{C9::something}}
     """
-    clozes_regex = re.compile(r"(?i){{c(\d)::(.+?)}}")
+    clozes_regex = re.compile(r"(?i){{c(\d+)::(.+?)}}")
 
     clozes_matches = clozes_regex.findall(text)
 
@@ -133,6 +133,6 @@ def are_clozes_in_card(card: Types.MDString) -> bool:
     {{c1::something}}
     {{C5::something else}}
     """
-    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
+    clozes_regex = re.compile(r"{{c(\d+)::(.+?)}}")
 
     return bool(clozes_regex.search(card))

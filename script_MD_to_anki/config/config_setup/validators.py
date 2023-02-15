@@ -38,6 +38,7 @@ def validate_bool(option: str) -> bool:
 def validate_str(option: str) -> bool:
     return True
 
+
 def validate_int(option: str) -> bool:
     try:
         int(option)
