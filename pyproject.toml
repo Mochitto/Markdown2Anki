@@ -1,0 +1,49 @@
+# https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata
+[project]
+name = "markdown2anki"
+version = "0.1.0"
+description = "A CLI tool and an apkg template to allow you to create flashcards from markdown and have a better experience while using anki for your studies. 🌸"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSES"}
+keywords = ["anki", "flashcard", "markdown", "apkg", "cli"]
+
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#authors-maintainers
+authors = [
+  {name = "Alex Biosa (mochitto)", email = "mochittodeveloper@gmail.com"},
+]
+
+# https://pypi.org/classifiers/
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Framework :: Pytest",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
+  "Topic :: Education",
+  "Typing :: Typed"
+]
+
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#dependencies-optional-dependencies
+dependencies = [
+"mistune==2.0.4",
+"Pygments==2.13.0",
+"type-config==1.1.1" 
+]
+
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-project-url
+[project.urls]
+documentation = "https://github.com/Mochitto/Markdown2Anki/blob/master/README.md"
+repository = "https://github.com/Mochitto/Markdown2Anki"
+changelog = "https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md"
+
+# https://packaging.python.org/en/latest/specifications/entry-points/#entry-points
+[project.scripts]
+md2anki = "main_script:main"

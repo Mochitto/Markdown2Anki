@@ -38,3 +38,4 @@ These are the sources where they can be found:
 
 ## DOCS TODO:
 - images copying: no metadata is copyed when copying the images.
+- What is produced is HTML and your data is independent from the project
