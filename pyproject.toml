@@ -38,6 +38,12 @@ dependencies = [
 "type-config==1.1.1" 
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "black"
+]
+
 # https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-project-url
 [project.urls]
 documentation = "https://github.com/Mochitto/Markdown2Anki/blob/master/README.md"
