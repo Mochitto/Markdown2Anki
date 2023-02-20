@@ -52,4 +52,4 @@ changelog = "https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md"
 
 # https://packaging.python.org/en/latest/specifications/entry-points/#entry-points
 [project.scripts]
-md2anki = "main_script:main"
+md2anki = "markdown2anki:main"
