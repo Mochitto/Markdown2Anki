@@ -106,6 +106,9 @@ def handle_configs(
                 cli_config.pop(option)
 
     file_config, file_errors = fileConfig.parse_config(file_config_content)
+    # expressive_debug(logger, "File config Parsed", file_config, "pprint")
+    validated_file_config, file_validation_errors = fileConfig.validate_config(file_config)
+    # expressive_debug(logger, "Validated file config", validated_file_config, "pprint")
 
     # Pop is used so that this extra option doesn't break the validation
     if cli_config.pop("Bad file as input?"):
@@ -113,9 +116,9 @@ def handle_configs(
         bad_file_path = file_config.get("bad cards file path", None)
         cli_config["input md file path"] = bad_file_path
 
-    valid_cli_config, cli_errors = fileConfig.validate_config(cli_config)
+    validated_cli_config, cli_errors = fileConfig.validate_config(cli_config)
 
-    if cli_errors or file_errors:
+    if cli_errors or file_errors or file_validation_errors:
         if cli_errors:
             logger.error("❌ An error occurred while parsing the CLI arguments:")
             for option, error in cli_errors.items():
@@ -124,17 +127,13 @@ def handle_configs(
             logger.error("❌ An error occurred while parsing the config file:")
             for option, error in file_errors.items():
                 logger.error(f"|--- {option}: {error}")
+        if file_validation_errors:
+            logger.error("❌ An error occurred while validating the config file:")
+            for option, error in file_validation_errors.items():
+                logger.error(f"|--- {option}: {error}")
         sys.exit(1)
 
-    result_config = fileConfig.merge_config(valid_cli_config, file_config)
+    result_config = fileConfig.merge_config(validated_cli_config, validated_file_config)
     result_config["config directory"] = config_dir
 
     return result_config
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    # The next step is making the project work again (plugging config handle in main)
-    # And then writing tests for all of the parts before moving on to changing
-    # The extraction step
-    expressive_debug(logger, "config", handle_configs(), "pprint")
