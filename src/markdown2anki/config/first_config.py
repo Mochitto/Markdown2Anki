@@ -30,8 +30,9 @@ def welcome_user(
 
     configfile_directory = get_input_config_path()
     configfile_path = os.path.join(configfile_directory, configfile_name)
+    linkfile_path = os.path.join(this_directory, path_to_link)
 
-    create_link_to_config_file(this_directory, configfile_path, path_to_link)
+    create_link_to_config_file(linkfile_path, configfile_path)
 
     fileConfig = setup_typeConfig(configfile_directory, add_type_hints)
 
@@ -56,9 +57,8 @@ def welcome_user(
 
 
 def create_link_to_config_file(
-    this_directory: Types.PathString,
-    path_to_config_file: Types.PathString,
     path_to_link: Types.PathString,
+    path_to_config_file: Types.PathString,
 ) -> None:
     """
     Create an ini file that stores the path to the config file and config folder.
@@ -66,7 +66,7 @@ def create_link_to_config_file(
     to use as a default output folder.
     """
     config_dir, config_file = os.path.split(path_to_config_file)
-    with open(os.path.join(this_directory, path_to_link), "w") as link_to_dir:
+    with open(path_to_link, "w") as link_to_dir:
         link_to_dir.write(
             "[LINKS]\n" f"config_dir = {config_dir}\n" f"config_file = {config_file}"
         )

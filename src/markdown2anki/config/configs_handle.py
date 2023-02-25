@@ -107,7 +107,9 @@ def handle_configs(
 
     file_config, file_errors = fileConfig.parse_config(file_config_content)
     # expressive_debug(logger, "File config Parsed", file_config, "pprint")
-    validated_file_config, file_validation_errors = fileConfig.validate_config(file_config)
+    validated_file_config, file_validation_errors = fileConfig.validate_config(
+        file_config
+    )
     # expressive_debug(logger, "Validated file config", validated_file_config, "pprint")
 
     # Pop is used so that this extra option doesn't break the validation

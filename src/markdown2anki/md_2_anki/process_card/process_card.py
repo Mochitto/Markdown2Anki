@@ -10,7 +10,10 @@ from markdown2anki.md_2_anki.process_card.extract.extract import (
     extract_tabs,
     extract_tabs_sides,
 )
-from markdown2anki.md_2_anki.process_card.format.formatters import format_tab_group, format_tabs
+from markdown2anki.md_2_anki.process_card.format.formatters import (
+    format_tab_group,
+    format_tabs,
+)
 from markdown2anki.md_2_anki.process_card.swap.tab_swapping import get_swapped_tabs
 from markdown2anki.md_2_anki.utils.card_error import validate_card_data
 
