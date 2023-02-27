@@ -1,6 +1,7 @@
 import os
 import logging
 import sys
+from pathlib import Path
 
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki.md_to_anki import markdown_to_anki
@@ -14,7 +15,7 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 # DEV CONFIG
-CONFIG_LINK_PATH = os.path.join(os.path.abspath(config_handle.__file__), "link_to_config_dir.ini")
+CONFIG_LINK_PATH = str(Path(__file__).parent / "link_to_config_dir.ini")
 CONFIGFILE_NAME = "md2anki.config.ini"
 ADD_TYPES_TO_CONFIG = True
 
