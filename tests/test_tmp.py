@@ -75,11 +75,35 @@ class TestWelcomeUser:
         self.links_directory = template_dir / "links"
         self.config_directory = template_dir / "configs"
 
+    @pytest.fixture
+    def use_input_file(self, request):
+        """
+        Monkeypatch sys.stdin so that input returns the
+        values given from the request parameter function and
+        more than one value can be used.
+        """
+        # the request keyword is needed to use pytest mark parametrize
+        original_stdin = sys.stdin
+        # This way I can use the class' functions by passing self to them
+        sys.stdin = io.StringIO(request.param(self))
+        # Before yield is the setup
+        yield # This signals the point in which functions are run
+        # What comes after yield is the teardown
+        sys.stdin.close()
+        sys.stdin = original_stdin
+
     def good_file(self):
         return (
             str(self.config_directory) +
             "\nY"
             ) 
+
+    def one_error(self):
+        return (
+            "not a path\n" +
+            str(self.config_directory) +
+            "\nY"
+            )
 
     def exit1(self):
         return (
@@ -89,22 +113,28 @@ class TestWelcomeUser:
     def exit2(self):
         return (
             str(self.config_directory) +
-            "eXIt"
+            "\neXIt"
             ) 
-
-    @pytest.fixture
-    def use_input_file(self, request):
-        # the request keyword is needed to use pytest mark parametrize
-        original_stdin = sys.stdin
-        sys.stdin = io.StringIO(request.param(self))
-        yield
-        sys.stdin.close()
-        sys.stdin = original_stdin
 
     # I don't totally understand parametrize
     @pytest.mark.parametrize("use_input_file", [good_file], indirect=True)
     def test_welcome_user_good(self, use_input_file):
         welcome_user("config.ini", os.path.join(self.links_directory, "link.ini"), welcome_message=False)
         assert os.path.exists(str(self.config_directory / "config.ini"))
-        
 
+    @pytest.mark.parametrize("use_input_file", [one_error], indirect=True)
+    def test_welcome_user_one_error(self, use_input_file):
+        welcome_user("config.ini", os.path.join(self.links_directory, "link.ini"), welcome_message=False)
+        assert os.path.exists(str(self.config_directory / "config.ini"))
+        
+    @pytest.mark.parametrize("use_input_file", [exit1], indirect=True)
+    def test_welcome_user_exit1(self, use_input_file):
+        with pytest.raises(SystemExit):
+            welcome_user("config.ini", os.path.join(self.links_directory, "link.ini"), welcome_message=False)
+        assert not os.path.exists(str(self.config_directory / "config.ini"))
+
+    @pytest.mark.parametrize("use_input_file", [exit2], indirect=True)
+    def test_welcome_user_exit2(self, use_input_file):
+        with pytest.raises(SystemExit):
+            welcome_user("config.ini", os.path.join(self.links_directory, "link.ini"), welcome_message=False)
+        assert not os.path.exists(str(self.config_directory / "config.ini"))
