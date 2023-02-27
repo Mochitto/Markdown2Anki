@@ -7,14 +7,14 @@ from markdown2anki.md_2_anki.md_to_anki import markdown_to_anki
 
 import markdown2anki.logger as log
 import markdown2anki.output_handler as out
-from markdown2anki.config.configs_handle import handle_configs
+import markdown2anki.config.configs_handle as config_handle
 
 from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
 # DEV CONFIG
-CONFIG_LINK_PATH = "link_to_config_dir.ini"
+CONFIG_LINK_PATH = os.path.join(os.path.abspath(config_handle.__file__), "link_to_config_dir.ini")
 CONFIGFILE_NAME = "md2anki.config.ini"
 ADD_TYPES_TO_CONFIG = True
 
@@ -22,7 +22,7 @@ ADD_TYPES_TO_CONFIG = True
 def main():
     # Basic logging config with handlers
     log.setup_logging()
-    config = handle_configs(CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG)
+    config = config_handle.handle_configs(CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG)
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )

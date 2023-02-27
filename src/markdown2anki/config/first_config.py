@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+from pathlib import Path
 
 from .config_setup import setup_typeConfig
 from markdown2anki.utils import common_types as Types
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def welcome_user(
-    configfile_name: str, path_to_link: Types.PathString, add_type_hints=False
+    configfile_name: str, path_to_link: Types.PathString, add_type_hints=False, welcome_message=True
 ):
     """
     Welcome the user by printing the content of
@@ -20,19 +21,19 @@ def welcome_user(
     to the directory where they want their output data to be.
     """
 
-    this_directory, _ = os.path.split(os.path.abspath(__file__))
+    this_directory = Path(__file__).parent
 
     # Welcome the user
-    welcome_msg = get_welcome_message(
-        os.path.join(this_directory, "welcome_message.txt")
-    )
-    logger.info(welcome_msg)
+    if welcome_message:
+        welcome_msg = get_welcome_message(
+            os.path.join(this_directory, "welcome_message.txt")
+        )
+        logger.info(welcome_msg)
 
     configfile_directory = get_input_config_path()
     configfile_path = os.path.join(configfile_directory, configfile_name)
-    linkfile_path = os.path.join(this_directory, path_to_link)
 
-    create_link_to_config_file(linkfile_path, configfile_path)
+    create_link_to_config_file(path_to_link, configfile_path)
 
     fileConfig = setup_typeConfig(configfile_directory, add_type_hints)
 

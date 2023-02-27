@@ -1,0 +1,2 @@
+/tmp/pytest-of-mochitto/pytest-9/tmp3/configs
+exit
