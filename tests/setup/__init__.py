@@ -21,13 +21,12 @@ def create_configs(tmp_path: Path):
     |---good_link.ini
     |---broken_config_link.ini
     """
-    config = config_setup.setup_typeConfig(str(tmp_path))
+    config = config_setup.setup_typeConfig(str(tmp_path / "output"))
 
     configs_dir = tmp_path / "configs"
     good_config = str(configs_dir / "good.config.ini")
     default_config = str(configs_dir / "default.config.ini")
     broken_config = str(configs_dir / "broken.config.ini")
-
 
     create_config(good_config, config, patch=config_patch)
     create_config(default_config, config)
@@ -41,7 +40,10 @@ def create_configs(tmp_path: Path):
     create_link(broken_config_link, broken_config)
     pass
 
-def create_config(path_to_config: Types.PathString, config: TypeConfig, break_config=False, patch={}):
+
+def create_config(
+    path_to_config: Types.PathString, config: TypeConfig, break_config=False, patch={}
+):
     """
     Create config at the given path.
     If break_config: cut half of the config content
@@ -55,6 +57,7 @@ def create_config(path_to_config: Types.PathString, config: TypeConfig, break_co
     else:
         with open(path_to_config, "w") as config_file:
             config_file.write(config_content)
+
 
 def create_link(path_to_link, path_to_config):
     """
@@ -70,6 +73,6 @@ if __name__ == "__main__":
     "test_assets" is gitignored.
     """
     this_directory = Path(__file__).parent / "test_assets"
-    os.makedirs(this_directory/"configs", exist_ok=True)
-    os.makedirs(this_directory/"links", exist_ok=True)
+    os.makedirs(this_directory / "configs", exist_ok=True)
+    os.makedirs(this_directory / "links", exist_ok=True)
     create_configs(this_directory)

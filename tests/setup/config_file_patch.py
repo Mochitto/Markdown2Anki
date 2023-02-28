@@ -6,12 +6,15 @@ It also points to an assets folder in the parent directory of
 this file's directory.
 """
 import os
+from pathlib import Path
+
+import tests
 
 this_directory, _ = os.path.split(__file__)
 
-assets_directory = os.path.join(this_directory, "..", "assets")
-search_images_path = os.path.join(assets_directory, "images")
-input_md_path = os.path.join(assets_directory, "input.md")
+assets_directory = Path(tests.__file__).parent / "assets"
+search_images_path = str(assets_directory / "images")
+input_md_path = str(assets_directory / "input.md")
 
 if not os.path.exists(search_images_path) or not os.path.exists(input_md_path):
     """
