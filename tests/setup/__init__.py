@@ -8,6 +8,7 @@ import markdown2anki.utils.common_types as Types
 
 from .config_file_patch import config_patch, input_md_path, search_images_path
 
+
 def create_configs(tmp_path: Types.PathString):
     config = config_setup.setup_typeConfig(tmp_path)
 
@@ -43,8 +44,10 @@ def create_default_config(config: TypeConfig, target_dir: Types.PathString):
         config_file.write(config_content)
     pass
 
+
 def create_link(path_to_link, path_to_config):
     create_link_to_config_file(path_to_link, path_to_config)
+
 
 if __name__ == "__main__":
     create_configs(".")

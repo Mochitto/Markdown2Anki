@@ -9,7 +9,7 @@ import os
 
 this_directory, _ = os.path.split(__file__)
 
-assets_directory = os.path.join(this_directory, "..", "assets") 
+assets_directory = os.path.join(this_directory, "..", "assets")
 search_images_path = os.path.join(assets_directory, "images")
 input_md_path = os.path.join(assets_directory, "input.md")
 
@@ -29,8 +29,8 @@ if not os.path.exists(search_images_path) or not os.path.exists(input_md_path):
     raise FileNotFoundError("Tests assets are missing. See this file for more.")
 
 config_patch = {
-  "Obsidian valut name": "Obsidian vault",
-  "search images folder": search_images_path,
-  "input md file path": input_md_path,
-  "folders to exclude": "exclude_me"
+    "Obsidian valut name": "Obsidian vault",
+    "search images folder": search_images_path,
+    "input md file path": input_md_path,
+    "folders to exclude": "exclude_me",
 }
