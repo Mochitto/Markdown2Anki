@@ -8,6 +8,8 @@ def template_dir(tmp_path_factory):
     configs_dir.mkdir()
     links_dir = template_dir / "links"
     links_dir.mkdir()
+    output_dir = template_dir / "output"
+    output_dir.mkdir()
 
     return template_dir
 

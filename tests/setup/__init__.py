@@ -38,6 +38,10 @@ def create_configs(tmp_path: Path):
 
     create_link(good_link, good_config)
     create_link(broken_config_link, broken_config)
+
+    bad_input = str(tmp_path / "output" / "bad_cards.md")
+
+    create_bad_input(bad_input)
     pass
 
 
@@ -65,6 +69,9 @@ def create_link(path_to_link, path_to_config):
     """
     create_link_to_config_file(path_to_link, path_to_config)
 
+def create_bad_input(path_to_output_folder: Types.PathString):
+    with open(path_to_output_folder, "w") as bad_file_md:
+        bad_file_md.write("hello world")
 
 if __name__ == "__main__":
     """

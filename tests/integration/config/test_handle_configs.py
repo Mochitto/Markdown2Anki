@@ -186,10 +186,13 @@ class TestHandleConfigs:
             )
         assert pytest_wrapped_exit.value.code == 1
 
-    @pytest.mark.parametrize("change_sys_argv", [["md2anki"]], indirect=True)
+    @pytest.mark.parametrize("change_sys_argv", [["md2anki", "-ln", "false"]], indirect=True)
     def test_handle_configs_good_path(self, tmp_dirs, template_dir, change_sys_argv):
         """
         Test that configs handle works correctly.
+
+        Notice: it's also testing CLI - config file merging
+        since there is the "-ln false" flag.
         """
         create_configs(template_dir)
         good_configs = handle_configs(
@@ -200,12 +203,15 @@ class TestHandleConfigs:
         # tests/setup/config_file_patch changes. (or when new options are added)
         # TODO: There could be a way to use the patch
         # To reduce errors and maintainance
+        # Optimally, I'd want only one file to handle all of this (the patch file)
+        # Would be nice to have a function that fills in the options dependant on
+        # the tmp folder and return the config that I should get from this function.
 
         # tests refers to the tests folder. This is done
         # to avoid using relative paths starting from this file.
         expected_config = {
             "Obsidian valut name": "Obsidian vault",
-            "line numbers?": True,
+            "line numbers?": False,
             "search images folder": str(
                 Path(tests.__file__).parent / "assets" / "images"
             ),
@@ -221,3 +227,16 @@ class TestHandleConfigs:
             "config directory": f'{tmp_dirs["config"]}',
         }
         assert good_configs == expected_config
+
+    @pytest.mark.parametrize("change_sys_argv", [["md2anki", "-bf"]], indirect=True)
+    def test_handle_configs_bad_file_as_input(self, tmp_dirs, template_dir, change_sys_argv):
+        """
+        Test that configs handle uses bad cards as input
+        when the "-bf" flag is used.
+        """
+        create_configs(template_dir)
+        good_configs = handle_configs(
+            str(tmp_dirs["link"] / "good_link.ini"), "good.config.ini"
+        )
+
+        assert good_configs["bad cards file path"] == good_configs["input md file path"]
