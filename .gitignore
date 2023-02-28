@@ -8,6 +8,7 @@ anki_outdir
 myenv
 .mypy_cache
 .pytest_cache
+test_assets/
 
 # compiled output
 /dist

@@ -15,7 +15,7 @@ from .config_setup import setup_typeConfig
 logger = logging.getLogger(__name__)
 
 
-def get_configfile_paths(link_to_configfile) -> Tuple[Types.PathString, str]:
+def get_configfile_paths(link_to_configfile: Types.PathString) -> Tuple[Types.PathString, str]:
     current_folder = os.path.split(__file__)[0]
     complete_path_to_link = os.path.join(current_folder, link_to_configfile)
 
