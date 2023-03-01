@@ -69,9 +69,11 @@ def create_link(path_to_link, path_to_config):
     """
     create_link_to_config_file(path_to_link, path_to_config)
 
+
 def create_bad_input(path_to_output_folder: Types.PathString):
     with open(path_to_output_folder, "w") as bad_file_md:
         bad_file_md.write("hello world")
+
 
 if __name__ == "__main__":
     """

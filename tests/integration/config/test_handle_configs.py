@@ -186,7 +186,9 @@ class TestHandleConfigs:
             )
         assert pytest_wrapped_exit.value.code == 1
 
-    @pytest.mark.parametrize("change_sys_argv", [["md2anki", "-ln", "false"]], indirect=True)
+    @pytest.mark.parametrize(
+        "change_sys_argv", [["md2anki", "-ln", "false"]], indirect=True
+    )
     def test_handle_configs_good_path(self, tmp_dirs, template_dir, change_sys_argv):
         """
         Test that configs handle works correctly.
@@ -229,7 +231,9 @@ class TestHandleConfigs:
         assert good_configs == expected_config
 
     @pytest.mark.parametrize("change_sys_argv", [["md2anki", "-bf"]], indirect=True)
-    def test_handle_configs_bad_file_as_input(self, tmp_dirs, template_dir, change_sys_argv):
+    def test_handle_configs_bad_file_as_input(
+        self, tmp_dirs, template_dir, change_sys_argv
+    ):
         """
         Test that configs handle uses bad cards as input
         when the "-bf" flag is used.
