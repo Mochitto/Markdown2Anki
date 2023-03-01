@@ -133,6 +133,6 @@ def are_clozes_in_card(card: Types.MDString) -> bool:
     {{c1::something}}
     {{C5::something else}}
     """
-    clozes_regex = re.compile(r"{{c(\d+)::(.+?)}}")
+    clozes_regex = re.compile(r"{{c(\d+)::(.+?)}}", re.IGNORECASE)
 
     return bool(clozes_regex.search(card))
