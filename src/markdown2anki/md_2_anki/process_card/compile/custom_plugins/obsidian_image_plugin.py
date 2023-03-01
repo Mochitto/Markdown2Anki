@@ -13,16 +13,20 @@ logger = logging.getLogger(__name__)
 class ObsidianImagePlugin:
     """
     Plugin to add support for the embedding syntax used in obsidian.
+    Notice: this doesn't embedd notes but, as the name suggests, only images.
     """
 
     def __init__(self) -> None:
 
         self.OBSIDIAN_IMAGE_REGEX = (
             # ![[Something]]
-            # ![[Something|This is the alias]]
+            # ![[Something|300]]
+            # DO NOT MATCH:
+            # ![[|300]]
+            # ![[]]
             r"!\[\["
-            r"(.+?)"  # Match path to image
-            r"(?:\|(.+?))?"  # Possible alias
+            r"(?!\|)(.+?)"  # Match path to image (doesn't match if the first char is a pipe)
+            r"(?:\|(.+?))?"  # Possible width; not strictly digits to allow for bad formatting
             r"\]\]"
         )
 
@@ -34,9 +38,15 @@ class ObsidianImagePlugin:
 
         return "obsidian_image", path_to_image, image_width
 
-    def render_obsidian_image(self, path_to_image: Types.PathString, image_width: str):
+    def render_obsidian_image(self, path_to_image: Types.PathString, width_or_alias: str):
         path_to_image = path_to_image.strip()
         is_hyperlink = bool(re.match(r"https?://", path_to_image))
+        
+        # Check if it's a number of an alias
+        try:
+            image_width = int(width_or_alias)
+        except (TypeError, ValueError):
+            image_width = None
 
         if is_hyperlink:
             return (
