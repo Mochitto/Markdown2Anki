@@ -9,6 +9,10 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
+# TODO: might be worth turning these into a class
+# To have a global "clozes regex", as it was a problem
+# When writing tests (they were all different)
+
 def get_clozes(text: Types.MDString) -> List[Tuple[str, str]]:
     """
     Extract clozes from text.
@@ -92,7 +96,7 @@ def clean_code_from_clozes(text: Types.MDString) -> Types.MDString:
     """
     Replace clozes with their just their text, in the given text.
     """
-    clozes_regex = re.compile(r"{{c(\d)::(.+?)}}")
+    clozes_regex = re.compile(r"{{c(\d+)::(.+?)}}", re.IGNORECASE)
 
     text_without_clozes = re.sub(clozes_regex, r"\2", text)
 
