@@ -25,7 +25,7 @@ class ObsidianLinkPlugin:
             # [[Something]]
             # [[Something|This is the alias]]
             r"(?<!!)\[\["  # Match only if there is no "!", differentiate it from Obsidian images
-            r"(.+?)"  # Match path to page
+            r"(?!\|)(.+?)"  # Match path to page
             r"(?:\|(.+?))?"  # Possible alias
             r"\]\]"
         )
@@ -46,6 +46,7 @@ class ObsidianLinkPlugin:
         else:
             path_slash_regex = re.compile(r"[\\\/]")  # Support for multiple OSs
             last_word = re.split(path_slash_regex, path)[-1]
+            file_name = last_word.split(".")[0]
             return f'<a href="obsidian://open?vault={encoded_vault}&file={encoded_path}">{last_word}</a>'
 
     def plugin(self, Markdown: mistune.Markdown):
