@@ -4,6 +4,7 @@ from typing import Dict, List
 
 import markdown2anki.md_2_anki.utils.common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
+from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki.process_card.compile.text_to_html import tabs_to_html
 from markdown2anki.md_2_anki.process_card.extract.extract import (
     extract_card_sides,
@@ -45,6 +46,10 @@ def process_card(
     "# type: ignore" is needed when using dict keys dinamically, sadly.
     mypy issue: https://github.com/python/mypy/issues/7178
     """
+
+    # TODO: make sure this is handled gracefully from the higher module
+    if not vault:
+        raise CardError("Missing obsidian vault name.")
 
     linenos_in_highlight = options.get("linenos", True)
 
