@@ -217,7 +217,7 @@ class TestHandleConfigs:
             "search images folder": str(
                 Path(tests.__file__).parent / "assets" / "images"
             ),
-            "folders to exclude": ["exclude_me"],
+            "folders to exclude": ["exclude_me", "exclude_me_too"],
             "Number of backups": 10,
             "clear file?": False,
             "images out-folder": f'{template_dir / "output" / "images"}',
