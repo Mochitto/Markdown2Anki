@@ -39,7 +39,8 @@ def format_tab(tab: CardTypes.HTMLTab) -> Types.HTMLString:
 def format_tab_group(
     tabs_list: List[Types.HTMLString], add_over_sibling=False
 ) -> Types.HTMLString:
-    tabs = tabs_list.copy()
+    # Filter out empty tabs and copy the list
+    tabs = [tab for tab in tabs_list if tab]
 
     if tabs:
         activated_tabs = activate_first_tab(tabs)
