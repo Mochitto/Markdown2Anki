@@ -34,16 +34,17 @@ def get_images_sources(text: Types.HTMLString) -> Set[Types.PathString]:
     """
     Get images' path as listed in img tags' src attribute.
     It won't match sources starting with https://
+    It will match whatever else that is put as src.
 
     Pattern:
-    src="something.png"
-    SRC="ASDJHASKDJaSLKDJj"
+    <img src="something.png">
+    <ImG class="a-class" SRC="ASDJHASKDJaSLKDJj">
 
     Doesn't match:
-    src="https://whatever"
-    SRC="HTTPS://BIG"
+    <img src="https://whatever">
+    <img SRC="HTTPS://BIG">
     """
-    images_regex = re.compile(r"(?i)src=\"(?!https://)(.+?)\"")
+    images_regex = re.compile(r"(?i)\<img.*?src=\"(?!https://)(.+?)\".*?\>")
     images = images_regex.findall(text)
     return set(images)
 
