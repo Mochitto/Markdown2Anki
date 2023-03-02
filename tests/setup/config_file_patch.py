@@ -31,9 +31,12 @@ if not os.path.exists(search_images_path) or not os.path.exists(input_md_path):
     """
     raise FileNotFoundError("Tests assets are missing. See this file for more.")
 
+folders_to_exclude = ["exclude_me", "exclude_me_too"]
+
 config_patch = {
     "Obsidian valut name": "Obsidian vault",
     "search images folder": search_images_path,
     "input md file path": input_md_path,
-    "folders to exclude": "exclude_me",
+    "folders to exclude": ", ".join(folders_to_exclude),
 }
+
