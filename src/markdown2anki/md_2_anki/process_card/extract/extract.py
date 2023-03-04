@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import markdown2anki.md_2_anki.utils.card_dataclasses as Dataclasses
 import markdown2anki.md_2_anki.utils.common_types as Types
@@ -28,6 +28,26 @@ def extract_cards(text: Types.MDString) -> List[str]:
             ] 
 
     return filtered_cards
+
+def parse_flags(flags: str) -> Tuple[str, str, bool]:
+    """
+    Parse the given tab flags and return a
+    tuple containing (card side, tab side, swap?).
+    """
+    card_side = "front"
+    tab_side = "left"
+    swap = False
+
+    normalized_flags = flags.upper()
+    if "B" in normalized_flags and "F" not in normalized_flags:
+        card_side = "back"
+    if "R" in normalized_flags and "L" not in normalized_flags:
+        tab_side = "right"
+    if "-" in normalized_flags or "+" in normalized_flags:
+        swap = True
+
+    return (card_side, tab_side, swap)
+    
 
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
