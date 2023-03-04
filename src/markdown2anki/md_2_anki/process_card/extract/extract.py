@@ -9,6 +9,25 @@ from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
+def extract_cards(text: Types.MDString) -> List[str]:
+    """
+    Extract cards from the given text, by splitting
+    it at each occurrance of the markdown hr (only with -).
+    Return a list of what is between the hrs, after it has
+    been stripped.
+    """
+    regex_pattern = r"(?m)^(?:---+?)$"  # Match hr in markdown
+
+    cards = re.split(regex_pattern, text)
+
+    # Remove empty cards
+    filtered_cards = [
+            card.strip() 
+            for card in cards 
+            if card.strip()
+            ] 
+
+    return filtered_cards
 
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
