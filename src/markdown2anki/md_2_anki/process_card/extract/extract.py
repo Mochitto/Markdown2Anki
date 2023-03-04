@@ -5,6 +5,7 @@ from typing import Dict, List, Tuple
 import markdown2anki.md_2_anki.utils.card_dataclasses as Dataclasses
 import markdown2anki.md_2_anki.utils.common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
+from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -48,6 +49,67 @@ def parse_flags(flags: str) -> Tuple[str, str, bool]:
 
     return (card_side, tab_side, swap)
     
+def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
+    """
+    Parse out flags and tab label from the given line.
+    The given string MUST NOT be multiline.
+    Return (flags, label).
+    If the line doesn't match the pattern, return None.
+    """
+    # Make sure the input is not multiline
+    newline_regex = re.compile(r"(\r\n|\r|\n)")
+    if re.search(newline_regex, line): 
+        raise TypeError("A multiline line has been fed to parse_tab_label.")
+
+    flags = ""
+    label = ""
+    
+    # Parser --- 
+    is_octothorpe = lambda char: char == "#"
+    is_open_sq_bracket = lambda char: char == "["
+    if_closed_sq_bracket = lambda char: char == "]"
+
+    found_open_sq_bracket = False
+    found_closed_sq_bracket = False
+    temporary_label = ""
+    # This allows multiple ] to be present and to
+    # keep just the last, while throwing away
+    # what could come after the last ].
+
+    for index, letter in enumerate(line):
+        if index < 2:
+            if not is_octothorpe(letter):
+                return None
+        elif index == 2:
+            if is_octothorpe(letter):
+                return None
+        elif not found_open_sq_bracket:
+            if is_open_sq_bracket(letter):
+                found_open_sq_bracket = True
+                continue
+            flags += letter
+        else:
+            if if_closed_sq_bracket(letter):
+                found_closed_sq_bracket = True
+                label += temporary_label 
+                temporary_label = "]"
+                # This ensures that if there are
+                # extra ], they are added to label.
+                continue
+            temporary_label += letter
+
+    cleaned_flags = flags.strip()
+    cleaned_label = label.strip()
+
+    # There was nothing between the [] (or only whitespaces).
+    if not cleaned_label and found_closed_sq_bracket:
+        raise CardError("A tab without label has been found.")
+    # There was no label block/no closing bracket
+    if not cleaned_label:
+        return None 
+
+    return cleaned_flags, cleaned_label
+
 
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
