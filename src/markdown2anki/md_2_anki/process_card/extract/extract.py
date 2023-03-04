@@ -110,6 +110,18 @@ def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
 
     return cleaned_flags, cleaned_label
 
+def extract_tabs_labels(text: Types.MDString) -> List[Tuple[int, str, str]]:
+    result = [] 
+    
+    for line_number, line in enumerate(text.splitlines()):
+        tab = parse_tab_label(line)
+        if tab:
+            result.append((line_number, tab[0], tab[1]))
+
+    return result
+
+
+
 
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
