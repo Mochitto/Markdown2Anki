@@ -120,7 +120,37 @@ def extract_tabs_labels(text: Types.MDString) -> List[Tuple[int, str, str]]:
 
     return result
 
+def extract_tabs_bodies(text: Types.MDString, tab_labels: List[Tuple[int, str, str]]) -> List[Tuple[str, str, str]]:
+    """
+    Use the tab labels line numbers to get
+    the text between tabs (tab bodies).
+    Return a list of (tab_flags, tab_label, tab_body).
+    """
+    result = []
+    text_lines = text.splitlines()
 
+    number_of_text_lines = len(text_lines)
+    number_of_tabs = len(tab_labels)
+
+    for index, (tab_line, tab_flags, tab_label) in enumerate(tab_labels):
+        if tab_line+1 > number_of_text_lines-1:
+            raise CardError("A tab without body has been found.")
+        elif index < number_of_tabs-1:
+            next_tab_line = tab_labels[index+1][0]
+            tab_body = "\n".join(text_lines[tab_line+1: next_tab_line])
+        else:
+            tab_body = "\n".join(text_lines[tab_line+1:])
+
+        if not tab_body:
+            raise CardError("A tab without body has been found.")
+
+        result.append((
+            tab_flags,
+            tab_label,
+            tab_body.strip()
+            ))
+
+    return result
 
 
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
