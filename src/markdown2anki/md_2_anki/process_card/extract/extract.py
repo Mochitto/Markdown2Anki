@@ -152,6 +152,26 @@ def extract_tabs_bodies(
     return result
 
 
+def extract_tabs_new(text: Types.MDString) -> List[Dict[str, str|bool]]:
+    result = []
+    tab_labels_information = extract_tabs_labels(text) 
+    tabs_with_bodies = extract_tabs_bodies(text, tab_labels_information)
+
+    for tab_flags, tab_label, tab_body in tabs_with_bodies:
+        card_side, tab_side, swap = parse_flags(tab_flags)
+        result.append(
+            {
+                "card side": card_side,
+                "tab side": tab_side,
+                "swap": swap,
+                "label": tab_label,
+                "body": tab_body
+            }
+            )
+
+    return result
+
+
 def extract_card_sides(card: Types.MDString) -> Dataclasses.MDCard:
     """
     Extract the text that is under the "Front side" and "Back side",
