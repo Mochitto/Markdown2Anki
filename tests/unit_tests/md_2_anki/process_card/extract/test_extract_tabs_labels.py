@@ -6,13 +6,23 @@ class TestExtractTabsLabels:
 
     def test_happy_path(self):
         text = (
-        "## [label]\n"
-        "body\n"
-        "## FL [label2]\n"
-        "another body\n"
+            "## B [label]\n"
+            "This is the first tab body\n"
+            "which spans two lines\n\n"
+            "## - [label]\n"
+            "# A great tab\n"
+            "- has great body\n"
+            "## R [label]\n"
+            "Another tab\n\n"
+            "## BR [label]\n"
+            "This tab has a body too\n\n"
         )
-
-        expected = [(0, "", "label"), (2, "FL", "label2")]
+        expected = [
+            (0, "B", "label"),
+            (4, "-", "label"),
+            (7, "R", "label"),
+            (10, "BR", "label"),
+        ]
 
         assert extract_tabs_labels(text) == expected
 
