@@ -3,8 +3,8 @@ import pytest
 from markdown2anki.md_2_anki.process_card.extract.extract import parse_tab_label
 from markdown2anki.md_2_anki.utils.card_error import CardError
 
-class TestExtractTabLabel:
 
+class TestExtractTabLabel:
     def test_happy_path(self):
         text = "## BL [label with words]"
 
@@ -17,7 +17,7 @@ class TestExtractTabLabel:
 
     def test_multiline(self):
         text = "## BL [\nSomething]"
-        
+
         with pytest.raises(TypeError):
             parse_tab_label(text)
 
@@ -59,7 +59,7 @@ class TestExtractTabLabel:
 
     def test_h2(self):
         text = "##"
-        
+
         assert parse_tab_label(text) == None
 
     def test_words_after_label(self):

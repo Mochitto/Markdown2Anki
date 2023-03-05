@@ -8,7 +8,6 @@ from markdown2anki.md_2_anki.utils.card_error import CardError
 
 
 class TestExtractTabBody:
-
     def test_happy_path(self):
         text = (
             "## B [label]\n"
@@ -70,10 +69,9 @@ class TestExtractTabBody:
     def test_empty_single_tab_edge_case(self):
         text = "## [label]"
         labels = [(0, "", "label")]
-        
+
         with pytest.raises(CardError):
             extract_tabs_bodies(text, labels)
-
 
     def test_empty(self):
         text = ""

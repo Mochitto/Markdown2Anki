@@ -39,4 +39,3 @@ config_patch = {
     "input md file path": input_md_path,
     "folders to exclude": ", ".join(folders_to_exclude),
 }
-

@@ -10,6 +10,7 @@ from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
 
+
 def extract_cards(text: Types.MDString) -> List[str]:
     """
     Extract cards from the given text, by splitting
@@ -22,13 +23,10 @@ def extract_cards(text: Types.MDString) -> List[str]:
     cards = re.split(regex_pattern, text)
 
     # Remove empty cards
-    filtered_cards = [
-            card.strip() 
-            for card in cards 
-            if card.strip()
-            ] 
+    filtered_cards = [card.strip() for card in cards if card.strip()]
 
     return filtered_cards
+
 
 def parse_flags(flags: str) -> Tuple[str, str, bool]:
     """
@@ -48,8 +46,9 @@ def parse_flags(flags: str) -> Tuple[str, str, bool]:
         swap = True
 
     return (card_side, tab_side, swap)
-    
-def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
+
+
+def parse_tab_label(line: Types.MDString) -> Tuple[str, str] | None:
     """
     Parse out flags and tab label from the given line.
     The given string MUST NOT be multiline.
@@ -58,13 +57,13 @@ def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
     """
     # Make sure the input is not multiline
     newline_regex = re.compile(r"(\r\n|\r|\n)")
-    if re.search(newline_regex, line): 
+    if re.search(newline_regex, line):
         raise TypeError("A multiline line has been fed to parse_tab_label.")
 
     flags = ""
     label = ""
-    
-    # Parser --- 
+
+    # Parser ---
     is_octothorpe = lambda char: char == "#"
     is_open_sq_bracket = lambda char: char == "["
     if_closed_sq_bracket = lambda char: char == "]"
@@ -91,7 +90,7 @@ def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
         else:
             if if_closed_sq_bracket(letter):
                 found_closed_sq_bracket = True
-                label += temporary_label 
+                label += temporary_label
                 temporary_label = "]"
                 # This ensures that if there are
                 # extra ], they are added to label.
@@ -106,13 +105,14 @@ def parse_tab_label(line: Types.MDString) -> Tuple[str, str]|None:
         raise CardError("A tab without label has been found.")
     # There was no label block/no closing bracket
     if not cleaned_label:
-        return None 
+        return None
 
     return cleaned_flags, cleaned_label
 
+
 def extract_tabs_labels(text: Types.MDString) -> List[Tuple[int, str, str]]:
-    result = [] 
-    
+    result = []
+
     for line_number, line in enumerate(text.splitlines()):
         tab = parse_tab_label(line)
         if tab:
@@ -120,7 +120,10 @@ def extract_tabs_labels(text: Types.MDString) -> List[Tuple[int, str, str]]:
 
     return result
 
-def extract_tabs_bodies(text: Types.MDString, tab_labels: List[Tuple[int, str, str]]) -> List[Tuple[str, str, str]]:
+
+def extract_tabs_bodies(
+    text: Types.MDString, tab_labels: List[Tuple[int, str, str]]
+) -> List[Tuple[str, str, str]]:
     """
     Use the tab labels line numbers to get
     the text between tabs (tab bodies).
@@ -133,22 +136,18 @@ def extract_tabs_bodies(text: Types.MDString, tab_labels: List[Tuple[int, str, s
     number_of_tabs = len(tab_labels)
 
     for index, (tab_line, tab_flags, tab_label) in enumerate(tab_labels):
-        if tab_line+1 > number_of_text_lines-1:
+        if tab_line + 1 > number_of_text_lines - 1:
             raise CardError("A tab without body has been found.")
-        elif index < number_of_tabs-1:
-            next_tab_line = tab_labels[index+1][0]
-            tab_body = "\n".join(text_lines[tab_line+1: next_tab_line])
+        elif index < number_of_tabs - 1:
+            next_tab_line = tab_labels[index + 1][0]
+            tab_body = "\n".join(text_lines[tab_line + 1 : next_tab_line])
         else:
-            tab_body = "\n".join(text_lines[tab_line+1:])
+            tab_body = "\n".join(text_lines[tab_line + 1 :])
 
         if not tab_body:
             raise CardError("A tab without body has been found.")
 
-        result.append((
-            tab_flags,
-            tab_label,
-            tab_body.strip()
-            ))
+        result.append((tab_flags, tab_label, tab_body.strip()))
 
     return result
 

@@ -3,9 +3,10 @@ import pytest
 from markdown2anki.md_2_anki.process_card.process_card import process_card
 from markdown2anki.md_2_anki.utils.card_error import CardError
 
+
 class TestProcessCard:
 
-    # TODO: this calls for more specific errors 
+    # TODO: this calls for more specific errors
     # for each part of the processing (formatting error,
     # extracting error etc.)
 
@@ -27,9 +28,9 @@ class TestProcessCard:
         """
 
         expected_output = {
-            'back': '<section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First left tab</span><div class="tab__body"><p>Something</p></div></section></section><section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First right tab</span><div class="tab__body"><p>Something else</p></div></section></section>', 
-            'front': '<section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First left tab</span><div class="tab__body"><p>Something</p></div></section></section>'
-            }
+            "back": '<section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First left tab</span><div class="tab__body"><p>Something</p></div></section></section><section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First right tab</span><div class="tab__body"><p>Something else</p></div></section></section>',
+            "front": '<section class="tab_group"><section class="tab tab--isactive"><span class="tab__label">First left tab</span><div class="tab__body"><p>Something</p></div></section></section>',
+        }
 
         result = process_card(md_input, "my vault")
 
@@ -76,12 +77,11 @@ class TestProcessCard:
         """
 
         with pytest.raises(CardError):
-            # Notice: the current extraction makes it so that 
+            # Notice: the current extraction makes it so that
             # This pattern considers "### Not a tab" a tab, so
             # the error is that of a tab without a body (which is wrong).
             # The right error would be a tab without label.
             process_card(md_input, "my vault")
-
 
     def test_tab_without_body_edge_case(self):
         md_input = """
@@ -98,7 +98,6 @@ class TestProcessCard:
 
         with pytest.raises(CardError):
             process_card(md_input, "my vault")
-            
 
     def test_missing_vault_edge_case(self):
         md_input = """

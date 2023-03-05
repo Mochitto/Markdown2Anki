@@ -11,7 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 def welcome_user(
-    configfile_name: str, path_to_link: Types.PathString, add_type_hints=False, welcome_message=True
+    configfile_name: str,
+    path_to_link: Types.PathString,
+    add_type_hints=False,
+    welcome_message=True,
 ):
     """
     Welcome the user by printing the content of

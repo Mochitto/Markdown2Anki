@@ -23,7 +23,9 @@ ADD_TYPES_TO_CONFIG = True
 def main():
     # Basic logging config with handlers
     log.setup_logging()
-    config = config_handle.handle_configs(CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG)
+    config = config_handle.handle_configs(
+        CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG
+    )
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )

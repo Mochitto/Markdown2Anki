@@ -2,8 +2,8 @@ import pytest
 
 from markdown2anki.md_2_anki.process_card.extract.extract import extract_tabs_labels
 
-class TestExtractTabsLabels:
 
+class TestExtractTabsLabels:
     def test_happy_path(self):
         text = (
             "## B [label]\n"

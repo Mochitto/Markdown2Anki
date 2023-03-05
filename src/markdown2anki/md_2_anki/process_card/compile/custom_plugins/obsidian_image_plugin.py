@@ -38,10 +38,12 @@ class ObsidianImagePlugin:
 
         return "obsidian_image", path_to_image, image_width
 
-    def render_obsidian_image(self, path_to_image: Types.PathString, width_or_alias: str):
+    def render_obsidian_image(
+        self, path_to_image: Types.PathString, width_or_alias: str
+    ):
         path_to_image = path_to_image.strip()
         is_hyperlink = bool(re.match(r"https?://", path_to_image))
-        
+
         # Check if it's a number of an alias
         try:
             image_width = int(width_or_alias)

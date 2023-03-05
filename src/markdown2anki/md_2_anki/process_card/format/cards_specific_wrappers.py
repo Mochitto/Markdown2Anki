@@ -6,7 +6,9 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def wrap_tab_group(tab_content: Types.HTMLString, add_over_sibling=False) -> Types.HTMLString:
+def wrap_tab_group(
+    tab_content: Types.HTMLString, add_over_sibling=False
+) -> Types.HTMLString:
     if add_over_sibling:
         return f'<section class="tab_group u-over_sibling">{tab_content}</section>'
     return f'<section class="tab_group">{tab_content}</section>'

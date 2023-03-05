@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 # To have a global "clozes regex", as it was a problem
 # When writing tests (they were all different)
 
+
 def get_clozes(text: Types.MDString) -> List[Tuple[str, str]]:
     """
     Extract clozes from text.
