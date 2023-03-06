@@ -1,6 +1,6 @@
 import pytest
 
-from markdown2anki.md_2_anki.process_card.extract.extract import (
+from markdown2anki.md_2_anki.process_card.extract import (
     extract_tabs_bodies,
     extract_tabs_labels,
 )

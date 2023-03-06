@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from markdown2anki.md_2_anki.process_images.process_images import find_image_path
+from markdown2anki.md_2_anki.process_images import find_image_path
 
 import tests
 

@@ -47,10 +47,10 @@ def process_card(
     formatted_card = {"front": "", "back": ""}
     for card_side in swapped_card.keys():
         formatted_card[card_side] += format_tab_group(
-            swapped_card[card_side]["left_tabs"]
+            swapped_card[card_side]["left"]
         )
         formatted_card[card_side] += format_tab_group(
-            swapped_card[card_side]["right_tabs"]
+            swapped_card[card_side]["right"]
         )
 
     return formatted_card

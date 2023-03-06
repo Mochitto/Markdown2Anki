@@ -1,4 +1,4 @@
-from markdown2anki.md_2_anki.process_card.compile.text_to_html import tabs_to_html
+from markdown2anki.md_2_anki.process_card.compile import tabs_to_html
 import pprint
 
 from typing import List

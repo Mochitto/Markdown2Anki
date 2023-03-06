@@ -1,6 +1,4 @@
-from markdown2anki.md_2_anki.process_card.extract.extract import (
-    extract_tabs_new as extract_tabs,
-)
+from markdown2anki.md_2_anki.process_card.extract import extract_tabs
 
 
 class TestExtractTabs:

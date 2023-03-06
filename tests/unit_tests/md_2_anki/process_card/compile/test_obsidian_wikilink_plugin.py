@@ -4,7 +4,7 @@ import mistune
 from markdown2anki.md_2_anki.process_card.compile.custom_plugins.obsidian_link_plugin import (
     ObsidianLinkPlugin,
 )
-from markdown2anki.md_2_anki.process_card.compile.text_to_html import HighlightRenderer
+from markdown2anki.md_2_anki.process_card.compile import HighlightRenderer
 
 
 class TestObsidianImagePlugin:

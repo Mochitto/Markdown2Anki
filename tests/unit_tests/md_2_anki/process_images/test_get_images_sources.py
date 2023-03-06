@@ -1,4 +1,4 @@
-from markdown2anki.md_2_anki.process_images.process_images import get_images_sources
+from markdown2anki.md_2_anki.process_images import get_images_sources
 
 
 class TestGetImagesSources:

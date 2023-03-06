@@ -1,6 +1,6 @@
 import pytest
 
-from markdown2anki.md_2_anki.process_card.extract.extract import parse_tab_label
+from markdown2anki.md_2_anki.process_card.extract import parse_tab_label
 from markdown2anki.md_2_anki.utils.card_error import CardError
 
 
