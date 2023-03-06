@@ -1,4 +1,4 @@
-from typing import List, TypedDict, Literal
+from typing import List, TypedDict, Literal, Tuple
 
 from . import common_types as Types
 
@@ -36,6 +36,11 @@ FormattedTab = TypedDict(
         "swap": bool,
         }
         ) 
+
+class SwapMappings(TypedDict):
+    restore: List[int]
+    remove: List[int]
+    replace: List[Tuple[int, int]]
 
 # Prepare for processing, post Swap
 class CardSideWithTabs(TypedDict):
