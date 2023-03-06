@@ -27,17 +27,15 @@ HTMLTab = TypedDict(
         }
         ) 
 
-class TabsWithSwap(TypedDict):
-    left_tabs: List[Types.HTMLString]
-    left_tabs_swap: List[int]
-    right_tabs: List[Types.HTMLString]
-    right_tabs_swap: List[int]
-
-
-class CardWithSwap(TypedDict):
-    front: TabsWithSwap
-    back: TabsWithSwap
-
+FormattedTab = TypedDict(
+        "FormattedTab", 
+        {
+        "card side": Literal["front", "back"],
+        "tab side": Literal["left", "right"],
+        "text": Types.HTMLString,
+        "swap": bool,
+        }
+        ) 
 
 # Prepare for processing, post Swap
 class CardSideWithTabs(TypedDict):
