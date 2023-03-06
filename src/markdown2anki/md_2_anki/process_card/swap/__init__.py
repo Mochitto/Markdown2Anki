@@ -80,3 +80,27 @@ def create_back_tabs_list(tabs: List[CardTypes.FormattedTab], swap_mappings: Car
     return tabs_copy
 
 
+def format_tab_sides(tabs: List[CardTypes.FormattedTab]) -> CardTypes.TabSides:
+    left_tabs = []
+    right_tabs = []
+    for tab in tabs:
+        if tab["tab side"] == "left":
+            left_tabs.append(tab["text"])
+        else:
+            right_tabs.append(tab["text"])
+
+    return {
+        "left": left_tabs, 
+        "right": right_tabs
+        }
+
+def get_swapped_card(tabs: List[CardTypes.FormattedTab]) -> CardTypes.CardWithTabs:
+    front_tabs = create_front_tabs_list(tabs)
+    swap_mappings = get_swap_mappings(tabs)
+    back_tabs = create_back_tabs_list(tabs, swap_mappings)
+    front_tabs_sides = format_tab_sides(front_tabs)
+    back_tabs_sides = format_tab_sides(back_tabs)
+    return {
+            "front": front_tabs_sides,
+            "back": back_tabs_sides
+            }
