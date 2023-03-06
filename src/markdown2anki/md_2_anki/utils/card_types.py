@@ -1,17 +1,31 @@
-from typing import List, TypedDict
+from typing import List, TypedDict, Literal
 
 from . import common_types as Types
 
+# I had to use the Alternative syntax to have
+# spaces in my dict keys...
+# https://peps.python.org/pep-0589/#alternative-syntax
+MDTab = TypedDict(
+        "MDTab", 
+        {
+        "card side": Literal["front", "back"],
+        "tab side": Literal["left", "right"],
+        "label": str,
+        "body": Types.MDString,
+        "swap": bool,
+        }
+        )
 
-class MDTab(TypedDict):
-    tab_label: str
-    tab_body: Types.MDString
-
-
-class HTMLTab(TypedDict):
-    tab_label: str
-    tab_body: Types.HTMLString
-
+HTMLTab = TypedDict(
+        "HTMLTab", 
+        {
+        "card side": Literal["front", "back"],
+        "tab side": Literal["left", "right"],
+        "label": str,
+        "body": Types.HTMLString,
+        "swap": bool,
+        }
+        ) 
 
 class TabsWithSwap(TypedDict):
     left_tabs: List[Types.HTMLString]
@@ -35,3 +49,4 @@ class CardSideWithTabs(TypedDict):
 class CardWithTabs(TypedDict):
     front: CardSideWithTabs
     back: CardSideWithTabs
+
