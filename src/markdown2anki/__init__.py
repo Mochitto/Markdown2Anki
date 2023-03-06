@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 from markdown2anki.md_2_anki.utils.card_error import CardError
-from markdown2anki.md_2_anki.md_to_anki import markdown_to_anki
+from markdown2anki.md_2_anki import markdown_to_anki
 
 import markdown2anki.logger as log
 import markdown2anki.output_handler as out

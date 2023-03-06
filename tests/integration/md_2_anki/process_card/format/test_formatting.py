@@ -14,19 +14,19 @@ class TestFormatting:
     def test_good_case(self):
         tabs_list: List[HTMLTab] = [
             {
-            "card side": "front",
-            "tab side": "left",
-            "swap": True,
-            "label": "A label", 
-            "body": "<p>Hello world</p>",
-                },
+                "card side": "front",
+                "tab side": "left",
+                "swap": True,
+                "label": "A label",
+                "body": "<p>Hello world</p>",
+            },
             {
-            "card side": "front",
-            "tab side": "left",
-            "swap": True,
-            "label": "Another label", 
-            "body": "<p>Hello world</p>",
-                },
+                "card side": "front",
+                "tab side": "left",
+                "swap": True,
+                "label": "Another label",
+                "body": "<p>Hello world</p>",
+            },
         ]
         expected_formatted_tab_group = (
             '<section class="tab_group">'
@@ -49,19 +49,19 @@ class TestFormatting:
     def test_broken_tab(self):
         tabs_list: List[HTMLTab] = [
             {
-            "card side": "front",
-            "tab side": "left",
-            "swap": True,
-            "label": "", 
-            "body": "<p>Hello world</p>",
-                },
+                "card side": "front",
+                "tab side": "left",
+                "swap": True,
+                "label": "",
+                "body": "<p>Hello world</p>",
+            },
             {
-            "card side": "front",
-            "tab side": "left",
-            "swap": True,
-            "label": "Another label", 
-            "body": "<p>Hello world</p>",
-                },
+                "card side": "front",
+                "tab side": "left",
+                "swap": True,
+                "label": "Another label",
+                "body": "<p>Hello world</p>",
+            },
         ]
 
         with pytest.raises(CardError):

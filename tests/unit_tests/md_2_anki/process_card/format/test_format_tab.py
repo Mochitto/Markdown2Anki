@@ -11,9 +11,9 @@ class TestFormatTab:
             "card side": "front",
             "tab side": "left",
             "swap": True,
-            "label": "A label", 
-            "body": "<p>Hello world</p>"
-            }
+            "label": "A label",
+            "body": "<p>Hello world</p>",
+        }
         expected_tab = {
             "card side": "front",
             "tab side": "left",
@@ -25,9 +25,9 @@ class TestFormatTab:
                 "<p>Hello world</p>"
                 "</div>"
                 "</section>"
-                )
-            }
-            
+            ),
+        }
+
         formatted_tab = format_tab(tab)
         assert formatted_tab == expected_tab
 
@@ -36,9 +36,9 @@ class TestFormatTab:
             "card side": "front",
             "tab side": "left",
             "swap": True,
-            "label": "", 
-            "body": "<p>Hello world</p>"
-            }
+            "label": "",
+            "body": "<p>Hello world</p>",
+        }
         with pytest.raises(CardError):
             format_tab(tab)
 
@@ -47,9 +47,9 @@ class TestFormatTab:
             "card side": "front",
             "tab side": "left",
             "swap": True,
-            "label": "A label", 
-            "body": ""
-            }
+            "label": "A label",
+            "body": "",
+        }
         with pytest.raises(CardError):
             format_tab(tab)
 
@@ -58,8 +58,8 @@ class TestFormatTab:
             "card side": "front",
             "tab side": "left",
             "swap": True,
-            "label": "", 
-            "body": ""
-            }
+            "label": "",
+            "body": "",
+        }
         with pytest.raises(CardError):
             format_tab(tab)

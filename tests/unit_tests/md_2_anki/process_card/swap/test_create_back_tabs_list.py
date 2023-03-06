@@ -236,21 +236,20 @@ class TestCreateFrontTabsList:
 
 if __name__ == "__main__":
     tabs = [
-            {
-                "body": "<p>This is the {{C1::first}} tab body<br />\nwhich spans two lines</p>\n",
-                "card side": "front",
-                "label": "label one",
-                "swap": True,
-                "tab side": "left",
-            },
-            {
-                "body": "<p>This tab has a body too</p>\n",
-                "card side": "front",
-                "label": "label four",
-                "swap": False,
-                "tab side": "right",
-            },
-        ]
-
+        {
+            "body": "<p>This is the {{C1::first}} tab body<br />\nwhich spans two lines</p>\n",
+            "card side": "front",
+            "label": "label one",
+            "swap": True,
+            "tab side": "left",
+        },
+        {
+            "body": "<p>This tab has a body too</p>\n",
+            "card side": "front",
+            "label": "label four",
+            "swap": False,
+            "tab side": "right",
+        },
+    ]
 
     pprint.pprint(format_tabs(tabs))

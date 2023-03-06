@@ -7,7 +7,7 @@ from typing import List, Dict
 import markdown2anki.md_2_anki.utils.common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
 from markdown2anki.md_2_anki.utils.card_error import CardError
-from markdown2anki.md_2_anki.process_card.format.cards_specific_wrappers import (
+from markdown2anki.md_2_anki.process_card.format.wrappers import (
     wrap_tab,
     wrap_tab_body,
     wrap_tab_group,
@@ -25,8 +25,8 @@ def format_tabs(tabs: List[CardTypes.HTMLTab]) -> List[CardTypes.FormattedTab]:
 
 def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
     tab_copy = typing.cast(Dict, tab.copy())
-    tab_label = tab_copy.pop("label") 
-    tab_body = tab_copy.pop("body") 
+    tab_label = tab_copy.pop("label")
+    tab_body = tab_copy.pop("body")
 
     if not tab_label:
         raise CardError("There is a missing tab label.")
@@ -37,7 +37,7 @@ def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
     wrapped_body = wrap_tab_body(tab_body)
 
     wrapped_tab = wrap_tab(wrapped_label, wrapped_body)
-    
+
     tab_copy = typing.cast(CardTypes.FormattedTab, tab_copy)
     tab_copy["text"] = wrapped_tab
 

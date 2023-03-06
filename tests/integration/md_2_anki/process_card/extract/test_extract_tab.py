@@ -1,7 +1,9 @@
-from markdown2anki.md_2_anki.process_card.extract.extract import extract_tabs_new as extract_tabs
+from markdown2anki.md_2_anki.process_card.extract.extract import (
+    extract_tabs_new as extract_tabs,
+)
+
 
 class TestExtractTabs:
-
     def test_happy_path(self):
         text = (
             "## B [label one]\n"
@@ -17,34 +19,34 @@ class TestExtractTabs:
         )
         expected = [
             {
-            "card side": "back",
-            "tab side": "left",
-            "swap": False,
-            "label": "label one",
-            "body": "This is the first tab body\nwhich spans two lines",
+                "card side": "back",
+                "tab side": "left",
+                "swap": False,
+                "label": "label one",
+                "body": "This is the first tab body\nwhich spans two lines",
             },
             {
-            "card side": "front",
-            "tab side": "left",
-            "swap": True,
-            "label": "label two",
-            "body": "# A great tab\n- has a great body",
+                "card side": "front",
+                "tab side": "left",
+                "swap": True,
+                "label": "label two",
+                "body": "# A great tab\n- has a great body",
             },
             {
-            "card side": "front",
-            "tab side": "right",
-            "swap": False,
-            "label": "label three",
-            "body": "Another tab",
+                "card side": "front",
+                "tab side": "right",
+                "swap": False,
+                "label": "label three",
+                "body": "Another tab",
             },
             {
-            "card side": "back",
-            "tab side": "right",
-            "swap": False,
-            "label": "label four",
-            "body": "This tab has a body too",
+                "card side": "back",
+                "tab side": "right",
+                "swap": False,
+                "label": "label four",
+                "body": "This tab has a body too",
             },
-            ]
+        ]
 
         assert extract_tabs(text) == expected
 
@@ -61,18 +63,15 @@ class TestExtractTabs:
         assert extract_tabs(text) == expected
 
     def test_stars_separator(self):
-        text = (
-            "## B [label]\n"
-            "****\n"
-        )
+        text = "## B [label]\n" "****\n"
         expected = [
             {
-            "card side": "back",
-            "tab side": "left",
-            "swap": False,
-            "label": "label",
-            "body": "****",
+                "card side": "back",
+                "tab side": "left",
+                "swap": False,
+                "label": "label",
+                "body": "****",
             },
-            ]
+        ]
 
         assert extract_tabs(text) == expected

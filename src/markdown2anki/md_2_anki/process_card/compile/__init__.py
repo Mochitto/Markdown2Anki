@@ -24,20 +24,20 @@ logger = logging.getLogger(__name__)
 
 
 def tabs_to_html(
-        tabs: List[CardTypes.MDTab], vault:str, linenos=True
+    tabs: List[CardTypes.MDTab], vault: str, linenos=True
 ) -> List[CardTypes.HTMLTab]:
     html_tabs = [tab_to_html(tab, vault, linenos) for tab in tabs]
     return html_tabs
 
 
-def tab_to_html(tab: CardTypes.MDTab, vault:str, linenos=True) -> CardTypes.HTMLTab:
+def tab_to_html(tab: CardTypes.MDTab, vault: str, linenos=True) -> CardTypes.HTMLTab:
     """
     Compile the tab to html and wrap it in cards' specific wrappers.
     """
     html_body = markdown_to_html_with_highlight(tab["body"], vault, linenos)
 
     tab_copy = tab.copy()
-    tab_copy["body"] = html_body 
+    tab_copy["body"] = html_body
     return tab_copy
 
 

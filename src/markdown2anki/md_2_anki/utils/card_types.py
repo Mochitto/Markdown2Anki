@@ -6,41 +6,43 @@ from . import common_types as Types
 # spaces in my dict keys...
 # https://peps.python.org/pep-0589/#alternative-syntax
 MDTab = TypedDict(
-        "MDTab", 
-        {
+    "MDTab",
+    {
         "card side": Literal["front", "back"],
         "tab side": Literal["left", "right"],
         "label": str,
         "body": Types.MDString,
         "swap": bool,
-        }
-        )
+    },
+)
 
 HTMLTab = TypedDict(
-        "HTMLTab", 
-        {
+    "HTMLTab",
+    {
         "card side": Literal["front", "back"],
         "tab side": Literal["left", "right"],
         "label": str,
         "body": Types.HTMLString,
         "swap": bool,
-        }
-        ) 
+    },
+)
 
 FormattedTab = TypedDict(
-        "FormattedTab", 
-        {
+    "FormattedTab",
+    {
         "card side": Literal["front", "back"],
         "tab side": Literal["left", "right"],
         "text": Types.HTMLString,
         "swap": bool,
-        }
-        ) 
+    },
+)
+
 
 class SwapMappings(TypedDict):
     restore: List[int]
     remove: List[int]
     replace: List[Tuple[int, int]]
+
 
 # Prepare for processing, post Swap
 class TabSides(TypedDict):
@@ -52,4 +54,3 @@ class TabSides(TypedDict):
 class CardWithTabs(TypedDict):
     front: TabSides
     back: TabSides
-

@@ -1,11 +1,9 @@
-import re
 import logging
-from typing import List
 
 import markdown2anki.md_2_anki.utils.common_types as Types
 from markdown2anki.md_2_anki.utils.card_error import CardError
-from markdown2anki.md_2_anki.process_card.process_card import process_card
-from markdown2anki.md_2_anki.process_clozes.process_clozes import (
+from markdown2anki.md_2_anki.process_card import process_card
+from markdown2anki.md_2_anki.process_clozes import (
     get_clozes,
     hash_clozes,
     clean_code_from_clozes,
@@ -13,7 +11,8 @@ from markdown2anki.md_2_anki.process_clozes.process_clozes import (
     inject_clozes,
     are_clozes_in_card,
 )
-from markdown2anki.md_2_anki.process_images.process_images import get_images_to_copy
+from markdown2anki.md_2_anki.process_images import get_images_to_copy
+from markdown2anki.md_2_anki.process_card.extract import extract_cards
 
 from markdown2anki.utils.debug_tools import expressive_debug
 
@@ -22,7 +21,6 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-# TODO: create type with returning values
 def markdown_to_anki(markdown: Types.MDString, vault, **options):
     """
     Create anki cards from markdown.
@@ -130,26 +128,3 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
         "number_of_failed": aborted_cards,
         "images_to_copy": images_to_copy,
     }
-
-
-def extract_cards(markdown_text: Types.MDString) -> List[Types.MDString]:
-    """
-    Extract cards from a markdown text.
-    The delimiters used are markdown's hr.
-
-    Pattern:
-    ------
-    ---
-    ***
-    ******
-    """
-    regex_pattern = r"(?:(?:---+?)|(?:\*\*\*+?))\n"  # Match hr in markdown
-
-    cards = re.split(regex_pattern, markdown_text)
-
-    # the lambda function is used to discard 'empty cards'
-    filtered_cards = list(
-        filter(lambda card: bool(card), cards)
-    )  # filter returns an iterable
-
-    return filtered_cards
