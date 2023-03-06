@@ -8,7 +8,7 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def get_swapped_tabs(card_data: CardTypes.CardWithSwap) -> CardTypes.CardWithTabs:
+def get_swapped_tabs(card_data) -> CardTypes.CardWithTabs:
     """
     Take in card_data and return the swapped tabs.
     """

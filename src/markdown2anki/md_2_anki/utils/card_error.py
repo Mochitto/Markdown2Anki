@@ -17,7 +17,7 @@ class CardError(Exception):
         return error_message
 
 
-def validate_card_data(card_data: CardTypes.CardWithSwap) -> None:
+def validate_card_data(card_data) -> None:
     """
     Raise an error if:
         - There are no left tabs in the front side of the card
