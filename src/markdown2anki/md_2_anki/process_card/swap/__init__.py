@@ -10,13 +10,13 @@ from markdown2anki.md_2_anki.process_clozes.process_clozes import are_clozes_in_
 logger = logging.getLogger(__name__)
 
 
-def create_front_tabs_list(tabs: List[CardTypes.HTMLTab]) -> List[CardTypes.HTMLTab]:
+def create_front_tabs_list(tabs: List[CardTypes.FormattedTab]) -> List[CardTypes.FormattedTab]:
     front_tabs = [tab for tab in tabs if tab["card side"] == "front"]
     if not front_tabs:
         raise CardError("A card without front tabs has been found.")
     return front_tabs
 
-def get_swap_mappings(tabs: List[CardTypes.HTMLTab]) -> CardTypes.SwapMappings:
+def get_swap_mappings(tabs: List[CardTypes.FormattedTab]) -> CardTypes.SwapMappings:
     """
     Create a dictionary with useful information on how
     to swap the tabs.
@@ -34,7 +34,7 @@ def get_swap_mappings(tabs: List[CardTypes.HTMLTab]) -> CardTypes.SwapMappings:
 
     for index, tab in enumerate(tabs):
         if tab["card side"] == "front" and tab["swap"]:
-            if are_clozes_in_card(tab["body"]):
+            if are_clozes_in_card(tab["text"]):
                 raise CardError("A tab that is to be swapped has a cloze in it.")
 
             front_swap.append(index)
@@ -62,7 +62,7 @@ def get_swap_mappings(tabs: List[CardTypes.HTMLTab]) -> CardTypes.SwapMappings:
             "remove": to_remove
         }
 
-def create_back_tabs_list(tabs: List[CardTypes.HTMLTab], swap_mappings: CardTypes.SwapMappings) -> List[CardTypes.HTMLTab]:
+def create_back_tabs_list(tabs: List[CardTypes.FormattedTab], swap_mappings: CardTypes.SwapMappings) -> List[CardTypes.FormattedTab]:
     tabs_copy = tabs.copy()
 
     for index_of_tab_to_replace, index_of_tab_that_replaces in swap_mappings["replace"]:

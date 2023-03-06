@@ -43,13 +43,13 @@ class SwapMappings(TypedDict):
     replace: List[Tuple[int, int]]
 
 # Prepare for processing, post Swap
-class CardSideWithTabs(TypedDict):
-    left_tabs: List[Types.HTMLString]
-    right_tabs: List[Types.HTMLString]
+class TabSides(TypedDict):
+    left: List[Types.HTMLString]
+    right: List[Types.HTMLString]
 
 
 # See above, grouping
 class CardWithTabs(TypedDict):
-    front: CardSideWithTabs
-    back: CardSideWithTabs
+    front: TabSides
+    back: TabSides
 
