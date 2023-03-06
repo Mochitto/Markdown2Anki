@@ -1,6 +1,8 @@
 import logging
 import re
-from typing import List
+import typing
+from typing import List, Dict
+
 
 import markdown2anki.md_2_anki.utils.common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
@@ -16,14 +18,15 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def format_tabs(tabs: List[CardTypes.HTMLTab]) -> List[Types.HTMLString]:
+def format_tabs(tabs: List[CardTypes.HTMLTab]) -> List[CardTypes.FormattedTab]:
     formatted_tabs = [format_tab(tab) for tab in tabs]
     return formatted_tabs
 
 
-def format_tab(tab: CardTypes.HTMLTab) -> Types.HTMLString:
-    tab_label = tab["tab_label"]
-    tab_body = tab["tab_body"]
+def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
+    tab_copy = typing.cast(Dict, tab.copy())
+    tab_label = tab_copy.pop("label") 
+    tab_body = tab_copy.pop("body") 
 
     if not tab_label:
         raise CardError("There is a missing tab label.")
@@ -33,7 +36,12 @@ def format_tab(tab: CardTypes.HTMLTab) -> Types.HTMLString:
     wrapped_label = wrap_tab_label(tab_label)
     wrapped_body = wrap_tab_body(tab_body)
 
-    return wrap_tab(wrapped_label, wrapped_body)
+    wrapped_tab = wrap_tab(wrapped_label, wrapped_body)
+    
+    tab_copy = typing.cast(CardTypes.FormattedTab, tab_copy)
+    tab_copy["text"] = wrapped_tab
+
+    return tab_copy
 
 
 def format_tab_group(

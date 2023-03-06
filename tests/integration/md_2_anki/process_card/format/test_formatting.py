@@ -13,8 +13,20 @@ from markdown2anki.md_2_anki.utils.card_error import CardError
 class TestFormatting:
     def test_good_case(self):
         tabs_list: List[HTMLTab] = [
-            {"tab_label": "A label", "tab_body": "<p>Hello world</p>"},
-            {"tab_label": "Another label", "tab_body": "<p>Hello world</p>"},
+            {
+            "card side": "front",
+            "tab side": "left",
+            "swap": True,
+            "label": "A label", 
+            "body": "<p>Hello world</p>",
+                },
+            {
+            "card side": "front",
+            "tab side": "left",
+            "swap": True,
+            "label": "Another label", 
+            "body": "<p>Hello world</p>",
+                },
         ]
         expected_formatted_tab_group = (
             '<section class="tab_group">'
@@ -30,13 +42,26 @@ class TestFormatting:
         )
 
         formatted_tabs = format_tabs(tabs_list)
+        # TODO: There needs to be swapping between these two steps
         tab_group = format_tab_group(formatted_tabs)
         assert tab_group == expected_formatted_tab_group
 
     def test_broken_tab(self):
         tabs_list: List[HTMLTab] = [
-            {"tab_label": "", "tab_body": "<p>Hello world</p>"},
-            {"tab_label": "Another label", "tab_body": "<p>Hello world</p>"},
+            {
+            "card side": "front",
+            "tab side": "left",
+            "swap": True,
+            "label": "", 
+            "body": "<p>Hello world</p>",
+                },
+            {
+            "card side": "front",
+            "tab side": "left",
+            "swap": True,
+            "label": "Another label", 
+            "body": "<p>Hello world</p>",
+                },
         ]
 
         with pytest.raises(CardError):
