@@ -1,4 +1,6 @@
 .tab
+    flex: 0 1 auto
+    overflow: hidden
     &--isactive .tab__label
         border-bottom: 1.5px solid var(--accent-color)
         color: var(--accent-color)
@@ -7,16 +9,24 @@
 
 .tab__label
     display: inline-block
-    padding: 1px 15px
+    padding: 1px 10px
     background: var(--tabs-label-background)
     cursor: pointer
     user-select: none
     border-bottom: 1.5px solid var(--secondary-background)
     color: var(--secondary-color)
+    height: 35px
+    line-height: 35px
+    min-width: 0
+    max-width: 100%
+    text-overflow: ellipsis
+    overflow: clip
+    white-space: nowrap
 
+    
 .tab__body
     display: none
-    height: 100%
+    height: calc( 100% - 35px )
     width: 100%
     background: var(--main-background)
     color: var(--main-color)
