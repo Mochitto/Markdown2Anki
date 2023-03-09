@@ -3,6 +3,7 @@
     overflow: hidden
     &--isactive .tab__label
         border-bottom: 1.5px solid var(--accent-color)
+        background: var(--main-background)
         color: var(--accent-color)
     &--isactive .tab__body
         display: block
@@ -13,7 +14,7 @@
     background: var(--tabs-label-background)
     cursor: pointer
     user-select: none
-    border-bottom: 1.5px solid var(--secondary-background)
+    border-bottom: 1.5px solid var(--tabs-label-background)
     color: var(--secondary-color)
     height: 35px
     line-height: 35px
@@ -22,7 +23,8 @@
     text-overflow: ellipsis
     overflow: clip
     white-space: nowrap
-
+    border-left: 1px solid var(--secondary-background)
+    border-right: 1px solid var(--secondary-background)
     
 .tab__body
     display: none
@@ -30,10 +32,10 @@
     width: 100%
     background: var(--main-background)
     color: var(--main-color)
-    padding: 5px 10px
+    padding: 20px 15px
     overflow-y: scroll
     &::-webkit-scrollbar
-        width: 20px
+        width: 10px
         border-left: 1px solid var(--secondary-color)
         background: var(--secondary-background)
     &::-webkit-scrollbar-thumb

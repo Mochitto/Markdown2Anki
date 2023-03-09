@@ -1,0 +1,26 @@
+/* 
+This style is based on:
+Catpuccin Theme Macchiato - https://github.com/catppuccin/catppuccin
+
+Custom Ui theme made by @Mochitto, 2023
+ */
+
+:root {
+    --main-background: #eff1f5; /* This is used for the tabs' body */
+    --secondary-background: #e6e9ef; /* This is used for the tabs-bar background and for inline-code */
+    --tabs-label-background: #dce0e8; /* This is used for inactive tabs */
+    --accent-background: #8839ef;
+
+    --codeline-hover-background: rgba(76, 79, 105, 0.1); /* Usually you can use the text rgb with a=0.1 for this. */
+
+    --main-color: #4c4f69;
+    --secondary-color: #9ca0b0;
+    --accent-color: #8839ef;
+
+    --h1: #8839ef;
+    --h2: #d20f39;
+    --h3: #fe640b;
+    --h4: #df8e1d;
+    --h5: #40a02b;
+    --h6: #04a5e5;
+ }
