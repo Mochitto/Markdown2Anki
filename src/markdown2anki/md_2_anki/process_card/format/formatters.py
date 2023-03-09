@@ -45,7 +45,7 @@ def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
 
 
 def format_tab_group(
-    tabs_list: List[Types.HTMLString], add_over_sibling=False
+    tabs_list: List[Types.HTMLString]
 ) -> Types.HTMLString:
     # Filter out empty tabs and copy the list
     tabs = [tab for tab in tabs_list if tab]
@@ -54,7 +54,7 @@ def format_tab_group(
         activated_tabs = activate_first_tab(tabs)
         joined_tabs = "".join(activated_tabs)
 
-        tab_group = wrap_tab_group(joined_tabs, add_over_sibling)
+        tab_group = wrap_tab_group(joined_tabs)
         cleaned_tab_group = remove_newlines(tab_group)
     else:
         return ""

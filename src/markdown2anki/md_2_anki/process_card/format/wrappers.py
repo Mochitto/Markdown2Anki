@@ -7,10 +7,8 @@ logger = logging.getLogger(__name__)
 
 
 def wrap_tab_group(
-    tab_content: Types.HTMLString, add_over_sibling=False
+    tab_content: Types.HTMLString, 
 ) -> Types.HTMLString:
-    if add_over_sibling:
-        return f'<section class="tab_group u-over_sibling">{tab_content}</section>'
     return f'<section class="tab_group">{tab_content}</section>'
 
 
