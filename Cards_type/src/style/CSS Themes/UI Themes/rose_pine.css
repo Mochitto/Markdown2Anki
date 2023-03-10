@@ -5,7 +5,7 @@ Rose' pine palette: https://rosepinetheme.com/palette
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root {
+:root.nightMode {
     --main-background: #191724; /* This is used for the tabs' body */
     --secondary-background: #26233a; /* This is used for the tabs-bar background */
     --tabs-label-background: #1f1d2e; /* This is used for inactive tabs */
