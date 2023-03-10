@@ -17,7 +17,7 @@ def wrap_tab(tab_label: str, tab_body: Types.HTMLString) -> Types.HTMLString:
 
 
 def wrap_tab_label(label: str) -> Types.HTMLString:
-    return f'<span class="tab__label">{label.strip()}</span>'
+    return f'<button class="tab__label"><span>{label.strip()}</span></button>'
 
 
 def wrap_tab_body(body: Types.HTMLString) -> Types.HTMLString:
