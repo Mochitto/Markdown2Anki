@@ -8,10 +8,19 @@ function assertQuerySelectorAll(query: string) {
         }
     return element
 }
+const nightMode = document.querySelector(".nightMode")
+if (nightMode) {
+    document.documentElement.classList.add("nightMode")
+}
+
 
 const tab_groups = assertQuerySelectorAll(".tab_group")
-const tabs = assertQuerySelectorAll(".tab")
-const tabs_labels: NodeList = assertQuerySelectorAll(".tab__label")
+// tabs, tabs_labels are defined on event call since anki
+// reuses the same html if the note type is the same; it just
+// changes the differences.
+let tabs: NodeListOf<Element>
+let tabs_labels: NodeList 
+
 let tab_to_restore: Element
 let tab_that_went_fullscreen: Element
 
@@ -23,6 +32,7 @@ for (let tab_group of tab_groups) {
 window.addEventListener("keydown", function(event) {
   // This handles short-keys, by activating the tab 
   // That has a matching number as the one pressed
+  tabs_labels = assertQuerySelectorAll(".tab__label")
   if (event.altKey && /^[0-9]$/.test(event.key)) {
     let index = parseInt(event.key) - 1
     let button = tabs_labels[index] 
@@ -41,6 +51,7 @@ function handle_clicks(event: Event): void {
     if (!(target instanceof Element && container instanceof Element && target.classList.contains("tab__label"))) {
         return
     } 
+    tabs = assertQuerySelectorAll(".tab")
     let tab = target.parentElement
     if (tab?.classList.contains("tab--isfullscreen")) {
         restoreActiveTabs(tab)
