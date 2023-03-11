@@ -1,4 +1,4 @@
-import esbuild from "esbuild";
+import * as esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
 import liveServer from "@compodoc/live-server"
 
@@ -15,16 +15,16 @@ liveServer.start({
     wait: 0,
 });
 
-esbuild
-    .build({
+let watching = await esbuild
+    .context({
         entryPoints: ["src/style/main.sass", "src/main.ts"],
         outdir: "dist",
         minify: true,
         bundle: true,
-        watch: true,
         plugins: [sassPlugin({
             type: "css",
         })],
     })
-    .then(() => console.log("⚡ Build complete! Watching your files and live at localhost:5500! ⚡"))
-    .catch(() => process.exit(1));
+
+await watching.watch()
+console.log("⚡ Build complete! Watching your files and live at localhost:5500! ⚡")
