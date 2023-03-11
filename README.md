@@ -1,41 +1,53 @@
-# Anki Code cards
-This project is part of [Anki Code](#).
+# Markdown2Anki
+Markdown2Anki is a python script that bridges Markdown notes and Anki.  
+With it, you can easily format your cards using Markdown and import them while retaining the structure you gave them. 
+It supports code highlighting, clozes and images.  
+There is also support for Obsidian notes, so you can have links inside of your cards pointing to your vault's cards! 🌸
 
-![demo image](./Cards_type/docs/Demo.png) 
+---
+![Demo image](./docs/rose-pine.webp) 
+> Unleash the power of spaced repetition: Convert your Markdown notes into Anki flashcards for optimal learning.  
+`ChatGPT, when asked for a captivating description of this project.`
 
 ## Objective
-To have an interface that is familiar to people that code and flexible enough to allow for different uses.
+To give users a way to format their cards in an easy and flexible way and adding support for some features missing in Anki.  
 In particular, the main focus is on:
-    - Allowing users to navigate the different parts of content quickly
-    - Create a UI/UX that is intuitive and familiar
-    - Allow for different themes
+- Allowing users to navigate the different parts of content quickly
+- Create a UI/UX that is intuitive and familiar
+- Allow for different themes
 
-## Structure
-The style files (Style_dev) were built using [SMACSS](http://smacss.com/) methodology and [BEM](https://getbem.com/) nomenclature.
-Every module (Style_dev/modules) had its own tests and README for easy understanding of how they work and can be used.
-The compiled CSS has been minified to make for better loading times.
+[...] TODO: MORE? 
 
-To have a better feeling for how cards look (and for testing purposes), "main_test.html" shows how cards will render in Anki, using test entries.
+## Why
+Anki uses formatted text and html, but makes users pick a very strict way of defining that, while using plain text.
+This "helps" some users by shielding them from the possible complexity of formatting the text, but a lot more could be achieved by giving them freedom with Markdown.  
 
-The final HTML file can't be rendered correctly in the browser as it contains Anki-specific syntax. 
+Markdown formatting also makes space for coding cards, which are pretty awful to make in Anki (even if, thanks to [Ijgnd](https://ankiweb.net/shared/info/1100811177) and [Glutanimate](https://ankiweb.net/shared/info/1463041493), there was at least an ok possibility to make them work).  
+This means that users do not really need tens of note types, but can define the kind of note they actually need while writing them (or by using their own, flexible templates).  
+This also takes away some limitations, such as having to use clozes on only one field of the card.
 
-## What could be better
-- As of now, to account for different themes, every module has hard-coded variables inside of them.
-- The navigation is also not-accessible for people that do not have a mouse (Keyboard shortcuts could also conflict with Anki's).
-
-### Inspired by:
-- [VScode](https://code.visualstudio.com/)
-- [Catppuccin project](https://github.com/catppuccin)
-- [Dracula theme](https://draculatheme.com/highlightjs)  
-[in construction]
-
-##### Test Images:
-I do not own any of the test images that have been used. 
-These are the sources where they can be found:
-- [Ghosts](https://www.youtube.com/watch?v=kXF3VYYa5TI): Louie Zong (Youtube channel)
-- [Widget the cat](https://www.instagram.com/p/CkribpgLiHu/): @widgetthemidget2020 (Instagram account)
-- [Lime the frog](https://www.instagram.com/p/Cktf5HFvufL/): @limethefrog (Instagram account)
+I (mochitto) also really like the idea of Open Source/Free software communicating between different projects, so creating a "bridge" between Obsidian and Anki feels like a great way of pulling together applications that give society a huge value, making them even stronger.
 
 ## DOCS TODO:
-- images copying: no metadata is copyed when copying the images.
-- What is produced is HTML and your data is independent from the project
+- ToC
+- Features
+  - Support Obsidian
+  - What is produced is HTML and your data is independent from the project: cards don't need the script or addons to work
+- Installation
+  - Git bash on win
+- First use
+- Labels guide
+  - Specifying that tab labels are plain text
+- Formatting guide
+  - Comments can be written in the top part of cards in the Markdown
+- Clozes handling
+- Themes and changing theme
+- Custom themes
+- Contributing/dev docs
+- Images processing
+  - images copying: no metadata is copyed when copying the images.
+- Importing the final file
+- Dev specifications
+  - Methodology, libraries etc.
+  - Frontend is minified
+  - SMACSS/BEM for the SASS files/classes
