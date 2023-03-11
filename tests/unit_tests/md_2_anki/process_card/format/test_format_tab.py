@@ -20,9 +20,11 @@ class TestFormatTab:
             "swap": True,
             "text": (
                 '<section class="tab">'
-                '<span class="tab__label">A label</span>'
+                '<button class="tab__label"><span>A label</span></button>'
                 '<div class="tab__body">'
+                '<div class="tab__body__content">'
                 "<p>Hello world</p>"
+                "</div>"
                 "</div>"
                 "</section>"
             ),

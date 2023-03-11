@@ -33,12 +33,12 @@ class TestFormatting:
         expected_formatted_tab_group = (
             '<section class="tab_group">'
             '<section class="tab tab--isactive">'
-            '<span class="tab__label">A label</span>'
-            '<div class="tab__body"><p>Hello world</p></div>'
+            '<button class="tab__label"><span>A label</span></button>'
+            '<div class="tab__body"><div class="tab__body__content"><p>Hello world</p></div></div>'
             "</section>"
             '<section class="tab">'
-            '<span class="tab__label">Another label</span>'
-            '<div class="tab__body"><p>Hello world</p></div>'
+            '<button class="tab__label"><span>Another label</span></button>'
+            '<div class="tab__body"><div class="tab__body__content"><p>Hello world</p></div></div>'
             "</section>"
             "</section>"
         )
