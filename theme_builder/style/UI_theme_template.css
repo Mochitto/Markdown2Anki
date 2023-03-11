@@ -1,0 +1,27 @@
+/*!
+This UI theme is based on:
+<source, if the theme was based on an existing theme/palette/project>
+
+Custom Ui theme made by <your name or username>, <year>
+ */
+
+/* You can remove the .nightMode if your theme is for light mode. */
+:root.nightMode {
+    --main-background: ; /* This is used for the tabs' body */
+    --secondary-background: ; /* This is used for the tabs-bar background and the scroll bar. */
+    --tabs-label-background: ; /* This is used for inactive tabs and inline-code background. */
+    --accent-background: ; /* This color is used for separators, active tabs and some borders. */
+
+    --codeline-hover-background: rgba(, 0.1); /* Usually you can use the text color rgba with a=0.1 for this. */
+
+    --main-color: ; /* text color */
+    --secondary-color: ; /* This is used for inactive tabs' text */
+    --accent-color: ; /* Counterpart of the accent-background. Used for active tabs. */
+
+    --h1: ;
+    --h2: ;
+    --h3: ;
+    --h4: ;
+    --h5: ;
+    --h6: ;
+ }
