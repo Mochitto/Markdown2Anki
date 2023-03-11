@@ -8,9 +8,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "node esbuild.js",
+    "build": "node esbuild.js && npm run build_themes && npm run build_theme_builder",
     "watch": "node esbuild_watch.js",
     "build_themes": "find \"./src/style/CSS Themes/full_themes\" -type f | xargs -i@ node esbuild_themes.js @",
+    "build_theme_builder": "node build_theme_builder.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mochitto",
