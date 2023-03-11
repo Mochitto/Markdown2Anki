@@ -14,6 +14,6 @@ esbuild.build({
   entryPoints: [themePath],
   bundle: true,
   minify: true,
-  outfile: path.join("themes", fileName),
+  outfile: path.join("..", "themes", fileName),
 }).then(() => console.log(`⚡ ${fileName} built! ⚡`))
   .catch(() => process.exit(1));
