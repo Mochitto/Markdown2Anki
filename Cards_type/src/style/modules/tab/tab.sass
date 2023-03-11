@@ -1,18 +1,38 @@
+/* All these styles are mobile first. 
+  Variations that are applied with media queries
+  are for horizontal/landscape screens.
+  This means that some property-value pairs for landscape
+  are there to over-write the default values.
+/*
+  The !important rules are there to overwrite
+  Anki's annoying button styling (which has specificity
+  of 20+, so can't be easily overwritten...).
+
 .tab
     flex: 0 1 auto
     overflow: hidden
     display: flex
     &--isactive .tab__label, &--isfullscreen .tab__label
+        // General active style: label
         background: var(--main-background) !important
         color: var(--accent-color) !important
         border-right: 1.5px solid var(--accent-color) !important
         @media (min-aspect-ratio: 1/1)
             border-bottom: 1.5px solid var(--accent-color) !important
             border-right: 1px solid var(--secondary-background) !important
-    &--isactive .tab__body
+
+    &--isactive .tab__body, &--isfullscreen .tab__body
+      // Show the tab when active
       display: block
+
+    &--isactive:last-of-type .tab__body
+      // Add top border to the last (aka.second)
+      // tab__body when vertical screen.
+      border-top: 3px solid var(--accent-color)
+      @media (min-aspect-ratio: 1/1)
+        border-top: none
+
     &--isfullscreen .tab__body
-      display: block
       position: fixed !important
       z-index: 9999
       height: 100%
@@ -92,5 +112,7 @@
 .tab__body__content
     max-width: 750px
     min-width: calc(50vw - 14px)
-    padding: 35px 15px
+    padding: 15px 15px
     margin: 0 auto
+    @media (min-aspect-ratio: 1/1)
+      padding: 35px 15px
