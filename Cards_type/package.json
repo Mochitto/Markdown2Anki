@@ -10,16 +10,14 @@
   "scripts": {
     "build": "node esbuild.js",
     "watch": "node esbuild_watch.js",
+    "build_themes": "find \"./src/style/CSS Themes/full_themes\" -type f | xargs -i@ node esbuild_themes.js @",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mochitto",
   "license": "GPL3",
-  "dependencies": {
-    "esbuild": "^0.16.7",
-    "intelephense": "^1.9.5"
-  },
   "devDependencies": {
     "@compodoc/live-server": "^1.2.3",
+    "esbuild": "^0.17.11",
     "esbuild-sass-plugin": "^2.4.3"
   }
 }
