@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # DEV CONFIG
 CONFIG_LINK_PATH = str(Path(__file__).parent / "link_to_config_dir.ini")
 CONFIGFILE_NAME = "md2anki.config.ini"
-ADD_TYPES_TO_CONFIG = True
+ADD_TYPES_TO_CONFIG = False
 
 
 def main():
