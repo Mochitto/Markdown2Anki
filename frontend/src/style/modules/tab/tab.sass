@@ -25,13 +25,6 @@
       // Show the tab when active
       display: block
 
-    &--isactive:last-of-type .tab__body
-      // Add top border to the last (aka.second)
-      // tab__body when vertical screen.
-      border-top: 3px solid var(--accent-color)
-      @media (min-aspect-ratio: 1/1)
-        border-top: none
-
     &--isfullscreen .tab__body
       position: fixed !important
       z-index: 9999
