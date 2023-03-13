@@ -190,7 +190,7 @@ To import these, you have to open up Anki and press the "Import File" in the low
 After selecting the `.csv` file, you have to let anki know that the separator used is `Comma`, select the right `note type` and the deck you wish the cards to be imported in.
 Also make sure to allow HTML in the cards, as they need it to work correctly.
 
-This is a screenshot of how this could look in your Anki (Anki's UI can change depending on the OS it is running on):
+This is a screenshot of how this could look in your Anki (Anki's UI can change depending on the OS it is running on):  
 ![Image of Anki's import screen](./docs/Anki import example.webp)
 
 You can find more information on importing to Anki here: https://docs.ankiweb.net/importing.html
@@ -223,7 +223,8 @@ That is very cool ⭐
 Some common card errors are:
 - Forgetting the body of a tab
 - Leaving the front-side of a card empty
-- Removing a tab that contains a cloze in it
+- Removing a tab that contains a cloze in it  
+
 Some common general errors are:
 - The configuration file is missing a necessary option (such as your `vault's name`)
 - No cards were found in the input file
@@ -267,7 +268,7 @@ You can find all the themes in the [themes folder](https://github.com/Mochitto/M
 To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
 
 This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.  
-![A video showing how to access a card's style](./docs/How_to_find_styling.webm)
+![This is a video showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.webm)
 
 You can read more on how styling happens here: https://docs.ankiweb.net/templates/styling.html
 
