@@ -76,7 +76,7 @@ There is a guided setup on your first time running the app, which will help you 
 On windows you can use the [Windows terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701). 
 On iOS and Linux they should be supported by default.
 
-The script will also let you know when there is a new update and point you to the [CHANGELOG.md](<LINK>) file, where you can read what has changed and decide if to update or not.  
+The script will also let you know when there is a new update and point you to the [CHANGELOG.md](https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md) file, where you can read what has changed and decide if to update or not.  
 You can update the package with:
 ```bash
 python -m pip install --upgrade Markdown2Anki
@@ -127,7 +127,7 @@ Flags | Meaning
 `L` | Left tabs side
 `R` | Right tabs side
 `-` | Only applied to Front tabs: removes the tab when switching to the back side
-`+` | Only appllied to Back tabs: replaces a removed front tab 
+`+` | Only applied to Back tabs: replaces a removed front tab 
 
 ```markdown
 ## BR [This is my tab]
@@ -196,7 +196,7 @@ This is a screenshot of how this could look in your Anki (Anki's UI can change d
 You can find more information on importing to Anki here: https://docs.ankiweb.net/importing.html
 
 ### Importing your images
-You can import images automatically if you add the path to your [Anki medias folder](https://docs.ankiweb.net/files.html#file-locations) in the config file.  
+You can import images automatically if you add the path to your [Anki media folder](https://docs.ankiweb.net/files.html#file-locations) in the config file.  
 Images that are already present won't be added twice and will be skipped (based on filename).  
 If you prefer checking the images before importing them manually, you can point to another folder or leave the default one.
 **Notice:** when images are copied, they lose their metadata: this is due to security, as others' could read your images metadata if you were to share your cards, and for how the python library that handles the copying process is implemented.
@@ -204,7 +204,7 @@ If you prefer checking the images before importing them manually, you can point 
 Hopefully, in the near future, the importing part will be made automatic by the addition of `AnkiConnect` support.
 
 ### Errors and Bad cards
-When there are errors in formatting, the app will let you know what went wrong add create a `Bad cards.md` file in your program folder.  
+When there are errors in formatting, the app will let you know what went wrong and create a `Bad cards.md` file in your program folder.  
 This will be a file of all of the "Bad cards" (cards that had a problem in them). The specific error for each card is added before the tabs, so that you can easily fix them.
 
 These, as other text added at the beginning of a card, before all the tabs labels, are considered comments, so you can leave them in.  
@@ -237,8 +237,8 @@ This will automatically use the bad file as input, if you prefer fixing the card
 
 A `txt` log file is also present in your program folder, which is created every time you run the program. If there is any bug in the program, it would be of great help if you could add this file to your issues on GitHub.  
 
-**Privacy Notice:** the log file has your configuration in it, as it can contains crucial information for debugging.  
-If you don't want to share your paths or other information from it when making issues, you should search-and-replace those information with some fake one, while trying not to change their general structure.
+**Privacy Notice:** the log file has your configuration in it, as it can contain crucial information for debugging.  
+If you don't want to share your paths or other information from it when making issues, you should search-and-replace that information with some fake one, while trying not to change their general structure.
 
 ### Using clozes
 You can specify clozes in your markdown and they will be carried over to your anki cards. Whenever there is a word or sentence you'd like to have as a cloze, you can use Anki's formatting `{{c<number>::<word>}}` (notice the two colons, not just one).
@@ -263,7 +263,7 @@ Notice how both `sort` and `True` are turned into clozes, even if only specified
 
 ### Changing Themes
 The default theme is mochitto's Rosé Pine theme, but there is also a catpuccin theme.  
-You can find all the themes in the [themes folder](<LINK>).  
+You can find all the themes in the [themes folder](https://github.com/Mochitto/Markdown2Anki/tree/master/themes).  
 To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
 
 This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.  
@@ -272,7 +272,7 @@ This can be found by accessing `Tools>Manage Note Types>(select your note type)>
 You can read more on how styling happens here: https://docs.ankiweb.net/templates/styling.html
 
 ### Navigating the UI
-The custom User Interface of the note-type that comes with this project if focused on the concept of tabs.  
+The custom User Interface of the note-type that comes with this project is focused on the concept of tabs.  
 You can have side-by-side tabs and multiple tabs to toggle through.  
 
 ![Demo image](./docs/rose-pine.webp)
@@ -285,15 +285,15 @@ There are also keyboard commands: you can select a tab with `<alt>+<number of th
 For example, `Alt+1` will show the first tab if it's not-active, or make it full-screen if it's active.
 
 ## Creating a new theme
-The theme was made with customizablity in mind; you can learn more on how to make your own theme in the [theme builder folder's README](<LINK>).  
+The theme was made with customizability in mind; you can learn more on how to make your own theme in the [theme builder folder's README](https://github.com/Mochitto/Markdown2Anki/tree/master/theme_builder).  
 Once you've made your own theme, you can submit it as a contribution to make it "official" and share it with others.
 
 ## Contributing and dev documentation
-The project was build with contributions and future projects in mind, using expressive names, doc strings on functions/classes/modules and types.  
-You can read more on the project's inner workings in the [CONTRIBUTING.md](<LINK>).  
-If you want to help with issues, you can head to [this project's kanban](<LINK>).
+The project was built with contributions and future projects in mind, using expressive names, doc strings on functions/classes/modules and types.  
+You can read more on the project's inner workings in the [CONTRIBUTING.md](https://github.com/Mochitto/Markdown2Anki/blob/master/CONTRIBUTING.md).  
+If you want to help with issues, you can head to [this project's kanban](https://github.com/users/Mochitto/projects/3).
 
-If you have any question or find something in the documentation that is not clear, let me know with an issue, I'll (mochitto) will get back to you asap!
+If you have any questions or find something in the documentation that is not clear, let me know with an issue, I'll (mochitto) will get back to you asap!
 
 ## The reasons behind the project
 Anki uses formatted text and html, but makes users pick a very strict way of defining that, while using plain text.
@@ -338,7 +338,7 @@ Some things that I hope will be implemented in the future, either by me (mochitt
 
 ## Versioning
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
-You can [read the CHANGELOG file here](<LINK>).
+You can [read the CHANGELOG file here](https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md).
 
 ## License
 This project uses the [GPL3 LICENSE](https://www.gnu.org/licenses/gpl-3.0.txt).  
