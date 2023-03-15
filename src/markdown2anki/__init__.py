@@ -6,8 +6,10 @@ from pathlib import Path
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki import markdown_to_anki
 
+import markdown2anki
 import markdown2anki.logger as log
 import markdown2anki.output_handler as out
+import markdown2anki.version_check as ver
 import markdown2anki.config.configs_handle as config_handle
 
 from markdown2anki.utils.debug_tools import expressive_debug
@@ -18,17 +20,28 @@ logger = logging.getLogger(__name__)
 CONFIG_LINK_PATH = str(Path(__file__).parent / "link_to_config_dir.ini")
 CONFIGFILE_NAME = "md2anki.config.ini"
 ADD_TYPES_TO_CONFIG = False
+LOGGING_LEVEL = logging.INFO
 
 
 def main():
     # Basic logging config with handlers
-    log.setup_logging()
+    log.setup_logging(LOGGING_LEVEL)
+
     config = config_handle.handle_configs(
         CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG
     )
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )
+
+    current_version = ver.get_current_version(markdown2anki.__name__)
+    logger.info(f"Running Markdown2Anki v{current_version} 🌸")
+
+    latest_version = ver.get_latest_version(markdown2anki.__name__)
+    if not (ver.check_for_version(current_version, latest_version)):
+        logger.info(f"⏫ There is a new version available: v{latest_version}!\n"
+                    "You can read what's new here: https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md\n\n")
+
 
     expressive_debug(logger, "Config from main", config, "pprint")
     logger.info("Starting cards extraction")
@@ -68,7 +81,7 @@ def main():
         out.copy_images_to_folder(images_to_copy, config["images out-folder"])
 
     if success_cards:
-        logger.info(f"🔥 Found a total of {success_cards} card/s!")
+        logger.info(f"🔥 Successfully created a total of {success_cards} card/s!")
         out.write_cards_to_csv(
             cards_to_write,
             os.path.join(config["config directory"], "basic_anki_cards.csv"),

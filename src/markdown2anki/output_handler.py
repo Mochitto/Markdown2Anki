@@ -23,17 +23,17 @@ def copy_images_to_folder(
     Dict:
     "image.extension" : "path/to/image.extension"
     """
-    logger.info("📷 Copying the images!")
+    logger.info("📷 Copying the images...")
     success = 0
     for image, path_to_image in images_to_copy.items():
         if not path_to_image:
-            logger.warning(f'|--- Couldn\'t copy "{image}" (File not found)')
+            logger.warning(f'|--- ❌ Couldn\'t copy "{image}" (File not found)')
             continue
 
         destination_path = os.path.join(outdir_folder, image)
 
         if os.path.exists(destination_path):
-            logger.warning(f'|--- Skipping "{image}": it\'s already in the folder')
+            logger.warning(f'|--- ⏩ Skipping "{image}": it\'s already in the folder')
             continue  # There is an image already
 
         try:
@@ -47,12 +47,12 @@ def copy_images_to_folder(
             IsADirectoryError,
         ) as error:
             logger.error(
-                f"|--- Failed to copy an image: '{image}' ({error.__class__.__name__})."
+                f"|--- ❌ Failed to copy an image: '{image}' ({error.__class__.__name__})."
             )
             continue
 
     if success:
-        logger.info(f"|--- Copied a total of {success} images!")
+        logger.info(f"|--- ✅ Copied a total of {success} images!")
 
 
 def write_cards_to_csv(
@@ -95,7 +95,7 @@ def backup_file(file_path: Types.PathString, output_folder: Types.PathString) ->
     with open(os.path.join(output_folder, file_name), "w") as backup_file:
         backup_file.write(file_content)
 
-    logger.info(f"✅ Backup file created correctly with the name {file_name}!")
+    logger.debug(f"✅ Backup file created correctly with the name {file_name}!")
 
 
 def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None:
@@ -117,7 +117,7 @@ def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None
             os.remove(file.path)
             total += 1
 
-        logging.info(f"🚮 Cleaned up {total} backup files.")
+        logging.debug(f"🚮 Cleaned up {total} backup files.")
 
 
 def clear_file(file_to_clear: Types.PathString) -> None:

@@ -2,7 +2,6 @@ import logging
 import sys
 
 from markdown2anki.utils import common_types as Types
-import markdown2anki.md_2_anki.utils.card_types as CardTypes
 from markdown2anki.utils.debug_tools import expressive_debug
 
 # Create a logger object
@@ -16,8 +15,12 @@ class SingleLevelFilter(logging.Filter):
             return record.levelno != self.passlevel
         return record.levelno == self.passlevel
 
-
-def setup_logging() -> None:
+def setup_logging(logging_level) -> None:
+    """
+    Take a logging level from the logging module,
+    set-up different handlers for the various messages levels and
+    call a basicConfig with the level and the handlers.
+    """
     info_handler = logging.StreamHandler(stream=sys.stdout)
     info_handler.addFilter(SingleLevelFilter(logging.INFO, False))
     info_handler.setFormatter(logging.Formatter("%(message)s"))
@@ -35,7 +38,7 @@ def setup_logging() -> None:
 
     logging.basicConfig(
         handlers=[debug_handler, info_handler, stderr_handler],
-        level=logging.DEBUG,
+        level=logging_level,
     )
 
 
