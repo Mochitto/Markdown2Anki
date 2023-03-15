@@ -4,16 +4,18 @@ This tool supports code highlighting, clozes, and images, making it a versatile 
 Additionally, it offers support for Obsidian notes, allowing you to create links inside your cards that point to your vault's notes! 🌸
 
 ---
-![Demo image](./docs/rose-pine.webp) 
+![Demo image](./docs/Main-demo_1.webp) 
 > Unleash the power of spaced repetition: Convert your Markdown notes into Anki flashcards for optimal learning.  
 `ChatGPT, when asked for a captivating description of this project.`
 
 ---
-## Table of contents
+## Table of contents (for GitHub)
 - [Features](#features)
   - [Technical features](#technical-features)
+  - [Images](#images)
 - [Installation](#installation)
-  - [Setup](#setup)
+  - [Initial setup](#initial-setup)
+  - [Using fill the blanks](#using-fill-the-blanks)
 - [Usage](#usage)
   - [Markdown formatting](#markdown-input-formatting)
   - [Importing cards](#importing-your-cards)
@@ -56,6 +58,18 @@ Additionally, it offers support for Obsidian notes, allowing you to create links
 - **Mobile first responsive CSS**: to ensure it's fully responsive on all devices.
 - **High-level dev documentation** to make it easier for contributions and maintenance.
 
+## Images
+
+### CLI
+![Demo image](./docs/Terminal-demo.webp) 
+### Split-screen
+![Demo image](./docs/Demo-split-screen.webp) 
+### Clozes support
+![Demo image](./docs/Demo-cloze-standard.webp) 
+![Demo image](./docs/Demo-cloze-answer.webp) 
+### Supports the addon "fill the blanks"
+![Demo image](./docs/Usage_demo1.webp)
+
 ## Installation
 
 This project is distributed using `pip` via [Pypi](https://pypi.org/).
@@ -70,13 +84,20 @@ And then you should be able to run:
 ```bash
 md2anki
 ```
-There is a guided setup on your first time running the app, which will help you get up and running :)
+There is a guided setup on your first time running the app, which will help you get up and running :)  
+
 
 **Notice:** This app uses emoji to give instant feedback to the user, depending on your terminal you might not be able to see them correctly.  
 On windows you can use the [Windows terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701). 
 On iOS and Linux they should be supported by default.
 
+You can also get all of the possible arguments for the script with:
+```bash
+md2anki -h
+```
+
 The script will also let you know when there is a new update and point you to the [CHANGELOG.md](https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md) file, where you can read what has changed and decide if to update or not.  
+![Update demo](./docs/Demo-update.webp)
 You can update the package with:
 ```bash
 python -m pip install --upgrade Markdown2Anki
@@ -94,6 +115,13 @@ You can learn more about Anki's folders here: https://docs.ankiweb.net/files.htm
 There will also be a `markdown2anki.apkg` file which contains the anki note types you will need when importing the cards.  
 If you have Anki installed on your system, you should be able to just double-click the file to import it, and it will create a new deck with some template cards and the note types.  
 You can learn more on `.apkg` files here: https://docs.ankiweb.net/exporting.html#deck-apkg
+
+### Using fill the blanks
+
+If you would like to have "type-in" clozes, you can use this addon: [fill the blanks addon](https://ankiweb.net/shared/info/1933645497).  
+For it to work, you will need to duplicate the `Markdown2Anki - Cloze` Note type and modify it by changing the `Front side` field to: `{{type:cloze:Front}}`.  
+
+![Demo of fill the blanks](./docs/Demo-cloze-addon.webp)
 
 ## Usage
 
@@ -181,6 +209,7 @@ my_list.{{C1::sort}}(True)
 The result:
 ![Usage demo image 2](./docs/Usage_demo2.webp)
 ![Usage demo image 3](./docs/Usage_demo3.webp)
+(This is using the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497))
 ![Usage demo image 1](./docs/Usage_demo1.webp)
 
 ### Importing your cards
@@ -276,7 +305,7 @@ You can read more on how styling happens here: https://docs.ankiweb.net/template
 The custom User Interface of the note-type that comes with this project is focused on the concept of tabs.  
 You can have side-by-side tabs and multiple tabs to toggle through.  
 
-![Demo image](./docs/rose-pine.webp)
+![Demo image](./docs/Main-demo_1.webp)
 
 To navigate them, you can either click on the labels of non-active tabs to make them active (switch to them), and click an active tab to make it full-screen.  
 This works also in mobile. 
