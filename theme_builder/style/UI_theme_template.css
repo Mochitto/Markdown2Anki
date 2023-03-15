@@ -11,13 +11,16 @@ Custom Ui theme made by <your name or username>, <year>
     --secondary-background: ; /* This is used for the tabs-bar background and the scroll bar. */
     --tabs-label-background: ; /* This is used for inactive tabs and inline-code background. */
     --accent-background: ; /* This color is used for separators, active tabs and some borders. */
+    --cloze-background: ; /* This color is used for clozes' backgrounds, you can leave it empty if you don't want clozes to have one. */
 
     --codeline-hover-background: rgba(, 0.1); /* Usually you can use the text color rgba with a=0.1 for this. */
 
     --main-color: ; /* text color */
     --secondary-color: ; /* This is used for inactive tabs' text */
     --accent-color: ; /* Counterpart of the accent-background. Used for active tabs. */
+    --cloze-color: ; /* clozes text color */
 
+    /* These are headers' text colors, such as '# Title', '## Subtitle'... */
     --h1: ;
     --h2: ;
     --h3: ;

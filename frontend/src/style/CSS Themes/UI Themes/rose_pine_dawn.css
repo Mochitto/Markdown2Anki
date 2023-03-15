@@ -10,12 +10,14 @@ Custom Ui theme made by @Mochitto, 2023
     --secondary-background: #dfdad9; /* This is used for the tabs-bar background */
     --tabs-label-background: #cecacd; /* This is used for inactive tabs */
     --accent-background: #b4637a;
+    --cloze-background: #286983; 
 
     --codeline-hover-background: rgb(87, 82, 121, 0.1); /* Usually you can use the text rgb with a=0.1 for this. */
 
     --main-color: #575279;
     --secondary-color: #797593;
     --accent-color: #b4637a;
+    --cloze-color: #faf4ed;
 
     --h1: #286983;
     --h2: #ea9d34;
