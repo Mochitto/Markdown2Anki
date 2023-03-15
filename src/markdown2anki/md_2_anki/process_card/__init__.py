@@ -53,5 +53,5 @@ def process_card(
             swapped_card[card_side]["right"]
         )
 
-    expressive_debug(logger, "this is the card", formatted_card["front"])
+    expressive_debug(logger, "Formatted card", formatted_card)
     return formatted_card

@@ -43,7 +43,7 @@ def main():
                     "You can read what's new here: https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md\n\n")
 
 
-    expressive_debug(logger, "Config from main", config, "pprint")
+    expressive_debug(logger, "Processed config from main", config, "pprint")
     logger.info("Starting cards extraction")
 
     with open(config["input md file path"], "r", encoding="utf-8") as markdown_file:
