@@ -4,7 +4,7 @@ This tool supports code highlighting, clozes, and images, making it a versatile 
 Additionally, it offers support for Obsidian notes, allowing you to create links inside your cards that point to your vault's notes! 🌸
 
 ---
-![Demo image](./docs/Main-demo_1.webp) 
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Main-demo_1.webp) 
 > Unleash the power of spaced repetition: Convert your Markdown notes into Anki flashcards for optimal learning.  
 `ChatGPT, when asked for a captivating description of this project.`
 
@@ -61,14 +61,14 @@ Additionally, it offers support for Obsidian notes, allowing you to create links
 ## Images
 
 ### CLI
-![Demo image](./docs/Terminal-demo.webp) 
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Terminal-demo.webp) 
 ### Split-screen
-![Demo image](./docs/Demo-split-screen.webp) 
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-split-screen.webp) 
 ### Clozes support
-![Demo image](./docs/Demo-cloze-standard.webp) 
-![Demo image](./docs/Demo-cloze-answer.webp) 
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-standard.webp) 
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-answer.webp) 
 ### Supports the addon "fill the blanks"
-![Demo image](./docs/Usage_demo1.webp)
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
 
 ## Installation
 
@@ -97,7 +97,7 @@ md2anki -h
 ```
 
 The script will also let you know when there is a new update and point you to the [CHANGELOG.md](https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md) file, where you can read what has changed and decide if to update or not.  
-![Update demo](./docs/Demo-update.webp)
+![Update demo](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-update.webp)
 You can update the package with:
 ```bash
 python -m pip install --upgrade Markdown2Anki
@@ -121,7 +121,7 @@ You can learn more on `.apkg` files here: https://docs.ankiweb.net/exporting.htm
 If you would like to have "type-in" clozes, you can use this addon: [fill the blanks addon](https://ankiweb.net/shared/info/1933645497).  
 For it to work, you will need to duplicate the `Markdown2Anki - Cloze` Note type and modify it by changing the `Front side` field to: `{{type:cloze:Front}}`.  
 
-![Demo of fill the blanks](./docs/Demo-cloze-addon.webp)
+![Demo of fill the blanks](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-addon.webp)
 
 ## Usage
 
@@ -207,10 +207,10 @@ my_list.{{C1::sort}}(True)
 
 ```
 The result:
-![Usage demo image 2](./docs/Usage_demo2.webp)
-![Usage demo image 3](./docs/Usage_demo3.webp)
+![Usage demo image 2](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo2.webp)
+![Usage demo image 3](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo3.webp)
 (This is using the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497))
-![Usage demo image 1](./docs/Usage_demo1.webp)
+![Usage demo image 1](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
 
 ### Importing your cards
 Once you have processed your cards, they will be divided in cards with clozes and cards without clozes.  
@@ -220,7 +220,7 @@ After selecting the `.csv` file, you have to let anki know that the separator us
 Also make sure to allow HTML in the cards, as they need it to work correctly.
 
 This is a screenshot of how this could look in your Anki (Anki's UI can change depending on the OS it is running on):  
-![Image of Anki's import screen](./docs/Anki import example.webp)
+![Image of Anki's import screen](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Anki import example.webp)
 
 You can find more information on importing to Anki here: https://docs.ankiweb.net/importing.html
 
@@ -289,7 +289,7 @@ my_list.{{C1::sort}}(True)
 ```
 Result (with the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497), not included in this project).
 Notice how both `sort` and `True` are turned into clozes, even if only specified once.
-![Demo of clozes](./docs/Usage_demo1.webp)
+![Demo of clozes](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
 
 ### Changing Themes
 The default theme is mochitto's Rosé Pine theme, but there is also a catpuccin theme.  
@@ -305,7 +305,7 @@ You can read more on how styling happens here: https://docs.ankiweb.net/template
 The custom User Interface of the note-type that comes with this project is focused on the concept of tabs.  
 You can have side-by-side tabs and multiple tabs to toggle through.  
 
-![Demo image](./docs/Main-demo_1.webp)
+![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Main-demo_1.webp)
 
 To navigate them, you can either click on the labels of non-active tabs to make them active (switch to them), and click an active tab to make it full-screen.  
 This works also in mobile. 
