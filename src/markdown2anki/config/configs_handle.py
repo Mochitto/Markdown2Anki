@@ -3,12 +3,13 @@ import os
 import sys
 from typing import Tuple, Dict, Any
 import logging
+from pathlib import Path
 
 from markdown2anki.utils import common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
 from markdown2anki.utils.debug_tools import expressive_debug
 
-from .first_config import welcome_user
+from .first_config import welcome_user, create_anki_package
 from .parse_args import CommandLineArgsParser
 from .config_setup import setup_typeConfig
 
@@ -86,7 +87,11 @@ def handle_configs(
     file_config_content = get_file_config_content(os.path.join(config_dir, config_file))
 
     cli_config = get_CLI_config()
-    if cli_config["Link config?"]:
+    if cli_config["Anki package?"]:
+        create_anki_package(Path(config_dir))
+        logger.info("✨ Anki file created in your config folder!")
+        sys.exit(0)
+    elif cli_config["Link config?"]:
         welcome_user(
             configfile_name=configfile_name,
             path_to_link=config_link_path,
@@ -101,6 +106,7 @@ def handle_configs(
     else:
         # This step is needed to prepare the options that were actually set
         # for validation.
+        cli_config.pop("Anki package?")
         cli_config.pop("Link config?")
         cli_config.pop("Heal config?")
         for option, value in cli_config.items():

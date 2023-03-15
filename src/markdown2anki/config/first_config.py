@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 from pathlib import Path
+import shutil
 
 from .config_setup import setup_typeConfig
 from markdown2anki.utils import common_types as Types
@@ -59,6 +60,9 @@ def welcome_user(
                 "You should now configure it to your liking, before using the program ⭐"
             )
 
+    # Create or overwrite the APKG file
+    create_anki_package(Path(configfile_directory))
+
 
 def create_link_to_config_file(
     path_to_link: Types.PathString,
@@ -75,6 +79,13 @@ def create_link_to_config_file(
             "[LINKS]\n" f"config_dir = {config_dir}\n" f"config_file = {config_file}"
         )
 
+
+def create_anki_package(path_to_config_directory: Path) -> None:
+    filename = "Markdown2Anki.apkg"
+    source = Path(__file__).parent / filename
+    destination = path_to_config_directory / filename
+    shutil.copy(str(source), str(destination))
+    
 
 def get_welcome_message(path_to_welcome_file: Types.PathString) -> str:
     """

@@ -44,6 +44,15 @@ CommandLineArgsParser.add_argument(
 )
 
 CommandLineArgsParser.add_argument(
+    "-apkg",
+    "--AnkiPackage",
+    dest="Anki package?",
+    help="R|If present, re-builds the anki apkg file that you can import to your Anki to get the Markdown2Anki note types.\nExample: --apkg",
+    action="store_true",
+    default=None,
+    )
+
+CommandLineArgsParser.add_argument(
     "-lc",
     "--linkconfig",
     dest="Link config?",
