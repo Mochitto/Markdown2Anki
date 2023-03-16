@@ -23,7 +23,8 @@ Additionally, it offers support for Obsidian notes, allowing you to create links
   - [Errors and Bad cards](#errors-and-bad-cards)
   - [Using clozes](#using-clozes)
   - [Changing themes](#changing-themes)
-  - [Navigating the UI](#navingating-the-ui)
+  - [Navigating the UI](#navigating-the-ui)
+- ["Can't find any element..." query Error](#query_error)
 - [Creating a custom theme](#creating-a-new-theme)
 - [Contributing and dev documentation](#contributing-and-dev-documentation)
 - [The reasons behind the project](#the-reasons-behind-the-project)
@@ -33,12 +34,18 @@ Additionally, it offers support for Obsidian notes, allowing you to create links
 - [License](#license)
 - [Closing note](#closing-note)
 
+---
+This is an open-source free software, you can find it on:  
+Github - https://github.com/Mochitto/Markdown2Anki  
+PyPi - https://pypi.org/project/markdown2anki
+
+---
 
 ## Features
 - **Write and format cards in Markdown**: create cards in Markdown syntax and then import them into Anki while retaining their structure.
 - **Custom Note types** that support split-screen, tabs, keyboard shortcuts, and mobile devices.
 - **No addons needed**: The resulting cards are pure HTML and the note-type is CSS and JS, which work with vanilla Anki.
-- **Different themes**: themes for both day and night modes, which are easily customizable.
+- **Different themes**: themes for both day and night modes, which are easily customizable. You can [check them out here](https://github.com/Mochitto/Markdown2Anki/tree/master/themes)!
 - **Code highlighting** (using [pygments](https://pygments.org/)).
 - **Support for clozes** including those in code blocks.
 - **Support for images** with automatic importing: the program can find the images you mention in your obsidian notes and copy them to your Anki's media folder.
@@ -61,14 +68,21 @@ Additionally, it offers support for Obsidian notes, allowing you to create links
 ## Images
 
 ### CLI
-![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Terminal-demo.webp) 
+![Demo image of the CLI](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Terminal-demo.webp)  
+![Video demo of the CLI](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/CLI_demo.mp4)
 ### Split-screen
 ![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-split-screen.webp) 
+### Code highlighting
+![Demo code highlighting](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo_highlight.gif)
 ### Clozes support
 ![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-standard.webp) 
 ![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-answer.webp) 
 ### Supports the addon "fill the blanks"
 ![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
+### Mobile (with light mode)
+Mobile version | Clozes in mobile
+:---: | :---:
+![Demo image of mobile](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/mobile_demo.webp) | ![Demo image of mobile](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/mobile_cloze_demo.webp)
 
 ## Installation
 
@@ -121,6 +135,8 @@ You can learn more on `.apkg` files here: https://docs.ankiweb.net/exporting.htm
 If you would like to have "type-in" clozes, you can use this addon: [fill the blanks addon](https://ankiweb.net/shared/info/1933645497).  
 For it to work, you will need to duplicate the `Markdown2Anki - Cloze` Note type and modify it by changing the `Front side` field to: `{{type:cloze:Front}}`.  
 
+This is a video with how you can achieve this: ![Video Tutorial on how to modify a note type](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/How_to_make_type_in_cloze.mp4)
+
 ![Demo of fill the blanks](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-addon.webp)
 
 ## Usage
@@ -129,7 +145,7 @@ For it to work, you will need to duplicate the `Markdown2Anki - Cloze` Note type
 To ensure that your notes are properly recognized by the program, there are a few formatting requirements:
 
 #### Cards separator
-Cards must be separated by a horizontal rule using three dashes or more `---`.
+Cards must be separated by a horizontal rule using three dashes or more `---`.  
 **Notice:** `***` do not work as cards separators, this is so that you can use `*` to define horizontal rules inside of your cards :)
 
 #### Tabs
@@ -164,8 +180,8 @@ And this is its body
 **Notice:** Tab labels do not support Markdown formatting, such as bold text etc.
 
 **Default values**:  
-`F`ront and `L`eft flags are applied automatically, so you can left them out.
-```
+`F`ront and `L`eft flags are applied automatically, so you can leave them out.
+```markdown
 ## [My tab]
 is the same as
 ## FL [My tab]
@@ -184,7 +200,7 @@ Here are two example cards to illustrate the formatting requirements:
 ```markdown
 ## - [Question]
 # A great addition to humanity
-What is the name of this funny cat?
+What is the **name** of this funny cat?
 ## Make sure you get it right.
 
 ## R [Funny cat]
@@ -220,20 +236,20 @@ After selecting the `.csv` file, you have to let anki know that the separator us
 Also make sure to allow HTML in the cards, as they need it to work correctly.
 
 This is a screenshot of how this could look in your Anki (Anki's UI can change depending on the OS it is running on):  
-![Image of Anki's import screen](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Anki import example.webp)
+![Image of Anki's import screen](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Anki_import_example.webp)
 
 You can find more information on importing to Anki here: https://docs.ankiweb.net/importing.html
 
 ### Importing your images
 You can import images automatically if you add the path to your [Anki media folder](https://docs.ankiweb.net/files.html#file-locations) in the config file.  
 Images that are already present won't be added twice and will be skipped (based on filename).  
-If you prefer checking the images before importing them manually, you can point to another folder or leave the default one.
+If you prefer checking the images before importing them manually, you can point to another folder or leave the default one.   
 **Notice:** when images are copied, they lose their metadata: this is due to security, as others' could read your images metadata if you were to share your cards, and for how the python library that handles the copying process is implemented.
 
 Hopefully, in the near future, the importing part will be made automatic by the addition of `AnkiConnect` support.
 
 ### Errors and Bad cards
-When there are errors in formatting, the app will let you know what went wrong and create a `Bad cards.md` file in your program folder.  
+When there are errors in formatting, the app will let you know what went wrong and create a `Bad_cards.md` file in your program folder.  
 This will be a file of all of the "Bad cards" (cards that had a problem in them). The specific error for each card is added before the tabs, so that you can easily fix them.
 
 These, as other text added at the beginning of a card, before all the tabs labels, are considered comments, so you can leave them in.  
@@ -259,13 +275,14 @@ Some common general errors are:
 - No cards were found in the input file
 
 
-Once you have fixed your cards, you can run the program with 
+Once you have fixed your bad cards, you can run the program with 
 ```
 md2anki -bf
 ```
-This will automatically use the bad file as input, if you prefer fixing the cards in that file instead of adding them to the main input file.
+This will automatically use the `Bad_cards.md` as input, if you prefer fixing the cards in that file instead of adding them to the main input file.
 
-A `txt` log file is also present in your program folder, which is created every time you run the program. If there is any bug in the program, it would be of great help if you could add this file to your issues on GitHub.  
+A `debug_log.txt` file is also present in your program folder, which is created every time you run the program. This file contains more information on what happens when the program is running, the result of various processes, your configuration and so on.  
+If you find a bug in the program, it would be of great help if you could add this file to your issues on GitHub.  
 
 **Privacy Notice:** the log file has your configuration in it, as it can contain crucial information for debugging.  
 If you don't want to share your paths or other information from it when making issues, you should search-and-replace that information with some fake one, while trying not to change their general structure.
@@ -287,17 +304,17 @@ sorted_list = {{C1::sorted}}(my_list, {{C1::True}})
 # In place
 my_list.{{C1::sort}}(True)
 ```
-Result (with the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497), not included in this project).
-Notice how both `sort` and `True` are turned into clozes, even if only specified once.
-![Demo of clozes](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
+Result
+Notice how all instances of `sort` and `True` are turned into clozes, even if only specified once in the Markdown text.
+![Demo of clozes](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/cloze_example.webp)
 
 ### Changing Themes
 The default theme is mochitto's Rosé Pine theme, but there is also a catpuccin theme.  
 You can find all the themes in the [themes folder](https://github.com/Mochitto/Markdown2Anki/tree/master/themes).  
 To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
 
-This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.  
-![This is a video showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.webm)
+This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.   
+You can reference this: ![Video Tutorial showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.mp4)
 
 You can read more on how styling happens here: https://docs.ankiweb.net/templates/styling.html
 
@@ -313,6 +330,15 @@ This works also in mobile.
 There are also keyboard commands: you can select a tab with `<alt>+<number of the tab>` or `⌥  + <number of the tab>` (the number is displayed next to the tab label) to switch to that tab or make it full-screen, or you can `TAB` between to navigate between them.  
 
 For example, `Alt+1` will show the first tab if it's not-active, or make it full-screen if it's active.
+
+**Notice**: at times the hotkeys don't seem to work completely (maybe one tab is not accessible with `<alt>`); I'm working on understanding better how Anki handles HTML and Javascript, as it's a problem on how it handles changing between cards... The `<tab>` and `<click>` methods seem to be stable, so you can use those if this bug happens.  
+I'm sorry about it...
+
+## Query error
+Sometimes, you might come across a screen saying "ERROR: Couldn't find any element using the query [...]".  
+This happens because, for some reason, Anki is not loading correctly the card or the script. This shouldn't happen often and I'm still trying to understand better the underlying reasons behind it, as they have to do with Anki's way of handling HTML and Javascript...  
+It will likely be patched in the near future, until then, your best call is to go back to the main menu and try again, or restarting Anki; this often fixes the problem.  
+I'm sorry about it...
 
 ## Creating a new theme
 The theme was made with customizability in mind; you can learn more on how to make your own theme in the [theme builder folder's README](https://github.com/Mochitto/Markdown2Anki/tree/master/theme_builder).  
@@ -367,7 +393,7 @@ Some things that I hope will be implemented in the future, either by me (mochitt
 - [ ] A comprehensive documentation
 
 ## Versioning
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+The formatting of the changelog file is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 You can [read the CHANGELOG file here](https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md).
 
 ## License
