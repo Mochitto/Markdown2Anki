@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.1.2] - 2023-03-16
+
+### Fixed
+- Updated dependency to Type-config, which was left to an earlier version in the `pyproject.toml`
+
 ## [0.1.1] - 2023-03-16
 
 ### Added
