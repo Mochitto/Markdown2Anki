@@ -288,13 +288,11 @@ If you find a bug in the program, it would be of great help if you could add thi
 If you don't want to share your paths or other information from it when making issues, you should search-and-replace that information with some fake one, while trying not to change their general structure.
 
 ### Using clozes
-You can specify clozes in your markdown and they will be carried over to your anki cards. Whenever there is a word or sentence you'd like to have as a cloze, you can use Anki's formatting `{{c<number>::<word>}}` (notice the two colons, not just one).
+You can specify clozes in your markdown and they will be carried over to your anki cards. Whenever there is a word or sentence you'd like to have as a cloze, you can use Anki's formatting `{{c<number>::<word>::<hint?>}}` (notice the two colons, not just one).
+Clozes will also work in code blocks.
 
 The number tells Anki what cloze to add to what card. This means that if you have C1, C2 and C3, there will be three cards created (this is a feature of Anki, not of Markdown2Anki), each missing the respective words.  
 More on this here: https://docs.ankiweb.net/editing.html#cloze-deletion
-
-If the clozed word/sentence is present multiple times, it will be automatically turned into a cloze, so you only need to specify it once.
-This works also in code blocks.
 
 For example:
 ```python

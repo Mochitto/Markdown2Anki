@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-04-19
+
+### Fixed
+- Fixed bugs regarding cloze deletion handling.
+
 ## [0.1.2] - 2023-03-16
 
 ### Fixed
