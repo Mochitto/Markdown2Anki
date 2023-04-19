@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### Fixed
+- Starting the program with an empty file doesn't crash it anymore.
+
 ## [0.2.0] - 2023-04-19
 
 ### Fixed

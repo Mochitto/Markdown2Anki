@@ -36,7 +36,7 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
 
     cards = extract_cards(markdown)
 
-    if cards[0]:
+    if cards:
         logger.info(f"📦 Found {len(cards)} cards to process...")
     else:
         raise CardError("No cards were found...")
