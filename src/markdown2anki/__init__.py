@@ -33,16 +33,19 @@ def main():
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )
-
     current_version = ver.get_current_version(markdown2anki.__name__)
-    logger.info(f"Running Markdown2Anki v{current_version} 🌸")
+    logger.info(f"Running Markdown2Anki v{current_version} 🌸\n")
 
+    logger.info(f"Checking for updates...")
     latest_version = ver.get_latest_version(markdown2anki.__name__)
     if not (ver.check_for_version(current_version, latest_version)):
         logger.info(
             f"⏫ There is a new version available: v{latest_version}!\n"
             "You can read what's new here: https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md\n\n"
         )
+    else:
+        logger.info("✨ Running the latest version!\n")
+
 
     expressive_debug(logger, "Processed config from main", config, "pprint")
     logger.info("Starting cards extraction")
