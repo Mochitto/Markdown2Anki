@@ -10,7 +10,7 @@ def get_current_version(package_name: str) -> str:
 def get_latest_version(package_name:str) -> str:
     latest_version = ""
     try:
-        response = requests.get(f"https://pypi.org/pypi/{package_name}/json", timeout=1)
+        response = requests.get(f"https://pypi.org/pypi/{package_name}/json", timeout=2)
         response.raise_for_status()
         package_data = response.json()
         latest_version = package_data['info']['version']

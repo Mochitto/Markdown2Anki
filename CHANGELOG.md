@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 - Fixed bugs regarding cloze deletion handling.
 
+### Added
+- Added a message letting you know the app is checking for when starting updates.
+
 ## [0.1.2] - 2023-03-16
 
 ### Fixed
