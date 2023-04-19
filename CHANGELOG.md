@@ -9,9 +9,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Fixed
 - Fixed bugs regarding cloze deletion handling.
+- You can leave the "Obsidian vault name" empty now.
 
 ### Added
 - Added a message letting you know the app is checking for when starting updates.
+
+### Changed
+- Bad cards are now appended to the "bad cards.md" file instead of overwriting the file. This way you don't have to fix them before running other imports.
 
 ## [0.1.2] - 2023-03-16
 

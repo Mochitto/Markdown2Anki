@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 [project]
 name = "markdown2anki"
-version = "0.1.2"
+version = "0.2.0"
 description = "A CLI tool and an apkg template to allow you to create flashcards from markdown and have a better experience while using anki for your studies. 🌸"
 readme = "README.md"
 requires-python = ">=3.10"
