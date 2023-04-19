@@ -73,8 +73,9 @@ def write_cards_to_csv(
 def write_failed_cards(
     failed_cards: List[Types.MDString], file_path: Types.PathString
 ) -> None:
-    with open(file_path, "w", encoding="utf-8") as output:
+    with open(file_path, "a", encoding="utf-8") as output:
         output.write("\n\n---\n\n".join(failed_cards))
+        output.write("\n\n---\n\n")
 
 
 def backup_file(file_path: Types.PathString, output_folder: Types.PathString) -> None:
