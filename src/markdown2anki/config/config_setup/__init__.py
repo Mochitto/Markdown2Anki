@@ -66,6 +66,7 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
         help="The name of the obsidian vault where the input file is from.",
         important_help="If left empty, Obsidian links will not work in your cards.",
         default="",
+        can_be_empty=True
     )
     fileConfig.add_option(
         type="ExistingPath",
