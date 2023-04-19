@@ -39,9 +39,10 @@ def main():
 
     latest_version = ver.get_latest_version(markdown2anki.__name__)
     if not (ver.check_for_version(current_version, latest_version)):
-        logger.info(f"⏫ There is a new version available: v{latest_version}!\n"
-                    "You can read what's new here: https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md\n\n")
-
+        logger.info(
+            f"⏫ There is a new version available: v{latest_version}!\n"
+            "You can read what's new here: https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md\n\n"
+        )
 
     expressive_debug(logger, "Processed config from main", config, "pprint")
     logger.info("Starting cards extraction")

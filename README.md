@@ -69,7 +69,7 @@ PyPi - https://pypi.org/project/markdown2anki
 
 ### CLI
 ![Demo image of the CLI](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Terminal-demo.webp)  
-![Video demo of the CLI](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/CLI_demo.mp4)
+[Video demo of the CLI](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/CLI_demo.mp4)
 ### Split-screen
 ![Demo image](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-split-screen.webp) 
 ### Code highlighting
@@ -135,7 +135,7 @@ You can learn more on `.apkg` files here: https://docs.ankiweb.net/exporting.htm
 If you would like to have "type-in" clozes, you can use this addon: [fill the blanks addon](https://ankiweb.net/shared/info/1933645497).  
 For it to work, you will need to duplicate the `Markdown2Anki - Cloze` Note type and modify it by changing the `Front side` field to: `{{type:cloze:Front}}`.  
 
-This is a video with how you can achieve this: ![Video Tutorial on how to modify a note type](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/How_to_make_type_in_cloze.mp4)
+This is a video with how you can achieve this: [Video Tutorial on how to modify a note type](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/How_to_make_type_in_cloze.mp4)
 
 ![Demo of fill the blanks](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Demo-cloze-addon.webp)
 
@@ -312,7 +312,7 @@ You can find all the themes in the [themes folder](https://github.com/Mochitto/M
 To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
 
 This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.   
-You can reference this: ![Video Tutorial showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.mp4)
+You can reference this: [Video Tutorial showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.mp4)
 
 You can read more on how styling happens here: https://docs.ankiweb.net/templates/styling.html
 
