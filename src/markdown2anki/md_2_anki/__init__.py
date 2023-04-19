@@ -3,14 +3,7 @@ import logging
 import markdown2anki.md_2_anki.utils.common_types as Types
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki.process_card import process_card
-from markdown2anki.md_2_anki.process_clozes import (
-    get_clozes,
-    hash_clozes,
-    clean_code_from_clozes,
-    replace_cloze_text_with_hashes,
-    inject_clozes,
-    are_clozes_in_card,
-)
+from markdown2anki.md_2_anki.process_clozes import HandleClozes, are_clozes_in_card
 from markdown2anki.md_2_anki.process_images import get_images_to_copy
 from markdown2anki.md_2_anki.process_card.extract import extract_cards
 
@@ -57,28 +50,20 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
     for index, card in enumerate(cards):
         # card is not immutable: it can change when clozes are found
         try:  # Handle CardErrors
-            cloze_card_flag = False
-
             if are_clozes_in_card(card):
-                cloze_card_flag = True
+                clozes_handler = HandleClozes(card)
 
-                clozes = get_clozes(card)
-                hash_dictionary = hash_clozes(clozes)
-
-                card_without_clozes = clean_code_from_clozes(card)
-                card_with_hashes = replace_cloze_text_with_hashes(
-                    card_without_clozes, hash_dictionary
+                formatted_card_with_hashes = process_card(
+                    clozes_handler.hashed_markdown, vault, linenos=linenos
                 )
 
-                formatted_card_without_clozes = process_card(
-                    card_with_hashes, vault, linenos=linenos
+                formatted_card = clozes_handler.inject_clozes(
+                    formatted_card_with_hashes
                 )
-
-                formatted_card = inject_clozes(
-                    formatted_card_without_clozes, hash_dictionary
-                )
+                processed_cards_with_cloze.append(formatted_card)
             else:
                 formatted_card = process_card(card, vault, linenos=linenos)
+                processed_cards.append(formatted_card)
 
             if images_dir:
                 images = get_images_to_copy(
@@ -86,11 +71,6 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                 )
                 images_to_copy.update(images)
                 # TODO: Add check for images not found to send to debug/Find a better way to handle errors
-
-            if cloze_card_flag:
-                processed_cards_with_cloze.append(formatted_card)
-            else:
-                processed_cards.append(formatted_card)
 
             successful_cards += 1
 

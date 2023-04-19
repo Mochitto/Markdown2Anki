@@ -9,15 +9,16 @@ class TestHashClozes:
         )
 
         expected_hashed_clozes = {
-            "something": ("1", "clozes"),
-            "something else": ("2", "cloze"),
+            "something": "{{c1::clozes}}",
+            "something else": "{{c2::cloze}}",
         }
         expected_length = len(expected_hashed_clozes.values())
 
-        match_clozes = clozes.get_clozes(content)
-        hashed_clozes = clozes.hash_clozes(match_clozes)
-        length = len(hashed_clozes.values())
+        clozes_handler = clozes.HandleClozes(content)
 
+        hashed_clozes = clozes_handler._hash_dictionary
+
+        length = len(hashed_clozes.values())
         difference = set(expected_hashed_clozes.values()) - set(hashed_clozes.values())
 
         assert not difference and expected_length == length
@@ -31,11 +32,11 @@ class TestHashClozes:
             + "Another line, same {{C394::cloZe}}."
         )
 
-        expected_hashed_clozes = {"something": ("394", "cloZe")}
+        expected_hashed_clozes = {"something": "{{C394::cloZe}}"}
         expected_length = len(expected_hashed_clozes.values())
 
-        match_clozes = clozes.get_clozes(content)
-        hashed_clozes = clozes.hash_clozes(match_clozes)
+        clozes_handler = clozes.HandleClozes(content)
+        hashed_clozes = clozes_handler._hash_dictionary
 
         length = len(hashed_clozes.values())
         difference = set(expected_hashed_clozes.values()) - set(
@@ -49,8 +50,8 @@ class TestHashClozes:
         expected_hashed_clozes = {}
         expected_length = len(expected_hashed_clozes.values())
 
-        match_clozes = clozes.get_clozes(content)
-        hashed_clozes = clozes.hash_clozes(match_clozes)
+        clozes_handler = clozes.HandleClozes(content)
+        hashed_clozes = clozes_handler._hash_dictionary
 
         length = len(hashed_clozes.values())
         difference = set(expected_hashed_clozes.values()) - set(hashed_clozes.values())

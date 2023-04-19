@@ -13,14 +13,11 @@ class TestReplaceClozeTextWithHashes:
         )
 
         hashed_clozes = {
-            "HIIDAJIGJADFBDBJJDF": ("1", "clozes"),
-            "ZEJDDDHDEBDEICGIHBGF": ("2", "cloze"),
+                "HIIDAJIGJADFBDBJJDF": "{{c1::clozes}}",
+                "ZEJDDDHDEBDEICGIHBGF": "{{c2::cloze}}",
         }
-
-        cleaned_content = clozes.clean_code_from_clozes(content)
-        hashed_content = clozes.replace_cloze_text_with_hashes(
-            cleaned_content, hashed_clozes
-        )
+        clozes_handler = clozes.HandleClozes(content)
+        hashed_content = clozes_handler._replace_clozes_with_hashes(clozes_handler.card, hashed_clozes)
 
         assert hashed_content == expected_hashed_content
 
@@ -37,17 +34,16 @@ class TestReplaceClozeTextWithHashes:
             + "Another line, same ZIAGEIHFICDIEFCECJF."
         )
 
-        hashed_clozes = {"ZIAGEIHFICDIEFCECJF": ("394", "cloZe")}
-        cleaned_content = clozes.clean_code_from_clozes(content)
-        hashed_content = clozes.replace_cloze_text_with_hashes(
-            cleaned_content, hashed_clozes
-        )
+        hashed_clozes = {"ZIAGEIHFICDIEFCECJF": "{{C394::cloZe}}"}
+        clozes_handler = clozes.HandleClozes(content)
+        hashed_content = clozes_handler._replace_clozes_with_hashes(clozes_handler.card, hashed_clozes)
 
         assert hashed_content == expected_hashed_content
 
     def test_false_case(self):
         content = "This is a string with 2 {{c1:clozeS}}.\n" + "Another line."
         hashed_clozes = {}
-        hashed_content = clozes.replace_cloze_text_with_hashes(content, hashed_clozes)
+        clozes_handler = clozes.HandleClozes(content)
+        hashed_content = clozes_handler._replace_clozes_with_hashes(clozes_handler.card, hashed_clozes)
 
         assert hashed_content == content
