@@ -271,7 +271,7 @@ Some common card errors are:
 - Removing a tab that contains a cloze in it  
 
 Some common general errors are:
-- The configuration file is missing a necessary option (such as your `vault's name`)
+- The configuration file is missing a necessary option.
 - No cards were found in the input file
 
 
@@ -302,9 +302,6 @@ sorted_list = {{C1::sorted}}(my_list, {{C1::True}})
 # In place
 my_list.{{C1::sort}}(True)
 ```
-Result
-Notice how all instances of `sort` and `True` are turned into clozes, even if only specified once in the Markdown text.
-![Demo of clozes](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/cloze_example.webp)
 
 ### Changing Themes
 The default theme is mochitto's Rosé Pine theme, but there is also a catpuccin theme.  
