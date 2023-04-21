@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### Added
+- Cards can now have metadata! TODO: link to readme header explaining metadata
+
 ### Fixed
 - Starting the program with an empty file doesn't crash it anymore.
+- Removed some extra vault name checks; now you can leave the "Obsidian vault" name empty in your config file.
 
 ### Changed
 - Added margin to code blocks and more width to tabs on vertical screens.
