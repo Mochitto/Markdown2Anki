@@ -3,6 +3,8 @@ import logging
 import sys
 from pathlib import Path
 
+import frontmatter
+
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki import markdown_to_anki
 
@@ -26,13 +28,14 @@ CONSOLE_DEBUG = False
 def main():
     # Basic logging config with handlers
     log.setup_logging(CONSOLE_DEBUG)
-
     config = config_handle.handle_configs(
         CONFIG_LINK_PATH, CONFIGFILE_NAME, ADD_TYPES_TO_CONFIG
     )
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )
+
+    # TODO: put the version check in its own function/module
     current_version = ver.get_current_version(markdown2anki.__name__)
     logger.info(f"Running Markdown2Anki v{current_version} 🌸\n")
 
@@ -46,15 +49,19 @@ def main():
     else:
         logger.info("✨ Running the latest version!\n")
 
+    expressive_debug(logger, "Processed config from main", config, "json")
 
-    expressive_debug(logger, "Processed config from main", config, "pprint")
     logger.info("Starting cards extraction")
-
     with open(config["input md file path"], "r", encoding="utf-8") as markdown_file:
         markdown_input = markdown_file.read()
+
+    # Extract metadata
+    markdown_matter = frontmatter.loads(markdown_input) 
+    expressive_debug(logger, "Markdown input file frontmatter", markdown_matter.metadata, "json")
+
     try:
         cards_with_info = markdown_to_anki(
-            markdown_input,
+            markdown_matter.content,
             config["Obsidian valut name"],
             linenos=config["line numbers?"],
             interactive=True,
@@ -107,7 +114,15 @@ def main():
         )
 
         if config["clear file?"]:
-            out.clear_file(config["input md file path"])
+            markdown_yaml = frontmatter.YAMLHandler().export(markdown_matter.metadata)
+            frontmatter_to_write = ""
+            if markdown_yaml:
+                frontmatter_to_write = (
+                    "---\n" +
+                    markdown_yaml +
+                    "\n---\n\n"
+                    )
+            out.clear_file(config["input md file path"], frontmatter_to_write)
 
         logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
     else:

@@ -121,11 +121,11 @@ def clear_backups(backups_folder: Types.PathString, limit_of_files: int) -> None
         logging.debug(f"🚮 Cleaned up {total} backup files.")
 
 
-def clear_file(file_to_clear: Types.PathString) -> None:
+def clear_file(file_to_clear: Types.PathString, frontmatter: Types.MDString) -> None:
     """
     Clears (makes blank) the content of the given file.
     """
-    with open(file_to_clear, "w"):
-        pass
+    with open(file_to_clear, "w") as file:
+        file.write(frontmatter)
 
     logging.info(f"🧹 Cleared the input file!")
