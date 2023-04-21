@@ -18,7 +18,7 @@ class TestClozesProcessing:
 
     def test_single_letter_case(self):
         content = (
-                "This is a cloze with a single letter {c1::a}"
+            "This is a cloze with a single letter {{c1::a}}"
         )
 
         assert clozes.are_clozes_in_card(content)
