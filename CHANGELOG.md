@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 - Starting the program with an empty file doesn't crash it anymore.
 
+### Changed
+- Added margin to code blocks and more width to tabs on vertical screens.
+
 ## [0.2.0] - 2023-04-19
 
 ### Fixed
