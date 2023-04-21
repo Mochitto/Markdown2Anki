@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 - Starting the program with an empty file doesn't crash it anymore.
 - Removed some extra vault name checks; now you can leave the "Obsidian vault" name empty in your config file.
+- Clozes are now the right color with type-in clozes.
 
 ### Changed
 - Added margin to code blocks and more width to tabs on vertical screens.
