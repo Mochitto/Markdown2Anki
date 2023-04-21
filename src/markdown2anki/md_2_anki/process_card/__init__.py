@@ -34,9 +34,6 @@ def process_card(
         and turning the tabs into one HTML string for each side.
     """
 
-    if not vault:
-        raise CardError("Missing obsidian vault name.")
-
     linenos_in_highlight = options.get("linenos", True)
 
     tabs = extract_tabs(markdown)

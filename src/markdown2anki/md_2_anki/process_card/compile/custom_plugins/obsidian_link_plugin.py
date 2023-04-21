@@ -6,6 +6,7 @@ from typing import Match
 import mistune
 
 import markdown2anki.md_2_anki.utils.common_types as Types
+from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -39,6 +40,9 @@ class ObsidianLinkPlugin:
         return "obsidian_link", path_to_page, page_alias
 
     def render_obsidian_link(self, path: Types.PathString, alias: str):
+        if not self.valut:
+            raise CardError("Missing obsidian vault name.")
+
         encoded_path = urllib.parse.quote(path.encode("utf8"))
         encoded_vault = urllib.parse.quote(self.valut.encode("utf8"))
         if alias:
