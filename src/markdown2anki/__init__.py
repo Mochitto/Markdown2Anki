@@ -3,8 +3,6 @@ import logging
 import sys
 from pathlib import Path
 
-import frontmatter
-
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki import markdown_to_anki
 
@@ -13,6 +11,7 @@ import markdown2anki.logger as log
 import markdown2anki.output_handler as out
 import markdown2anki.version_check as ver
 import markdown2anki.config.configs_handle as config_handle
+from markdown2anki.markdown_handler import MarkdownHandler
 
 from markdown2anki.utils.debug_tools import expressive_debug
 
@@ -37,20 +36,16 @@ def main():
 
     # Check for updates
     ver.check_for_updates(markdown2anki.__name__, "https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md")
-
     expressive_debug(logger, "Processed config from main", config, "json")
 
     logger.info("⏳ Starting cards extraction")
-    with open(config["input md file path"], "r", encoding="utf-8") as markdown_file:
-        markdown_input = markdown_file.read()
 
-    # Extract metadata
-    markdown_matter = frontmatter.loads(markdown_input) 
-    expressive_debug(logger, "Markdown input file frontmatter", markdown_matter.metadata, "json")
+    markdown_handle = MarkdownHandler(config["input md file path"])
+    expressive_debug(logger, "Markdown input file frontmatter", markdown_handle.metadata, "json")
 
     try:
         cards_with_info = markdown_to_anki(
-            markdown_matter.content,
+            markdown_handle.content,
             config["Obsidian valut name"],
             linenos=config["line numbers?"],
             interactive=True,
@@ -103,15 +98,8 @@ def main():
         )
 
         if config["clear file?"]:
-            markdown_yaml = frontmatter.YAMLHandler().export(markdown_matter.metadata)
-            frontmatter_to_write = ""
-            if markdown_yaml:
-                frontmatter_to_write = (
-                    "---\n" +
-                    markdown_yaml +
-                    "\n---\n\n"
-                    )
-            out.clear_file(config["input md file path"], frontmatter_to_write)
+            frontmatter_text = markdown_handle.get_frontmatter_text()
+            out.clear_file(config["input md file path"], frontmatter_text)
 
         logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
     else:
