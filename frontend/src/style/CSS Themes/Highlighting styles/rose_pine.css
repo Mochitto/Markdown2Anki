@@ -4,7 +4,7 @@ Rose' pine palette: https://rosepinetheme.com/palette
 
 Custom Ui theme made by @Mochitto, 2023
  */
-:root.nightMode {
+:root.nightMode, .card.nightMode {
   --love: #eb6f92;
   --gold: #f6c177;
   --rose: #ebbcba;

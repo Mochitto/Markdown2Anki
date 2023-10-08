@@ -5,7 +5,7 @@ Catpuccin Theme Macchiato - https://github.com/catppuccin/catppuccin
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root.nightMode {
+:root.nightMode, .card.nightMode {
     --main-background: #24273a; /* This is used for the tabs' body */
     --secondary-background: #1e2030; /* This is used for the tabs-bar background */
     --tabs-label-background: #181926; /* This is used for inactive tabs */

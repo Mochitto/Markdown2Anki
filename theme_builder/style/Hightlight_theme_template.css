@@ -6,7 +6,7 @@ Custom Highlight theme made by <your name or username>, <year>
  */
 
 /* You can remove the .nightMode if your theme is for light mode. */
-:root.nightMode {
+:root.nightMode, .card.nightMode {
   /* The colors variables you use should be stored here */
   --code-background: ;
   --code-text: ;

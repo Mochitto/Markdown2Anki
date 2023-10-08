@@ -4,7 +4,7 @@ Catpuccin Theme Latte - https://github.com/catppuccin/catppuccin
   
 Custom highlight theme made by @Mochitto, 2023
  */
-:root {
+:root, .card{
   --rosewater: #dc8a78;
   --flamingo: #dd7878;
   --pink: #ea76cb;

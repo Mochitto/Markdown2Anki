@@ -164,7 +164,7 @@ The script takes care of the interactivity aspect of the note types.
 
 Some particular aspects are:
 - Some elements are extracted from the DOM upon event trigger; this is not optimal, but it had to be done due to how Anki treats its DOM: the HTML isn't built on each card, but modified, so if you extract all of your elements when you first load the page, the buttons won't work anymore after the first card.
-- The class "nightMode" is applied to the root/HTML element: this is done so that you can style themes using `:root.nightMode`, and use the colors across the whole note type without having to worry about complex selectors.
+- The class "nightMode" is applied to the root/HTML element: this is done so that you can style themes using `:root.nightMode, .card.nightMode`, and use the colors across the whole note type without having to worry about complex selectors.
 
 ## Building and testing
 
