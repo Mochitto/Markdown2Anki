@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Cards can now have metadata! TODO: link to readme header explaining metadata
 
 ### Fixed
+- When reviewing card styles in Anki from its editor view, night mode now triggers the night-mode styles as expected. (@MarkoSagadin)
 - Starting the program with an empty file doesn't crash it anymore.
 - Removed some extra vault name checks; now you can leave the "Obsidian vault" name empty in your config file.
 - Clozes are now the right color with type-in clozes.
