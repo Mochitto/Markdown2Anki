@@ -4,7 +4,7 @@ Rose' pine palette: https://rosepinetheme.com/palette
 
 Custom highlight theme made by @Mochitto, 2023
  */
-:root {
+:root, .card{
   --love: #b4637a;
   --gold: #ea9d34;
   --rose: #d7827e;

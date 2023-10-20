@@ -5,7 +5,7 @@ Rose' pine palette: https://rosepinetheme.com/palette
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root {
+:root, .card{
     --main-background: #faf4ed; /* This is used for the tabs' body */
     --secondary-background: #dfdad9; /* This is used for the tabs-bar background */
     --tabs-label-background: #cecacd; /* This is used for inactive tabs */

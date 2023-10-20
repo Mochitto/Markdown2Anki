@@ -5,7 +5,7 @@ Catpuccin Theme Macchiato - https://github.com/catppuccin/catppuccin
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root {
+:root, .card{
     --main-background: #eff1f5; /* This is used for the tabs' body */
     --secondary-background: #e6e9ef; /* This is used for the tabs-bar background and for inline-code */
     --tabs-label-background: #dce0e8; /* This is used for inactive tabs */
