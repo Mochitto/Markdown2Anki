@@ -10,6 +10,7 @@ import markdown2anki
 import markdown2anki.logger as log
 import markdown2anki.output_handler as out
 import markdown2anki.version_check as ver
+import markdown2anki.ankiconnect as ankiconnect
 import markdown2anki.config.configs_handle as config_handle
 from markdown2anki.markdown_handler import MarkdownHandler
 
@@ -81,6 +82,8 @@ def main():
         out.copy_images_to_folder(images_to_copy, config["images out-folder"])
 
     if success_cards:
+        ankiconnect.send_to_anki(cards_with_info)
+
         logger.info(f"🔥 Successfully created a total of {success_cards} card/s!")
         out.write_cards_to_csv(
             cards_to_write,
