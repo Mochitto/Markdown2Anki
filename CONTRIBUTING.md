@@ -11,7 +11,7 @@ The main guidelines I can give for contributing are:
 - Make sure you make type-safe code and use the `common_types` when possible.
 - Make sure all tests are passing, unless you voluntarily break them by finding edge cases and want to leave others to fix them.
 - When modifying the frontend, make sure all the components work well, also in Anki (sometimes things work outside of it, but not in it...)
-- If possible, run the `black` formatter before submitting; most of the parts of this project are formatted with it, so it makes for some nice consistency
+- Make sure that you format the code before committing. Read [Development environment setup](#development-environment-setup) and [formatting](#formatting) section to learn how to do that.
 
 Thank you for contributing or even just looking into the project 💕
 
@@ -20,6 +20,8 @@ Thank you for contributing or even just looking into the project 💕
 Table of contents
 
 - [Backend](#backend)
+  - [Development environment setup](#development-environment-setup)
+    - [Formatting](#formatting)
   - [Business logic](#business-logic)
   - [Files structure](#files-structure)
     - [Root](#root-level)
@@ -42,6 +44,38 @@ Table of contents
 ---
 
 # Backend
+## Development environment setup
+To develop and test the backend of Markdown2Anki the use of `virtualenv` virtual environment is highly recommended.
+
+Additionally, `makefile` file in the root directory contains most commonly used commands for interacting with the project.
+
+1. Install `virtualenv`:
+
+```bash
+pip install virtualenv
+```
+
+2. Create and activate `virtualenv`, run this from the project root directory:
+
+```bash
+virtualenv venv
+source venv/bin/activate
+```
+
+3. To create an editable install of `md2anki` tool run the below command. Whatever change you make in the code will be immediately reflected if you run `md2anki` on the command line afterwards.
+
+```bash
+make backend-install
+```
+
+4. To deactivate the `virtualenv` either close the terminal or write `deactivate`.
+
+### Formatting
+To format the project run:
+
+```bash
+make backend-format
+```
 
 ## Business logic
 When you run the app, the main logic will be:
@@ -122,6 +156,12 @@ They follow the same structure as the main project; if you look for tests on a s
 
 The project uses [pytest](https://docs.pytest.org) for testing.
 
+To run unit tests (make sure that you are inside `virtualenv` and have run `make backend-install` first):
+
+```bash
+make backend-test
+```
+
 A couple of unique parts:
 - `assets` are files used to test output functions or make sure that file handling works as expected
 - `conftest` sets up a temporary folder for the same reason
@@ -131,9 +171,10 @@ A couple of unique parts:
 
 # Frontend
 You can find all that has to do with the "frontend" of the project (the styling and script bundled in the Anki note types) in the `frontend` folder.  
-There are some dev-dependencies that you need to be able to properly test and build the files, so you should run (make sure that your cwd is the `frontend` folder):
+There are some dev-dependencies that you need to be able to properly test and build the files, so you should the following command from the project root:
+
 ```bash
-npm install 
+make frontend-install
 ```
 
 The frontend is built with Typescript and Sass files.  
@@ -170,8 +211,8 @@ Some particular aspects are:
 
 To test the styling and script, you can run
 ```bash
-npm run watch
+make frontend-watch
 ```
 This will build your style from `main.sass` and script from `main.ts` and spin up a live server, that will refresh on each change of sass, css or ts files.
 
-Calling `npm run build` will also build themes and `themeless_main.sass` for the theme builder so that all of these files are always up to date.
+Calling `make frontend-build` will also build themes and `themeless_main.sass` for the theme builder so that all of these files are always up to date.
