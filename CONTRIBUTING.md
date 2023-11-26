@@ -39,6 +39,7 @@ Table of contents
   - [Javascript](#javascript)
   - [Building and testing](#building-and-testing)
 
+- [Creating a new release](#creating-a-new-release)
 
 
 ---
@@ -216,3 +217,28 @@ make frontend-watch
 This will build your style from `main.sass` and script from `main.ts` and spin up a live server, that will refresh on each change of sass, css or ts files.
 
 Calling `make frontend-build` will also build themes and `themeless_main.sass` for the theme builder so that all of these files are always up to date.
+
+# Creating a new release
+
+> [!WARNING]
+> Make sure that you have filled out the `Unreleased` section, with the latest, unreleased changes.
+
+To create a new release you will have to:
+
+1. Open the project's GitHub page and click the _Actions_ tab.
+2. Select the _Create Release_ option from the left side.
+3. Click _Run workflow_ button on the right side.
+4. Write the version of the next release that you would like to create.
+5. Click _Run workflow_ button.
+
+Workflows `create-release.yaml`, `build.yaml` and `publish-release.yaml` will then do the following:
+
+- validate the format of the version input,
+- checkout `main` branch,
+- create a new version entry in `CHANGELOG.md`, move _Unreleased_ section into it, commit the changes,
+- create a new tag with the given version,
+- push new changes,
+- build and test the software,
+- create Python wheel of `md2anki` package,
+- upload the created Python wheel to the PyPi and
+- create a new GitHub release and copy into it the latest version entry in `CHANGELOG.md`.
