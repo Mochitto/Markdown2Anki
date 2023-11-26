@@ -1,17 +1,23 @@
 # https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
 
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 [project]
 name = "markdown2anki"
-version = "0.2.0"
 description = "A CLI tool and an apkg template to allow you to create flashcards from markdown and have a better experience while using anki for your studies. 🌸"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSES"}
 keywords = ["anki", "flashcard", "markdown", "apkg", "cli"]
+dynamic = ["version"]
 
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#authors-maintainers
 authors = [
@@ -43,7 +49,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest",
-  "black"
+  "black",
+  "build == 1.0.3",
+  "setuptools_scm == 8.0.4"
 ]
 
 # https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-project-url
