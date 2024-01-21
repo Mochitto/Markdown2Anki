@@ -43,12 +43,8 @@ def process_card(
 
     formatted_card = {"front": "", "back": ""}
     for card_side in swapped_card.keys():
-        formatted_card[card_side] += format_tab_group(
-            swapped_card[card_side]["left"]
-        )
-        formatted_card[card_side] += format_tab_group(
-            swapped_card[card_side]["right"]
-        )
+        formatted_card[card_side] += format_tab_group(swapped_card[card_side]["left"])
+        formatted_card[card_side] += format_tab_group(swapped_card[card_side]["right"])
 
     expressive_debug(logger, "Formatted card", formatted_card)
     return formatted_card

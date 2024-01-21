@@ -85,7 +85,7 @@ def create_anki_package(path_to_config_directory: Path) -> None:
     source = Path(__file__).parent / filename
     destination = path_to_config_directory / filename
     shutil.copy(str(source), str(destination))
-    
+
 
 def get_welcome_message(path_to_welcome_file: Types.PathString) -> str:
     """

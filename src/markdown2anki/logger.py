@@ -4,6 +4,7 @@ import sys
 from markdown2anki.utils import common_types as Types
 from markdown2anki.utils.debug_tools import expressive_debug
 
+
 # Create a logger object
 class SingleLevelFilter(logging.Filter):
     def __init__(self, passlevel, reject):
@@ -14,6 +15,7 @@ class SingleLevelFilter(logging.Filter):
         if self.reject:
             return record.levelno != self.passlevel
         return record.levelno == self.passlevel
+
 
 def setup_logging(console_debug=False) -> None:
     """
@@ -31,7 +33,7 @@ def setup_logging(console_debug=False) -> None:
     stderr_handler.addFilter(SingleLevelFilter(logging.DEBUG, True))
     stderr_handler.setFormatter(logging.Formatter("%(message)s"))
     stderr_handler.setLevel(logging.INFO)
-    
+
     debug_handler = logging.StreamHandler()
     debug_handler.addFilter(SingleLevelFilter(logging.DEBUG, False))
     debug_handler.setFormatter(

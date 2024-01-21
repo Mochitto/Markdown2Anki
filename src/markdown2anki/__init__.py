@@ -35,13 +35,18 @@ def main():
     )
 
     # Check for updates
-    ver.check_for_updates(markdown2anki.__name__, "https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md")
+    ver.check_for_updates(
+        markdown2anki.__name__,
+        "https://github.com/Mochitto/Markdown2Anki/blob/master/CHANGELOG.md",
+    )
     expressive_debug(logger, "Processed config from main", config, "json")
 
     logger.info("⏳ Starting cards extraction")
 
     markdown_handle = MarkdownHandler(config["input md file path"])
-    expressive_debug(logger, "Markdown input file frontmatter", markdown_handle.metadata, "json")
+    expressive_debug(
+        logger, "Markdown input file frontmatter", markdown_handle.metadata, "json"
+    )
 
     try:
         cards_with_info = markdown_to_anki(

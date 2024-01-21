@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def wrap_tab_group(
-    tab_content: Types.HTMLString, 
+    tab_content: Types.HTMLString,
 ) -> Types.HTMLString:
     return f'<section class="tab_group">{tab_content}</section>'
 

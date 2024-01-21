@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 # TODO: change me to the real docs
 DOCS_URL = "www.google.com"
 
+
 # Custom formatter used to preserve newlines in help messages
 # https://stackoverflow.com/a/22157136/19144535
 class SmartFormatter(argparse.HelpFormatter):
@@ -50,7 +51,7 @@ CommandLineArgsParser.add_argument(
     help="R|If present, re-builds the anki apkg file that you can import to your Anki to get the Markdown2Anki note types.\nExample: --apkg",
     action="store_true",
     default=None,
-    )
+)
 
 CommandLineArgsParser.add_argument(
     "-lc",

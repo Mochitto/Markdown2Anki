@@ -44,7 +44,12 @@ class TestProcessCard:
             process_card(md_input, "my vault")
 
     def test_missing_vault_edge_case(self):
-        md_input = "## [A tab]\n" "With a text\n" "## [A tab]\n" "Something else [[With a link]]"
+        md_input = (
+            "## [A tab]\n"
+            "With a text\n"
+            "## [A tab]\n"
+            "Something else [[With a link]]"
+        )
 
         with pytest.raises(CardError):
             process_card(md_input, "")

@@ -2,6 +2,7 @@ import frontmatter
 
 from markdown2anki.utils import common_types as Types
 
+
 class MarkdownHandler:
     def __init__(self, path: Types.PathString) -> None:
         self.filepath = path
@@ -11,9 +12,5 @@ class MarkdownHandler:
 
     def get_frontmatter_text(self):
         yaml_text = frontmatter.YAMLHandler().export(self.metadata)
-        frontmatter_text = (
-            "---\n" +
-            yaml_text +
-            "\n---\n\n"
-            )
+        frontmatter_text = "---\n" + yaml_text + "\n---\n\n"
         return frontmatter_text

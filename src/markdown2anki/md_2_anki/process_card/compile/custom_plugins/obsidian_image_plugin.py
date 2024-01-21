@@ -17,7 +17,6 @@ class ObsidianImagePlugin:
     """
 
     def __init__(self) -> None:
-
         self.OBSIDIAN_IMAGE_REGEX = (
             # ![[Something]]
             # ![[Something|300]]

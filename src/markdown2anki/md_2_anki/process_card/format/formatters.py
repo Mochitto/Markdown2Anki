@@ -44,9 +44,7 @@ def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
     return tab_copy
 
 
-def format_tab_group(
-    tabs_list: List[Types.HTMLString]
-) -> Types.HTMLString:
+def format_tab_group(tabs_list: List[Types.HTMLString]) -> Types.HTMLString:
     # Filter out empty tabs and copy the list
     tabs = [tab for tab in tabs_list if tab]
 
