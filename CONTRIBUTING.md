@@ -20,8 +20,12 @@ Thank you for contributing or even just looking into the project 💕
 Table of contents
 
 - [Backend](#backend)
+  - [Backend development dependencies](#backend-development-dependencies)
   - [Development environment setup](#development-environment-setup)
+    - [Venv](#venv)
+    - [Installing markdown2anki in editable mode](#installing-markdown2anki-in-editable-mode)
     - [Formatting](#formatting)
+    - [Testing](#testing)
   - [Business logic](#business-logic)
   - [Files structure](#files-structure)
     - [Root](#root-level)
@@ -32,7 +36,6 @@ Table of contents
       - [Process card](#process-card)
       - [Process images](#process-images)
       - [Process clozes](#process-clozes)
-  - [Testing](#testing)
   
 - [Frontend](#frontend)
   - [Styling](#styling)
@@ -45,31 +48,62 @@ Table of contents
 ---
 
 # Backend
+
+## Backend development dependencies
+
+To develop the backend you will need to have installed:
+- [Make](https://www.gnu.org/software/make/); used to run dev commands, such as building the project, running tests etc.
+- [python/pip](https://www.python.org/); the language used in the backend
+
 ## Development environment setup
-To develop and test the backend of Markdown2Anki the use of `virtualenv` virtual environment is highly recommended.
 
-Additionally, `makefile` file in the root directory contains most commonly used commands for interacting with the project.
+### Venv
+The project should be built in a [virtual environment](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-a-new-virtual-environment).
+Using a virtual environment (`venv`) allows you to "encapsulate" and isolate this build from your global environment.
+Packages installed here won't affect your system's packages.
 
-1. Install `virtualenv`:
+You can create a `venv` with this command:
+```sh
+python -m venv <myenv>
 
-```bash
-pip install virtualenv
+# <myenv> can be whatever you would like to call your venv
+```
+On windows:
+```sh
+py -m venv .venv
 ```
 
-2. Create and activate `virtualenv`, run this from the project root directory:
+This command will create a folder in your current working directory, named `<myenv>`.
 
-```bash
-virtualenv venv
-source venv/bin/activate
+To let `pip/python` know that you want to use the venv, you need to [activate it](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#activate-a-virtual-environment).
+Activating an environment is telling your system that commands refer to the venv, instead of your global environment.
+This can be done with this command (On linux/mac):
+```sh
+source <myenv>/bin/activate
 ```
 
-3. To create an editable install of `md2anki` tool run the below command. Whatever change you make in the code will be immediately reflected if you run `md2anki` on the command line afterwards.
+If you are on windows, activation will look like this:
+```sh
+.venv\Scripts\activate
+```
 
+When you no longer wish to use the `venv`, you can deactivate it with:
 ```bash
+deactivate
+```
+
+### Installing markdown2anki in editable mode
+
+Once you have your venv setup, you need to activate it and install the project in it.
+You can do so by running these commands:
+```bash
+source <myenv>/bin/activate 
 make backend-install
 ```
 
-4. To deactivate the `virtualenv` either close the terminal or write `deactivate`.
+This will create an [editable installs](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode) of `md2anki`. 
+This means that the pip will reference your folder as the entry point from which to start the app, allowing you to work on it without having to re-install it on every change.
+Whatever change you make in the code will be immediately reflected if you run `md2anki` on the command line afterwards.
 
 ### Formatting
 To format the project run:
@@ -77,6 +111,24 @@ To format the project run:
 ```bash
 make backend-format
 ```
+
+### Testing
+The project uses a Test Driven Development approach to coding.  
+Please add tests whenever possible and preferibly build using a TDD approach as well :)
+Tests follow the same structure as the main project; if you look for tests on a specific part or function, you should be able to find them in the same (or almost the same) folder, just starting from `tests`.  
+
+The tool used for testing is [pytest](https://docs.pytest.org).
+
+To run unit tests (make sure that you are inside a `venv` and have run `make backend-install` first):
+
+```bash
+make backend-test
+```
+
+A couple of unique parts:
+- `assets` are files used to test output functions or make sure that file handling works as expected
+- `conftest` sets up a temporary folder for the same reason
+- `setup folder` takes care of creating different configurations files to test configuration handling and integration tests 
 
 ## Business logic
 When you run the app, the main logic will be:
@@ -150,23 +202,6 @@ The main steps are:
 - Re-inject the original clozes, replacing the hashes
 
 The main function of these is so that clozes are picked up correctly by Anki: Anki doesn't like when clozes are split up by HTML, so this method ensures that all clozes don't have any HTML tags between any of their parts.
-
-## Testing
-The project used a Test Driven Development approach starting from half of its development, so the tests should cover a lot of cases (hopefully).  
-They follow the same structure as the main project; if you look for tests on a specific part or function, you should be able to find them in the same (or almost the same) folder, just starting from `tests`.  
-
-The project uses [pytest](https://docs.pytest.org) for testing.
-
-To run unit tests (make sure that you are inside `virtualenv` and have run `make backend-install` first):
-
-```bash
-make backend-test
-```
-
-A couple of unique parts:
-- `assets` are files used to test output functions or make sure that file handling works as expected
-- `conftest` sets up a temporary folder for the same reason
-- `setup folder` takes care of creating different configurations files to test configuration handling and integration tests 
 
 ---
 
