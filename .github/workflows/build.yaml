@@ -1,0 +1,94 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        required: true
+        type: string
+  push:
+    branches:
+      - "main"
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout last PR commit
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout last tag
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout_ref }}
+
+      - name: Checkout main
+        if: github.event_name == 'push'
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: make backend-install
+
+      - name: Run tests
+        run: make backend-test
+
+      - name: Build binary wheel and a source tarball
+        run: make backend-build
+
+      - name: Package artefacts
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/*
+
+  build-frontend:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: ["14.x", "16.x", "18.x"]
+
+    steps:
+      - name: Checkout last PR commit
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout last tag
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.checkout_ref }}
+
+      - name: Checkout main
+        if: github.event_name == 'push'
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: make frontend-install
+
+      - name: Build
+        run: make frontend-build

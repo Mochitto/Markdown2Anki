@@ -11,7 +11,7 @@ The main guidelines I can give for contributing are:
 - Make sure you make type-safe code and use the `common_types` when possible.
 - Make sure all tests are passing, unless you voluntarily break them by finding edge cases and want to leave others to fix them.
 - When modifying the frontend, make sure all the components work well, also in Anki (sometimes things work outside of it, but not in it...)
-- If possible, run the `black` formatter before submitting; most of the parts of this project are formatted with it, so it makes for some nice consistency
+- Make sure that you format the code before committing. Read [Development environment setup](#development-environment-setup) and [formatting](#formatting) section to learn how to do that.
 
 Thank you for contributing or even just looking into the project 💕
 
@@ -20,6 +20,8 @@ Thank you for contributing or even just looking into the project 💕
 Table of contents
 
 - [Backend](#backend)
+  - [Development environment setup](#development-environment-setup)
+    - [Formatting](#formatting)
   - [Business logic](#business-logic)
   - [Files structure](#files-structure)
     - [Root](#root-level)
@@ -37,11 +39,44 @@ Table of contents
   - [Javascript](#javascript)
   - [Building and testing](#building-and-testing)
 
+- [Creating a new release](#creating-a-new-release)
 
 
 ---
 
 # Backend
+## Development environment setup
+To develop and test the backend of Markdown2Anki the use of `virtualenv` virtual environment is highly recommended.
+
+Additionally, `makefile` file in the root directory contains most commonly used commands for interacting with the project.
+
+1. Install `virtualenv`:
+
+```bash
+pip install virtualenv
+```
+
+2. Create and activate `virtualenv`, run this from the project root directory:
+
+```bash
+virtualenv venv
+source venv/bin/activate
+```
+
+3. To create an editable install of `md2anki` tool run the below command. Whatever change you make in the code will be immediately reflected if you run `md2anki` on the command line afterwards.
+
+```bash
+make backend-install
+```
+
+4. To deactivate the `virtualenv` either close the terminal or write `deactivate`.
+
+### Formatting
+To format the project run:
+
+```bash
+make backend-format
+```
 
 ## Business logic
 When you run the app, the main logic will be:
@@ -122,6 +157,12 @@ They follow the same structure as the main project; if you look for tests on a s
 
 The project uses [pytest](https://docs.pytest.org) for testing.
 
+To run unit tests (make sure that you are inside `virtualenv` and have run `make backend-install` first):
+
+```bash
+make backend-test
+```
+
 A couple of unique parts:
 - `assets` are files used to test output functions or make sure that file handling works as expected
 - `conftest` sets up a temporary folder for the same reason
@@ -131,9 +172,10 @@ A couple of unique parts:
 
 # Frontend
 You can find all that has to do with the "frontend" of the project (the styling and script bundled in the Anki note types) in the `frontend` folder.  
-There are some dev-dependencies that you need to be able to properly test and build the files, so you should run (make sure that your cwd is the `frontend` folder):
+There are some dev-dependencies that you need to be able to properly test and build the files, so you should the following command from the project root:
+
 ```bash
-npm install 
+make frontend-install
 ```
 
 The frontend is built with Typescript and Sass files.  
@@ -170,8 +212,33 @@ Some particular aspects are:
 
 To test the styling and script, you can run
 ```bash
-npm run watch
+make frontend-watch
 ```
 This will build your style from `main.sass` and script from `main.ts` and spin up a live server, that will refresh on each change of sass, css or ts files.
 
-Calling `npm run build` will also build themes and `themeless_main.sass` for the theme builder so that all of these files are always up to date.
+Calling `make frontend-build` will also build themes and `themeless_main.sass` for the theme builder so that all of these files are always up to date.
+
+# Creating a new release
+
+> [!WARNING]
+> Make sure that you have filled out the `Unreleased` section, with the latest, unreleased changes.
+
+To create a new release you will have to:
+
+1. Open the project's GitHub page and click the _Actions_ tab.
+2. Select the _Create Release_ option from the left side.
+3. Click _Run workflow_ button on the right side.
+4. Write the version of the next release that you would like to create.
+5. Click _Run workflow_ button.
+
+Workflows `create-release.yaml`, `build.yaml` and `publish-release.yaml` will then do the following:
+
+- validate the format of the version input,
+- checkout `main` branch,
+- create a new version entry in `CHANGELOG.md`, move _Unreleased_ section into it, commit the changes,
+- create a new tag with the given version,
+- push new changes,
+- build and test the software,
+- create Python wheel of `md2anki` package,
+- upload the created Python wheel to the PyPi and
+- create a new GitHub release and copy into it the latest version entry in `CHANGELOG.md`.

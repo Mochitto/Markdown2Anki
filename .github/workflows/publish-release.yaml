@@ -1,0 +1,59 @@
+name: "Publish Release"
+
+on:
+  workflow_call:
+    inputs:
+      release_version:
+        required: true
+        type: string
+
+jobs:
+  publish-new-release:
+    runs-on: ubuntu-22.04
+    environment:
+      name: pypi
+      url: https://pypi.org/project/markdown2anki/
+    permissions:
+      # IMPORTANT: this permissions are mandatory for trusted publishing with
+      # OIDC.
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Preprocess version tag
+        run: |
+          # This is needed due to the mindsers/changelog-reader-action expecting 
+          # version tag without 'v' prefix.
+          version_cut=$(echo "${{ inputs.release_version }}" | cut -c 2-)
+          echo "release_version=${{ inputs.release_version }}" >> $GITHUB_ENV
+          echo "release_version_cut=$version_cut" >> $GITHUB_ENV
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.release_version }}
+
+      - name: Get latest Changelog entry
+        id: changelog-reader
+        uses: mindsers/changelog-reader-action@v2.2.2
+        with:
+          version: ${{ env.release_version_cut }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          files: dist/*
+          tag_name: ${{ env.release_version }}
+          body: |
+            # Release notes
+
+            ${{ steps.changelog-reader.outputs.changes }}

@@ -1,0 +1,87 @@
+name: "Create Release"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description:
+          "The version you want to release [v##.##.##]? (BTW, did you update
+          changelog?)"
+        required: true
+env:
+  GIT_TERMINAL_PROMPT: 0
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          # Fetch history for all branches and tags
+          fetch-depth: 0
+
+      - name: Validate version input
+        id: validate-input
+        run: |
+          # Check if input version is in correct format
+          if [[ ! ${{ inputs.version }} =~ v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid input version: wrong format!"
+            exit 1
+          fi
+          # Check if input version already exists as git tag
+          if [[ ! -z $(git tag | grep ${{ inputs.version }}) ]]; then
+            echo "::error::Invalid input version: it already exists!"
+            exit 1
+          fi
+
+      - name: Update Changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@ec0871fec381db64ab389886ffe8e6fc2b661e2c
+        with:
+          tag: ${{ inputs.version }}
+
+      - name: Commit Changelog, create tag and push
+        run: |
+          # In order to make a commit, we need to initialize a user.
+          git config user.name "github-bot :robot:"
+          git config user.email noreply@github.com
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG.md for Release ${{ inputs.version }}"
+          git tag ${{ inputs.version }}
+          git push
+          git push origin ${{ inputs.version }}
+
+  call-build:
+    needs: update-changelog
+    uses: ./.github/workflows/build.yaml
+    with:
+      checkout_ref: ${{ inputs.version }}
+
+  call-publish-release:
+    needs: call-build
+    uses: ./.github/workflows/publish-release.yaml
+    with:
+      release_version: ${{ inputs.version }}
+
+  cleanup-on-failure:
+    # Only run cleanup if either call-build or call-publish-release fail.
+    needs: [call-build, call-publish-release]
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.version }}
+          # Fetch two commits, so you can hard reset below
+          fetch-depth: 2
+
+      - name: Cleanup tag and Changelog
+        run: |
+          git config user.name "github-bot :robot:"
+          git config user.email noreply@github.com
+          git reset --hard HEAD~1
+          git push --force origin HEAD:main
+          git tag -d ${{ inputs.version }}
+          git push --delete origin  ${{ inputs.version }}
