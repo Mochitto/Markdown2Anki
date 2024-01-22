@@ -1,11 +1,11 @@
 import logging
+from typing import Tuple
 
 import requests
 
 logger = logging.getLogger(__name__)
 
-
-def ankiconnect_send_request(action: str, params: dict) -> (bool, str):
+def ankiconnect_send_request(action: str, params: dict, anki_connect_address: str) -> Tuple[bool, str]:
     """
     Send HTTP request to the AnkiConnect plugin.
 
@@ -24,9 +24,17 @@ def ankiconnect_send_request(action: str, params: dict) -> (bool, str):
         # We want to use the latest AnkiConnect API version.
         "version": 6,
     }
-    response = requests.post("http://localhost:8765", json=request).json()
+    response = requests.post(anki_connect_address, json=request).json()
 
     return (False if response["result"] is None else True, response["error"])
+
+def ping_ankiconnect(anki_connect_address: str = 'localhost:8765') -> bool:
+    """
+    Check if the anki-connect server is alive and listening for api calls.
+    """
+    [success, _] = ankiconnect_send_request('version', {}, anki_connect_address)
+
+    return success
 
 
 def create_note(deck_name: str, model_name: str, fields: str) -> dict:
