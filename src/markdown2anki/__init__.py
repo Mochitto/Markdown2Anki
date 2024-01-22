@@ -24,6 +24,10 @@ CONFIGFILE_NAME = "md2anki.config.ini"
 ADD_TYPES_TO_CONFIG = False
 CONSOLE_DEBUG = False
 
+# FIXME: use these to bootstrap anki-connect support; swap for real config values
+ANKI_CONNECT_ON = True
+ANKI_CONNECT_ADDRESS = "localhost:8765"
+
 
 def main():
     # Basic logging config with handlers
@@ -34,6 +38,11 @@ def main():
     log.setup_file_logging(
         logger, os.path.join(config["config directory"], "debug_log.txt")
     )
+
+    # Check for anki-connect if the option is on
+    if ANKI_CONNECT_ON:
+        ankiconnect.raise_if_no_connection(ANKI_CONNECT_ADDRESS)
+        # TODO: handle error
 
     # Check for updates
     ver.check_for_updates(
@@ -82,17 +91,19 @@ def main():
         out.copy_images_to_folder(images_to_copy, config["images out-folder"])
 
     if success_cards:
-        ankiconnect.send_to_anki(cards_with_info)
-
+        if ANKI_CONNECT_ON:
+            # TODO:Handle errors
+            ankiconnect.send_to_anki(cards_with_info, ANKI_CONNECT_ADDRESS)
+        else:
+            out.write_cards_to_csv(
+                cards_to_write,
+                os.path.join(config["config directory"], "basic_anki_cards.csv"),
+            )
+            out.write_cards_to_csv(
+                cards_to_write_with_clozes,
+                os.path.join(config["config directory"], "clozed_anki_cards.csv"),
+            )
         logger.info(f"🔥 Successfully created a total of {success_cards} card/s!")
-        out.write_cards_to_csv(
-            cards_to_write,
-            os.path.join(config["config directory"], "basic_anki_cards.csv"),
-        )
-        out.write_cards_to_csv(
-            cards_to_write_with_clozes,
-            os.path.join(config["config directory"], "clozed_anki_cards.csv"),
-        )
 
         # Handle backups
         out.backup_file(

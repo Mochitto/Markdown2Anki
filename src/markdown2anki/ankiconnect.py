@@ -36,6 +36,14 @@ def ping_ankiconnect(anki_connect_address: str = 'localhost:8765') -> bool:
 
     return success
 
+def raise_if_no_connection(anki_connect_address: str) -> None:
+    """
+    Raise a ConnectionError if there is no connection to ankiconnect.
+    """
+    is_there_connection = ping_ankiconnect(anki_connect_address)
+    if not is_there_connection:
+        raise ConnectionError(f"It wasn't possible to connect to ankiconnect at the address: {anki_connect_address}")
+
 
 def create_note(deck_name: str, model_name: str, fields: str) -> dict:
     """
@@ -59,7 +67,8 @@ def create_note(deck_name: str, model_name: str, fields: str) -> dict:
     }
 
 
-def send_to_anki(cards: dict):
+# TODO: Add an interface to have cards with all needed information (deck, type etc.)
+def send_to_anki(cards: dict, anki_connect_address: str):
     """ """
     logger.info("📡 Sending cards to Anki...")
 
@@ -83,7 +92,7 @@ def send_to_anki(cards: dict):
     # - How should errors be handled? Should be we abort on an error, or keep going?
 
     for index, note in enumerate(notes):
-        sent, error = ankiconnect_send_request("addNote", note)
+        sent, error = ankiconnect_send_request("addNote", note, anki_connect_address)
         if sent:
             logger.info(f"|--- ✅ Sent card number {index + 1}")
         else:
@@ -93,7 +102,7 @@ def send_to_anki(cards: dict):
     logger.info("📺 Sending images to Anki...")
     for index, image in enumerate(cards["images_to_copy"].items()):
         sent, error = ankiconnect_send_request(
-            "storeMediaFile", {"filename": image[0], "path": image[1]}
+            "storeMediaFile", {"filename": image[0], "path": image[1]}, anki_connect_address
         )
         if sent:
             logger.info(f"|--- ✅ Sent image item number {index + 1}")
