@@ -214,6 +214,7 @@ class TestHandleConfigs:
         expected_config = {
             "Obsidian valut name": "Obsidian vault",
             "line numbers?": False,
+            "scrollable code blocks?": False,
             "search images folder": str(
                 Path(tests.__file__).parent / "assets" / "images"
             ),

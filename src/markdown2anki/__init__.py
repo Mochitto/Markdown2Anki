@@ -53,6 +53,7 @@ def main():
             markdown_handle.content,
             config["Obsidian valut name"],
             linenos=config["line numbers?"],
+            scrollable_code=config["scrollable code blocks?"],
             interactive=True,
             fast_forward=config["fast forward?"],
             images_dir=config["search images folder"],

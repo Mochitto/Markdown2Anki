@@ -30,6 +30,10 @@
             background: var(--codeline-hover-background)
             opacity: 1
 
+        &--scrollable-code
+            white-space: pre
+            overflow-wrap: normal
+
 .highlight__line:empty:after // Fixes empty lines
     content: " "
 
@@ -47,7 +51,9 @@
     border: 1px solid var(--accent-color)
     border-left: 5px solid var(--accent-color)
     padding: 5px
-    
+
+    &--scrollable-code
+      overflow-x: scroll
 
 .highlight + br // This br is added to allow users to write outside of the generated highlight container on anki  
     display: none

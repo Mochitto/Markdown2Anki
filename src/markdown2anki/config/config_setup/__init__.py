@@ -124,6 +124,13 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
     )
     fileConfig.add_option(
         type="bool",
+        option="scrollable code blocks?",
+        help="Whether or not to make code blocks horizontally scrollable.",
+        important_help="Choices: True/False. Defaults to False.",
+        default="False",
+    )
+    fileConfig.add_option(
+        type="bool",
         option="fast forward?",
         help="Whether or not to continue processing cards when there is an error in them.\nWhen fast forwarding, cards with errors are skipped but can still be found in the bad cards file and be fixed.\nWhen not fast forwarding, you will be showed the card and asked if you want to continue or not.",
         important_help="Choices: True/False. Defaults to True.",
