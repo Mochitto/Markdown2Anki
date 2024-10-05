@@ -8,6 +8,7 @@ import markdown2anki.md_2_anki.utils.common_types as Types
 import markdown2anki.md_2_anki.utils.card_types as CardTypes
 from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.md_2_anki.process_card.format.wrappers import (
+    wrap_card_body,
     wrap_tab,
     wrap_tab_body,
     wrap_tab_group,
@@ -18,12 +19,14 @@ from markdown2anki.utils.debug_tools import expressive_debug
 logger = logging.getLogger(__name__)
 
 
-def format_tabs(tabs: List[CardTypes.HTMLTab]) -> List[CardTypes.FormattedTab]:
-    formatted_tabs = [format_tab(tab) for tab in tabs]
+def format_tabs(
+    tabs: List[CardTypes.HTMLTab], no_tabs: bool = False
+) -> List[CardTypes.FormattedTab]:
+    formatted_tabs = [format_tab(tab, no_tabs) for tab in tabs]
     return formatted_tabs
 
 
-def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
+def format_tab(tab: CardTypes.HTMLTab, no_tabs: bool = False) -> CardTypes.FormattedTab:
     tab_copy = typing.cast(Dict, tab.copy())
     tab_label = tab_copy.pop("label")
     tab_body = tab_copy.pop("body")
@@ -33,13 +36,15 @@ def format_tab(tab: CardTypes.HTMLTab) -> CardTypes.FormattedTab:
     if not tab_body:
         raise CardError("There is a tab without a body.")
 
-    wrapped_label = wrap_tab_label(tab_label)
-    wrapped_body = wrap_tab_body(tab_body)
-
-    wrapped_tab = wrap_tab(wrapped_label, wrapped_body)
+    if no_tabs:
+        text = wrap_card_body(tab_body)
+    else:
+        wrapped_label = wrap_tab_label(tab_label)
+        wrapped_body = wrap_tab_body(tab_body)
+        text = wrap_tab(wrapped_label, wrapped_body)
 
     tab_copy = typing.cast(CardTypes.FormattedTab, tab_copy)
-    tab_copy["text"] = wrapped_tab
+    tab_copy["text"] = text
 
     return tab_copy
 

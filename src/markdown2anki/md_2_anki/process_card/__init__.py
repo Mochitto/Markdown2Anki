@@ -8,6 +8,7 @@ from markdown2anki.md_2_anki.process_card.extract import extract_tabs
 from markdown2anki.md_2_anki.process_card.format.formatters import (
     format_tab_group,
     format_tabs,
+    remove_newlines,
 )
 from markdown2anki.md_2_anki.process_card.swap import get_swapped_card
 
@@ -36,6 +37,7 @@ def process_card(
 
     linenos_in_highlight = options.get("linenos", True)
     scrollable_code = options.get("scrollable_code", False)
+    no_tabs = options.get("no_tabs", False)
 
     tabs = extract_tabs(markdown)
     compiled_tabs = tabs_to_html(
@@ -45,13 +47,21 @@ def process_card(
         scrollable_code=scrollable_code,
     )
 
-    formatted_tabs = format_tabs(compiled_tabs)
-    swapped_card = get_swapped_card(formatted_tabs)
-
+    formatted_tabs = format_tabs(compiled_tabs, no_tabs=no_tabs)
     formatted_card = {"front": "", "back": ""}
-    for card_side in swapped_card.keys():
-        formatted_card[card_side] += format_tab_group(swapped_card[card_side]["left"])
-        formatted_card[card_side] += format_tab_group(swapped_card[card_side]["right"])
+
+    if no_tabs:
+        formatted_card["front"] = remove_newlines(formatted_tabs[0]["text"])
+        formatted_card["back"] = remove_newlines(formatted_tabs[1]["text"])
+    else:
+        swapped_card = get_swapped_card(formatted_tabs)
+        for card_side in swapped_card.keys():
+            formatted_card[card_side] += format_tab_group(
+                swapped_card[card_side]["left"]
+            )
+            formatted_card[card_side] += format_tab_group(
+                swapped_card[card_side]["right"]
+            )
 
     expressive_debug(logger, "Formatted card", formatted_card)
     return formatted_card

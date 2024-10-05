@@ -54,6 +54,7 @@ def main():
             config["Obsidian valut name"],
             linenos=config["line numbers?"],
             scrollable_code=config["scrollable code blocks?"],
+            no_tabs=markdown_handle.metadata.get("no_tabs", False),
             interactive=True,
             fast_forward=config["fast forward?"],
             images_dir=config["search images folder"],
@@ -107,7 +108,9 @@ def main():
             frontmatter_text = markdown_handle.get_frontmatter_text()
             out.clear_file(config["input md file path"], frontmatter_text)
 
-        logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
+        logger.info(
+            "🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)"
+        )
     else:
         logger.info("❓ No cards created... Please check input the file.")
 

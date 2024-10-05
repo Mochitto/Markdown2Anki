@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 the highlighted code blocks in generated Anki cards will be sideways scrollable. This 
 option is by default disabled, to ensure that it's addition doesn't break existing 
 users. (@MarkoSagadin)
+- Added first configuration option for frontmatter metadata blocks in the input markdown files! [Frontmatter blocks] allow you to configure options per single markdown file. The first added property is called `no_tabs`. When set to `True`, it disables tabs in generated cards. (@MarkoSagadin)
+
+[Frontmatter blocks]: https://dev.to/dailydevtips1/what-exactly-is-frontmatter-123g
 
 ### Fixed
 - When reviewing card styles in Anki from its editor view, night mode now triggers the night-mode styles as expected. (@MarkoSagadin)
