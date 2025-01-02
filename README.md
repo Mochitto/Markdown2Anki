@@ -232,18 +232,27 @@ The result:
 
 Markdown2Anki uses [Frontmatter] metadata to add file specific metadata to your cards. 
 Frontmatter is essentially a YAML block that is enclosed by three dashes `---`. 
-If used, it must be placed at the beginning of your markdown file, before the first card.
+It must be placed at the beginning of your markdown file, before the first card.
+Frontmatter contains mandatory and optional metadata fields. 
 
-Here is a basic structure of a Frontmatter block:
+Here is a basic structure of a Frontmatter block with mandatory fields:
 ```yaml
 ---
-some_option: True
-some_other_option: "Hello"
+deck_name: "My deck"
+note_type_basic: "Markdown2Anki - Basic"
+note_type_cloze: "Markdown2Anki - Cloze"
 ---
 ```
 
 Below is a list of the available options that can be set in the frontmatter block:
 
+Mandatory fields:
+- `deck_name` - The name of the deck where the cards will be imported.
+- `note_type_basic` - The name of the note type for basic cards.
+- `note_type_clode` - The name of the note type for cards with clozes.
+
+Optional fields:
+- `tags` - A list of tags to be added to the cards.
 - `no_tabs: True` - Disables tabs in generated cards. If set then: 
     - `L`, `R`, `-`, `+` tab flags are ignored, only `F` and `B` matter.
     - Tab labels are ignored.
