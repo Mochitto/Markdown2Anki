@@ -50,6 +50,7 @@ PyPi - https://pypi.org/project/markdown2anki
 - **Support for clozes** including those in code blocks.
 - **Support for images** with automatic importing: the program can find the images you mention in your obsidian notes and copy them to your Anki's media folder.
 - **Support for Obsidian links and images**: using `[[Note.md|my Note]]` and `[[my_image.jpg]]`-like markdown.
+- **Automatic upload of cards to Anki**: the program uses the [AnkiConnect plugin] to upload the cards to Anki automatically.
 - **Accessible config file** that can self-heal (using [Type-Config](https://pypi.org/project/type-config/)): retaining as many custom configurations as possible even if the file is corrupted. This also ensures that if options are added with updates, your custom configuration will be retained.
 - **Helpful error messages and feedback**.
 - **Backup files of your inputs**, to help you retry in case something goes wrong.
@@ -64,6 +65,8 @@ PyPi - https://pypi.org/project/markdown2anki
 - **Minified and bundled JS/CSS** including themes, for efficient and fast performance in the "production" note type.
 - **Mobile first responsive CSS**: to ensure it's fully responsive on all devices.
 - **High-level dev documentation** to make it easier for contributions and maintenance.
+
+[AnkiConnect plugin]: https://foosoft.net/projects/anki-connect/
 
 ## Images
 
@@ -129,6 +132,13 @@ You can learn more about Anki's folders here: https://docs.ankiweb.net/files.htm
 There will also be a `markdown2anki.apkg` file which contains the anki note types you will need when importing the cards.  
 If you have Anki installed on your system, you should be able to just double-click the file to import it, and it will create a new deck with some template cards and the note types.  
 You can learn more on `.apkg` files here: https://docs.ankiweb.net/exporting.html#deck-apkg
+
+### Installing the AnkiConnect plugin
+
+If you want the `md2anki` to automatically uploaded the generated cards to Anki, you will need to install the [AnkiConnect plugin](https://ankiweb.net/shared/info/2055492159). 
+As when installing any other Anki plugin, navigate to the `Tools>Add-ons` menu, click on the `Get Add-ons` button, and paste the code `2055492159` in the `Code` field and click `OK`.
+
+If you don't want to install the AnkiConnect plugin, you can use the [legacy CSV file] output, which you can then import manually.
 
 ### Using fill the blanks
 
@@ -249,7 +259,7 @@ Below is a list of the available options that can be set in the frontmatter bloc
 Mandatory fields:
 - `deck_name` - The name of the deck where the cards will be imported.
 - `note_type_basic` - The name of the note type for basic cards.
-- `note_type_clode` - The name of the note type for cards with clozes.
+- `note_type_cloze` - The name of the note type for cards with clozes.
 
 Optional fields:
 - `tags` - A list of tags to be added to the cards.
@@ -259,25 +269,15 @@ Optional fields:
 
 [Frontmatter]: https://dev.to/dailydevtips1/what-exactly-is-frontmatter-123g
 
-### Importing your cards
-Once you have processed your cards, they will be divided in cards with clozes and cards without clozes.  
-Those will become two `.csv` files: `basic_anki_cards.csv` and `clozed_anki_cards.csv`.  
-To import these, you have to open up Anki and press the "Import File" in the lower side of the main menu, or, if you prefer, you can use "File>Import" from the menu in the top-left of the Anki app.  
-After selecting the `.csv` file, you have to let anki know that the separator used is `Comma`, select the right `note type` and the deck you wish the cards to be imported in.
-Also make sure to allow HTML in the cards, as they need it to work correctly.
+### Importing your card via the AnkiConnect pluging
 
-This is a screenshot of how this could look in your Anki (Anki's UI can change depending on the OS it is running on):  
-![Image of Anki's import screen](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Anki_import_example.webp)
+After the cards are generated they are automatically imported into Anki via the AnkiConnect plugin.
+Besides having the plugin installed in you Anki and having Anki open in the background, you don't need to do anything else.
 
-You can find more information on importing to Anki here: https://docs.ankiweb.net/importing.html
+If you don't want to use AnkiConnect plugin you can use the [legacy CSV file] output, which you can then import manually.
 
-### Importing your images
-You can import images automatically if you add the path to your [Anki media folder](https://docs.ankiweb.net/files.html#file-locations) in the config file.  
-Images that are already present won't be added twice and will be skipped (based on filename).  
-If you prefer checking the images before importing them manually, you can point to another folder or leave the default one.   
-**Notice:** when images are copied, they lose their metadata: this is due to security, as others' could read your images metadata if you were to share your cards, and for how the python library that handles the copying process is implemented.
+[legacy CSV file]: ./docs/legacy_importing_cards_with_csv.md
 
-Hopefully, in the near future, the importing part will be made automatic by the addition of `AnkiConnect` support.
 
 ### Errors and Bad cards
 When there are errors in formatting, the app will let you know what went wrong and create a `Bad_cards.md` file in your program folder.  

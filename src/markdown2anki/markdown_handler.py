@@ -12,7 +12,7 @@ class MarkdownMetadata:
         deck_name: str,
         note_type_basic: str,
         note_type_cloze: str,
-        tags: list[str] | None = None,
+        tags: list[str] = [],
         no_tabs: bool = False,
     ) -> None:
         self.deck_name = deck_name
@@ -64,6 +64,9 @@ class MarkdownHandler:
         # get the structured metadata and set defaults for optional fields, then convert
         # it back to a dict.
         self.metadata = MarkdownMetadata(**self.metadata).__dict__
+
+        # Prepend default md2anki tag to the metadata.
+        self.metadata["tags"] = ["md2anki"] + self.metadata["tags"]
 
     def get_frontmatter_text(self) -> str:
         """Return frontmatter text."""

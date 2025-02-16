@@ -43,6 +43,7 @@ def test_given_file_with_valid_yaml_succeeds(temp_md_file):
     assert handle.metadata["deck_name"] == "deck"
     assert handle.metadata["note_type_basic"] == "basic"
     assert handle.metadata["note_type_cloze"] == "cloze"
+    assert handle.metadata["tags"] == ["md2anki"]
 
 
 content_3 = """---
@@ -76,4 +77,4 @@ Some dummy content
 def test_given_file_with_optional_tags_succeeds(temp_md_file):
     handle = MarkdownHandler(temp_md_file(content_4))
 
-    assert handle.metadata["tags"] == ["tag1", "tag2"]
+    assert handle.metadata["tags"] == ["md2anki", "tag1", "tag2"]

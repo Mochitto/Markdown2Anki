@@ -1,18 +1,17 @@
-import os
 import logging
+import os
 import sys
 from pathlib import Path
 
-from markdown2anki.md_2_anki.utils.card_error import CardError
-from markdown2anki.md_2_anki import markdown_to_anki
-
 import markdown2anki
+import markdown2anki.config.configs_handle as config_handle
 import markdown2anki.logger as log
 import markdown2anki.output_handler as out
 import markdown2anki.version_check as ver
-import markdown2anki.config.configs_handle as config_handle
+from markdown2anki.ankiconnect import AnkiConnect
 from markdown2anki.markdown_handler import MarkdownHandler
-
+from markdown2anki.md_2_anki import markdown_to_anki
+from markdown2anki.md_2_anki.utils.card_error import CardError
 from markdown2anki.utils.debug_tools import expressive_debug
 
 logger = logging.getLogger(__name__)
@@ -41,12 +40,26 @@ def main():
     )
     expressive_debug(logger, "Processed config from main", config, "json")
 
-    logger.info("⏳ Starting cards extraction")
-
-    markdown_handle = MarkdownHandler(config["input md file path"])
+    try:
+        markdown_handle = MarkdownHandler(config["input md file path"])
+    except Exception as error:
+        logger.info("😯 An error occured when trying to open the input md file:")
+        logger.error(error)
+        sys.exit(1)
     expressive_debug(
-        logger, "Markdown input file frontmatter", markdown_handle.metadata, "json"
+        logger,
+        "Markdown input file frontmatter",
+        markdown_handle.metadata,
+        "json",
     )
+
+    try:
+        anki_conn = AnkiConnect(url=config["AnkiConnect URL"])
+    except Exception as error:
+        logger.error(error)
+        sys.exit(1)
+
+    logger.info("⏳ Starting cards extraction")
 
     try:
         cards_with_info = markdown_to_anki(
@@ -82,8 +95,13 @@ def main():
     if images_to_copy:
         out.copy_images_to_folder(images_to_copy, config["images out-folder"])
 
-    if success_cards:
-        logger.info(f"🔥 Successfully created a total of {success_cards} card/s!")
+    if not success_cards:
+        logger.info("❓ No cards created... Please check input the file.")
+        sys.exit(0)
+
+    logger.info(f"🔥 Successfully created a total of {success_cards} card/s!")
+
+    if config["use legacy CVS output?"]:
         out.write_cards_to_csv(
             cards_to_write,
             os.path.join(config["config directory"], "basic_anki_cards.csv"),
@@ -92,27 +110,31 @@ def main():
             cards_to_write_with_clozes,
             os.path.join(config["config directory"], "clozed_anki_cards.csv"),
         )
-
-        # Handle backups
-        out.backup_file(
-            config["input md file path"],
-            os.path.join(config["config directory"], "backups"),
-        )
-
-        out.clear_backups(
-            os.path.join(config["config directory"], "backups"),
-            config["Number of backups"],
-        )
-
-        if config["clear file?"]:
-            frontmatter_text = markdown_handle.get_frontmatter_text()
-            out.clear_file(config["input md file path"], frontmatter_text)
-
-        logger.info(
-            "🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)"
-        )
     else:
-        logger.info("❓ No cards created... Please check input the file.")
+        anki_conn.upload_cards(
+            cards_with_info,
+            markdown_handle.metadata["deck_name"],
+            markdown_handle.metadata["note_type_basic"],
+            markdown_handle.metadata["note_type_cloze"],
+            markdown_handle.metadata["tags"],
+        )
+
+    # Handle backups
+    out.backup_file(
+        config["input md file path"],
+        os.path.join(config["config directory"], "backups"),
+    )
+
+    out.clear_backups(
+        os.path.join(config["config directory"], "backups"),
+        config["Number of backups"],
+    )
+
+    if config["clear file?"]:
+        frontmatter_text = markdown_handle.get_frontmatter_text()
+        out.clear_file(config["input md file path"], frontmatter_text)
+
+    logger.info("🎆 File/s created! 🎆\nYou can now go import your file/s to Anki :)")
 
     sys.exit(0)
 

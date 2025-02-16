@@ -16,6 +16,11 @@ the highlighted code blocks in generated Anki cards will be sideways scrollable.
 option is by default disabled, to ensure that it's addition doesn't break existing 
 users. (@MarkoSagadin)
 - Added first configuration option for frontmatter metadata blocks in the input markdown files! [Frontmatter blocks] allow you to configure options per single markdown file. The first added property is called `no_tabs`. When set to `True`, it disables tabs in generated cards. (@MarkoSagadin)
+- Added support for uploading cards via AnkiConnect plugin. Generated cards are now by default uploaded to the Anki via the plugin. The addition of the AnkiConnect support means that frontmatter block is mandatory, since some of the fields are required by the plugin to upload the cards to the correct Anki deck, to use the correct note type, etc. (@MarkoSagadin) 
+
+### Changed
+
+- The generation of Anki cards in CSV format (for the purposes of uploading the card to Anki) is now marked as a legacy feature, it is by default turned off. (@MarkoSagadin)
 
 [Frontmatter blocks]: https://dev.to/dailydevtips1/what-exactly-is-frontmatter-123g
 
