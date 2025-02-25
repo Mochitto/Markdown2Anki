@@ -1,7 +1,7 @@
 # Highlight component
 ## Description
 This component is used to display highlighted code (read only). 
-It supports line numbering, line highlighting on hover and text-wrapping.
+It supports line numbering, line highlighting on hover and switchable scrollable code blocks.
 The resulting component is a block-level element.
 
 ## Classes
@@ -9,7 +9,9 @@ The resulting component is a block-level element.
     - highlight--linenos: an optional state that defines whether or not to have numbered lines
 - highlight__language: a label to display the language of the highlighted code
 - highlight__code: the container of the highlighted code
+    - highlight__code--scrollable-code: an optional state that defines whether or not to make the code scrollable horizontally.
 - highlight__line: the container of each line 
+    - highlight__line--no-wrap: See above.
     - :hover: highlight the line (change background)
     - ::before: line numbers
 

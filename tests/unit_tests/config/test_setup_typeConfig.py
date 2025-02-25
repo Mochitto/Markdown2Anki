@@ -26,6 +26,7 @@ class TestTypeConfig:
             "Number of backups",
             "clear file?",
             "line numbers?",
+            "scrollable code blocks?",
             "fast forward?",
             "folders to exclude",
         ]

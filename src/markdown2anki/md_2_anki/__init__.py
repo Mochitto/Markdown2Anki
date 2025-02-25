@@ -29,6 +29,7 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
 
     # Unpacking kwargs
     linenos = options.get("linenos", True)
+    scrollable_code = options.get("scrollable_code", False)
     interactive = options.get("interactive", False)
     fast_forward = options.get("fast_forward", False)
     images_dir = options.get("images_dir", None)
@@ -54,7 +55,8 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                 clozes_handler = HandleClozes(card)
 
                 formatted_card_with_hashes = process_card(
-                    clozes_handler.hashed_markdown, vault, linenos=linenos
+                    clozes_handler.hashed_markdown, vault, linenos=linenos,
+                    scrollable_code=scrollable_code
                 )
 
                 formatted_card = clozes_handler.inject_clozes(
@@ -62,7 +64,8 @@ def markdown_to_anki(markdown: Types.MDString, vault, **options):
                 )
                 processed_cards_with_cloze.append(formatted_card)
             else:
-                formatted_card = process_card(card, vault, linenos=linenos)
+                formatted_card = process_card(card, vault, linenos=linenos,
+                                              scrollable_code=scrollable_code)
                 processed_cards.append(formatted_card)
 
             if images_dir:

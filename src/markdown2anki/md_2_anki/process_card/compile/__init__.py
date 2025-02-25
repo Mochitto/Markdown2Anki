@@ -24,17 +24,24 @@ logger = logging.getLogger(__name__)
 
 
 def tabs_to_html(
-    tabs: List[CardTypes.MDTab], vault: str, linenos=True
+    tabs: List[CardTypes.MDTab], vault: str, linenos=True, scrollable_code=False
 ) -> List[CardTypes.HTMLTab]:
-    html_tabs = [tab_to_html(tab, vault, linenos) for tab in tabs]
+    html_tabs = [tab_to_html(tab, vault, linenos, scrollable_code) for tab in tabs]
     return html_tabs
 
 
-def tab_to_html(tab: CardTypes.MDTab, vault: str, linenos=True) -> CardTypes.HTMLTab:
+def tab_to_html(
+    tab: CardTypes.MDTab, vault: str, linenos=True, scrollable_code=False
+) -> CardTypes.HTMLTab:
     """
     Compile the tab to html and wrap it in cards' specific wrappers.
     """
-    html_body = markdown_to_html_with_highlight(tab["body"], vault, linenos)
+    html_body = markdown_to_html_with_highlight(
+        tab["body"],
+        vault,
+        linenos,
+        scrollable_code,
+    )
 
     tab_copy = tab.copy()
     tab_copy["body"] = html_body
@@ -42,7 +49,7 @@ def tab_to_html(tab: CardTypes.MDTab, vault: str, linenos=True) -> CardTypes.HTM
 
 
 def markdown_to_html_with_highlight(
-    text: Types.MDString, vault: str, linenos=True
+    text: Types.MDString, vault: str, linenos=True, scrollable_code=False
 ) -> Types.HTMLString:
     """
     Parse the text and compile to html;
@@ -52,7 +59,7 @@ def markdown_to_html_with_highlight(
     markdown = mistune.create_markdown(
         escape=False,
         hard_wrap=True,
-        renderer=HighlightRenderer(linenos=linenos),
+        renderer=HighlightRenderer(linenos=linenos, scrollable_code=scrollable_code),
         plugins=[
             "strikethrough",
             "footnotes",
@@ -72,9 +79,16 @@ def markdown_to_html_with_highlight(
 
 
 class HighlightRenderer(mistune.HTMLRenderer):
-    def __init__(self, linenos=True, escape=True, allow_harmful_protocols=None):
+    def __init__(
+        self,
+        linenos=True,
+        scrollable_code=False,
+        escape=True,
+        allow_harmful_protocols=None,
+    ):
         super().__init__(escape, allow_harmful_protocols)
         self.linenos = linenos
+        self.scrollable_code = scrollable_code
 
     def block_code(self, code, info=""):
         try:
@@ -82,10 +96,19 @@ class HighlightRenderer(mistune.HTMLRenderer):
         except pygments.util.ClassNotFound:
             lexer = pygments.lexers.guess_lexer(code)
 
-        code_class = (
-            "highlight__code highlight--linenos" if self.linenos else "highlight__code"
+        code_class = "highlight__code"
+
+        if self.scrollable_code:
+            code_class += " highlight__code--scrollable-code"
+
+        if self.linenos:
+            code_class += " highlight--linenos"
+
+        formatter = LineWrappingHtmlFormatter(
+            cssclass=code_class,
+            wrapcode=True,
+            scrollable_code=self.scrollable_code,
         )
-        formatter = LineWrappingHtmlFormatter(cssclass=code_class, wrapcode=True)
 
         # Clozes handling # TODO optimization: some steps can be avoided if there are no clozes
         highlighted_code = pygments.highlight(code, lexer, formatter)
@@ -118,6 +141,11 @@ class HighlightRenderer(mistune.HTMLRenderer):
 
 
 class LineWrappingHtmlFormatter(pygments.formatters.html.HtmlFormatter):
+    def __init__(self, **options):
+        # Override the default formatter to add new scrollable_code option.
+        super().__init__(**options)
+        self.scrollable_code = options.get("scrollable_code", False)
+
     # https://pygments.org/docs/formatters/#HtmlFormatter
     def wrap(self, source):
         """
@@ -139,9 +167,16 @@ class LineWrappingHtmlFormatter(pygments.formatters.html.HtmlFormatter):
         """
         Wrap each line in a span with the 'highlight__line' class.
         """
+
+        line_class = "highlight__line"
+
+        if self.scrollable_code:
+            line_class += " highlight__line--scrollable-code"
+
         for line_number, line_text in source:
             wrapped_line = line_text
             if line_number == 1:
                 # it's a line of formatted code
-                wrapped_line = f"<span class='highlight__line'>{line_text}</span>"
-            yield line_number, wrapped_line  # FIXME maybe? when line_number != 1; yield line_number, line_text?
+                wrapped_line = f"<span class='{line_class}'>{line_text}</span>"
+            # FIXME: maybe? when line_number != 1; yield line_number, line_text?
+            yield line_number, wrapped_line

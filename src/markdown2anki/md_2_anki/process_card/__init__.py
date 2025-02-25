@@ -35,9 +35,16 @@ def process_card(
     """
 
     linenos_in_highlight = options.get("linenos", True)
+    scrollable_code = options.get("scrollable_code", False)
 
     tabs = extract_tabs(markdown)
-    compiled_tabs = tabs_to_html(tabs, vault, linenos=linenos_in_highlight)
+    compiled_tabs = tabs_to_html(
+        tabs,
+        vault,
+        linenos=linenos_in_highlight,
+        scrollable_code=scrollable_code,
+    )
+
     formatted_tabs = format_tabs(compiled_tabs)
     swapped_card = get_swapped_card(formatted_tabs)
 

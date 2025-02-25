@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Support for continuous integration with GitHub Actions. Backend and frontend will now build with every push to the `main` branch or to the opened PR. (@MarkoSagadin)
 - Automated release process with GitHub Actions. A new release can now be manually triggered by providing the next version tag under the _Actions_ tab in the GitHub Web UI. (@MarkoSagadin)
 - Added information on how to build the backend project for developers.
+- Added new "scrollable code blocks" options to the config file. When set to True, 
+the highlighted code blocks in generated Anki cards will be sideways scrollable. This 
+option is by default disabled, to ensure that it's addition doesn't break existing 
+users. (@MarkoSagadin)
 
 ### Fixed
 - When reviewing card styles in Anki from its editor view, night mode now triggers the night-mode styles as expected. (@MarkoSagadin)
