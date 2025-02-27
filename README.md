@@ -197,7 +197,7 @@ is the same as
 
 #### Example
 Here are two example cards to illustrate the formatting requirements:
-```markdown
+`````markdown
 ## - [Question]
 # A great addition to humanity
 What is the **name** of this funny cat?
@@ -219,14 +219,36 @@ my_list = [3,5,2]
 sorted_list = {{C1::sorted}}(my_list, {{C1::True}})
 # In place
 my_list.{{C1::sort}}(True)
-    ```
-
 ```
+`````
+
 The result:
 ![Usage demo image 2](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo2.webp)
 ![Usage demo image 3](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo3.webp)
 (This is using the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497))
 ![Usage demo image 1](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
+
+### Frontmatter and possible options
+
+Markdown2Anki uses [Frontmatter] metadata to add file specific metadata to your cards. 
+Frontmatter is essentially a YAML block that is enclosed by three dashes `---`. 
+If used, it must be placed at the beginning of your markdown file, before the first card.
+
+Here is a basic structure of a Frontmatter block:
+```yaml
+---
+some_option: True
+some_other_option: "Hello"
+---
+```
+
+Below is a list of the available options that can be set in the frontmatter block:
+
+- `no_tabs: True` - Disables tabs in generated cards. If set then: 
+    - `L`, `R`, `-`, `+` tab flags are ignored, only `F` and `B` matter.
+    - Tab labels are ignored.
+
+[Frontmatter]: https://dev.to/dailydevtips1/what-exactly-is-frontmatter-123g
 
 ### Importing your cards
 Once you have processed your cards, they will be divided in cards with clozes and cards without clozes.  
