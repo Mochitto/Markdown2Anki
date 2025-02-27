@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish-new-release:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     environment:
       name: pypi
       url: https://pypi.org/project/markdown2anki/
@@ -22,25 +22,25 @@ jobs:
     steps:
       - name: Preprocess version tag
         run: |
-          # This is needed due to the mindsers/changelog-reader-action expecting 
+          # This is needed due to the mindsers/changelog-reader-action expecting
           # version tag without 'v' prefix.
           version_cut=$(echo "${{ inputs.release_version }}" | cut -c 2-)
           echo "release_version=${{ inputs.release_version }}" >> $GITHUB_ENV
           echo "release_version_cut=$version_cut" >> $GITHUB_ENV
 
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ env.release_version }}
 
       - name: Get latest Changelog entry
         id: changelog-reader
-        uses: mindsers/changelog-reader-action@v2.2.2
+        uses: mindsers/changelog-reader-action@v2.2.3
         with:
           version: ${{ env.release_version_cut }}
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
@@ -49,7 +49,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 
       - name: Publish Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2.2.1
         with:
           files: dist/*
           tag_name: ${{ env.release_version }}

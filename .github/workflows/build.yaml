@@ -14,29 +14,29 @@ on:
 
 jobs:
   build-backend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout last PR commit
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Checkout last tag
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.checkout_ref }}
 
       - name: Checkout main
         if: github.event_name == 'push'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
           cache: "pip"
@@ -52,13 +52,13 @@ jobs:
 
       - name: Package artefacts
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/*
 
   build-frontend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         node-version: ["14.x", "16.x", "18.x"]
@@ -66,24 +66,24 @@ jobs:
     steps:
       - name: Checkout last PR commit
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Checkout last tag
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.checkout_ref }}
 
       - name: Checkout main
         if: github.event_name == 'push'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 

@@ -13,10 +13,10 @@ env:
 
 jobs:
   update-changelog:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Fetch history for all branches and tags
           fetch-depth: 0
@@ -36,7 +36,7 @@ jobs:
           fi
 
       - name: Update Changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@ec0871fec381db64ab389886ffe8e6fc2b661e2c
+        uses: thomaseizinger/keep-a-changelog-new-release@v3.1.0
         with:
           tag: ${{ inputs.version }}
 
@@ -67,11 +67,11 @@ jobs:
     # Only run cleanup if either call-build or call-publish-release fail.
     needs: [call-build, call-publish-release]
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.version }}
           # Fetch two commits, so you can hard reset below
