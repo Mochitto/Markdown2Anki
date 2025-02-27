@@ -110,3 +110,34 @@
     @media (min-aspect-ratio: 1/1)
       max-width: 70vw
       padding: 35px 25px
+
+.card-body
+    display: flex
+    background: var(--main-background)
+    color: var(--main-color)
+    overflow-y: scroll
+    width: 100%
+    height: 100%
+    @media (min-aspect-ratio: 1/1)
+      height: calc( 100% - 35px )
+      width: 100%
+    &:focus-visible
+      outline: 3px solid var(--accent-color)
+      outline-offset: -3px
+
+    &::-webkit-scrollbar
+        width: 10px
+        border-left: 1px solid var(--secondary-color)
+        background: var(--secondary-background)
+    &::-webkit-scrollbar-thumb
+        background: var(--secondary-color)
+        border-left: 1px solid var(--secondary-color)
+
+.card-body__content
+    max-width: 100vw
+    min-width: calc(50vw - 14px)
+    padding: 15px 15px
+    margin: 0 auto
+    @media (min-aspect-ratio: 1/1)
+      max-width: 70vw
+      padding: 35px 25px

@@ -197,7 +197,7 @@ is the same as
 
 #### Example
 Here are two example cards to illustrate the formatting requirements:
-```markdown
+`````markdown
 ## - [Question]
 # A great addition to humanity
 What is the **name** of this funny cat?
@@ -219,14 +219,45 @@ my_list = [3,5,2]
 sorted_list = {{C1::sorted}}(my_list, {{C1::True}})
 # In place
 my_list.{{C1::sort}}(True)
-    ```
-
 ```
+`````
+
 The result:
 ![Usage demo image 2](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo2.webp)
 ![Usage demo image 3](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo3.webp)
 (This is using the [fill the blanks addon](https://ankiweb.net/shared/info/1933645497))
 ![Usage demo image 1](https://raw.githubusercontent.com/Mochitto/Markdown2Anki/master/docs/Usage_demo1.webp)
+
+### Frontmatter and possible options
+
+Markdown2Anki uses [Frontmatter] metadata to add file specific metadata to your cards. 
+Frontmatter is essentially a YAML block that is enclosed by three dashes `---`. 
+It must be placed at the beginning of your markdown file, before the first card.
+Frontmatter contains mandatory and optional metadata fields. 
+
+Here is a basic structure of a Frontmatter block with mandatory fields:
+```yaml
+---
+deck_name: "My deck"
+note_type_basic: "Markdown2Anki - Basic"
+note_type_cloze: "Markdown2Anki - Cloze"
+---
+```
+
+Below is a list of the available options that can be set in the frontmatter block:
+
+Mandatory fields:
+- `deck_name` - The name of the deck where the cards will be imported.
+- `note_type_basic` - The name of the note type for basic cards.
+- `note_type_clode` - The name of the note type for cards with clozes.
+
+Optional fields:
+- `tags` - A list of tags to be added to the cards.
+- `no_tabs: True` - Disables tabs in generated cards. If set then: 
+    - `L`, `R`, `-`, `+` tab flags are ignored, only `F` and `B` matter.
+    - Tab labels are ignored.
+
+[Frontmatter]: https://dev.to/dailydevtips1/what-exactly-is-frontmatter-123g
 
 ### Importing your cards
 Once you have processed your cards, they will be divided in cards with clozes and cards without clozes.  
