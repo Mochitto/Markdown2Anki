@@ -51,7 +51,8 @@ dev = [
   "pytest",
   "black",
   "build == 1.0.3",
-  "setuptools_scm == 8.0.4"
+  "setuptools_scm == 8.0.4",
+  "pytest-mock"
 ]
 
 # https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-project-url

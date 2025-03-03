@@ -14,7 +14,6 @@ if (nightMode) {
 }
 
 
-const tab_groups = assertQuerySelectorAll(".tab_group")
 // tabs, tabs_labels are defined on event call since anki
 // reuses the same html if the note type is the same; it just
 // changes the differences.
@@ -24,22 +23,25 @@ let tabs_labels: NodeList
 let tab_to_restore: Element
 let tab_that_went_fullscreen: Element
 
-for (let tab_group of tab_groups) {
-    tab_group.addEventListener("click", handle_clicks)
-}
-
-// Add a keydown event listener to the window object
-window.addEventListener("keydown", function(event) {
-  // This handles short-keys, by activating the tab 
-  // That has a matching number as the one pressed
-  tabs_labels = assertQuerySelectorAll(".tab__label")
-  if (event.altKey && /^[0-9]$/.test(event.key)) {
-    let index = parseInt(event.key) - 1
-    let button = tabs_labels[index] 
-    if (button instanceof HTMLButtonElement) { 
-    button.click()}
+const tab_groups = document.querySelector(".tab_group");
+if (tab_groups) {
+  for (let tab_group of tab_groups) {
+    tab_group.addEventListener("click", handle_clicks);
   }
-});
+  // Add a keydown event listener to the window object
+  window.addEventListener("keydown", function (event) {
+    // This handles short-keys, by activating the tab
+    // That has a matching number as the one pressed
+    tabs_labels = assertQuerySelectorAll(".tab__label");
+    if (event.altKey && /^[0-9]$/.test(event.key)) {
+      let index = parseInt(event.key) - 1;
+      let button = tabs_labels[index];
+      if (button instanceof HTMLButtonElement) {
+        button.click();
+      }
+    }
+  });
+}
 
 function handle_clicks(event: Event): void {
     event.preventDefault()

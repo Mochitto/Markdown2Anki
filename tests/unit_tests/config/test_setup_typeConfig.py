@@ -29,6 +29,8 @@ class TestTypeConfig:
             "scrollable code blocks?",
             "fast forward?",
             "folders to exclude",
+            "AnkiConnect URL",
+            "use legacy CVS output?",
         ]
         actual_options = config.get_options().keys()
         lacking_options = set(actual_options) - set(config_options)
