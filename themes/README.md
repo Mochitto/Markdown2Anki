@@ -4,6 +4,7 @@
 - Dark themes:
     - [Rose Pine](#Rose-Pine)
     - [Catpuccin Macchiato](#Catpuccin-Macchiato)
+    - [Tokyo Night Storm](#Tokyo-Night-Storm)
 - Light themes:
     - [Rose Pine Dawn](#Rose-Pine-Dawn)
     - [Catpuccin Latte](#Catpuccin-Latte)
@@ -25,3 +26,7 @@ Inspired by: https://github.com/catppuccin/catppuccin
 ## Catpuccin Latte
 Inspired by: https://github.com/catppuccin/catppuccin
 ![A demo image of the catpuccin latte theme](./docs/catpuccin-latte.webp)
+
+## Tokyo Night Storm
+Inspired by: https://github.com/tokyo-night/tokyo-night-vscode-theme
+![A demo image of the toko night storm theme](./docs/tokyo-night-storm.webp)
