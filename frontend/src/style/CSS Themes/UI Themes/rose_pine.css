@@ -5,12 +5,12 @@ Rose' pine palette: https://rosepinetheme.com/palette
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root.nightMode, .card.nightMode {
+:root, .card.nightMode {
     --main-background: #191724; /* This is used for the tabs' body */
     --secondary-background: #26233a; /* This is used for the tabs-bar background */
     --tabs-label-background: #1f1d2e; /* This is used for inactive tabs */
     --accent-background: #f6c177;
-    --cloze-background: #eb6f92; 
+    --cloze-background: #eb6f92;
 
     --codeline-hover-background: rgba(224, 222, 244, 0.1); /* Usually you can use the text rgb with a=0.1 for this. */
 

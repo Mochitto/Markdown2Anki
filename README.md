@@ -45,7 +45,7 @@ PyPi - https://pypi.org/project/markdown2anki
 - **Write and format cards in Markdown**: create cards in Markdown syntax and then import them into Anki while retaining their structure.
 - **Custom Note types** that support split-screen, tabs, keyboard shortcuts, and mobile devices.
 - **No addons needed**: The resulting cards are pure HTML and the note-type is CSS and JS, which work with vanilla Anki.
-- **Different themes**: themes for both day and night modes, which are easily customizable. You can [check them out here](https://github.com/Mochitto/Markdown2Anki/tree/master/themes)!
+- **Different themes**: themes containing both day and night modes, which are easily customizable. You can [check them out here](https://github.com/Mochitto/Markdown2Anki/tree/master/themes)!
 - **Code highlighting** (using [pygments](https://pygments.org/)).
 - **Support for clozes** including those in code blocks.
 - **Support for images** with automatic importing: the program can find the images you mention in your obsidian notes and copy them to your Anki's media folder.
@@ -304,14 +304,26 @@ my_list.{{C1::sort}}(True)
 ```
 
 ### Changing Themes
-The default theme is mochitto's Rosé Pine theme, but there is also a catpuccin theme.  
-You can find all the themes in the [themes folder](https://github.com/Mochitto/Markdown2Anki/tree/master/themes).  
-To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
 
-This can be found by accessing `Tools>Manage Note Types>(select your note type)>Cards(on the right)>Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.   
+The default theme is mochitto's Rosé Pine and Dawn theme, but there are also other themes available.
+You can find all the themes in the [themes folder](https://github.com/Mochitto/Markdown2Anki/tree/master/themes).  
+
+#### How to change the theme
+
+To use another theme, you can just copy the CSS from the file in the themes folder and paste it in your Note types' styling field.  
+This can be found by accessing `Tools -> Manage Note Types -> (select your note type) -> Cards(on the right) -> Styling(on the left)`. The `Tools` menu is found in the top-left part of Anki's main menu.   
 You can reference this: [Video Tutorial showing how to access a card's style](https://github.com/Mochitto/Markdown2Anki/blob/master/docs/How_to_find_styling.mp4)
 
 You can read more on how styling happens here: https://docs.ankiweb.net/templates/styling.html
+
+#### Dual themes
+
+Some themes contain two variants in the same CSS file: a light and a dark one.
+Themes [Rosé Pine and Dawn](themes/rose_pine_and_dawn.css), and [Catpuccin Latte and Macchiato](themes/catpuccin_latte_and_macchiato.css) are examples of this.
+
+To switch between light and dark theme in Anki:
+* Desktop Anki - `Tools -> Preferences -> Appearance -> Theme`
+* AnkiDroid - `Hamburger icon (top-left) -> Settings -> Appearance -> Theme`
 
 ### Navigating the UI
 The custom User Interface of the note-type that comes with this project is focused on the concept of tabs.  
