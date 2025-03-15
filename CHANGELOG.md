@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 the highlighted code blocks in generated Anki cards will be sideways scrollable. This 
 option is by default disabled, to ensure that it's addition doesn't break existing 
 users. (@MarkoSagadin)
+- Added Dual themes to the `themes` folder. Dual themes contain both light and dark versions of the
+  same theme. Users can switch between the two versions by changing the theming preference in the
+Anki clients. (@MarkoSagadin)
 
 ### Fixed
 - When reviewing card styles in Anki from its editor view, night mode now triggers the night-mode styles as expected. (@MarkoSagadin)

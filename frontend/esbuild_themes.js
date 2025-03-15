@@ -4,6 +4,7 @@
 // Themes between UI and Code highlighting.
 import esbuild from 'esbuild';
 import path from "path";
+import { sassPlugin } from "esbuild-sass-plugin";
 
 // Get the file path and filename from command line arguments
 const [themePath] = process.argv.slice(2);
@@ -14,6 +15,9 @@ esbuild.build({
   entryPoints: [themePath],
   bundle: true,
   minify: true,
+  plugins: [sassPlugin({
+    type: "css",
+    })],
   outfile: path.join("..", "themes", fileName),
 }).then(() => console.log(`⚡ ${fileName} built! ⚡`))
   .catch(() => process.exit(1));

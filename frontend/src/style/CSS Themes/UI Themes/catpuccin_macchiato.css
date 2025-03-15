@@ -5,19 +5,19 @@ Catpuccin Theme Macchiato - https://github.com/catppuccin/catppuccin
 Custom Ui theme made by @Mochitto, 2023
  */
 
-:root.nightMode, .card.nightMode {
+:root, .card.nightMode {
     --main-background: #24273a; /* This is used for the tabs' body */
     --secondary-background: #1e2030; /* This is used for the tabs-bar background */
     --tabs-label-background: #181926; /* This is used for inactive tabs */
     --accent-background: #c6a0f6;
-    --cloze-background: #ed8796; 
+    --cloze-background: #ed8796;
 
     --codeline-hover-background: rgba(76, 79, 105, 0.1); /* Usually you can use the text rgb with a=0.1 for this. */
 
     --main-color: #cad3f5;
     --secondary-color: #a5adcb;
     --accent-color: #c6a0f6;
-    --cloze-color: #24273a; 
+    --cloze-color: #24273a;
 
     --h1: #c6a0f6;
     --h2: #ed8796;

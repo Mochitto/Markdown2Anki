@@ -1,6 +1,9 @@
 @import url("../UI\ Themes/catpuccin_latte.css");
 @import url("../Highlighting styles/catpuccin_latte.css");
 
+@import url("../UI\ Themes/catpuccin_macchiato.css");
+@import url("../Highlighting styles/catpuccin_macchiato.css");
+
 @import url("../Highlighting styles/catpuccin_latte_and_macchiato_tokens.css");
 
 @import url("../../themeless_main.sass");
