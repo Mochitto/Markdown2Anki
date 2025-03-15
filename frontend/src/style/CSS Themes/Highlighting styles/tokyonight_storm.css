@@ -1,0 +1,26 @@
+/*!
+This Highlight theme is based on:
+Tokyo Night Storm - https://github.com/tokyo-night/tokyo-night-vscode-theme
+
+Custom Highlight theme made by @MarkoSagadin, 2025
+ */
+
+:root, .card.nightMode{
+    --background: #1a1b26;
+    --foreground: #a9b1d6;
+    --black:   #414868;
+    --red:     #f7768e;
+    --green:   #73daca;
+    --yellow:  #e0af68;
+    --blue:    #7aa2f7;
+    --magenta: #bb9af7;
+    --cyan:    #7dcfff;
+    --white:   #c0caf5;
+    --bright_black:   #414868;
+    --bright_white:   #c0caf5;
+    --constant: #ff9e64;
+    --string: #9ece6a;
+    --code-text: #c0caf5;
+    --code-comment: #565f89;
+    --code-background: #1a1b26
+}

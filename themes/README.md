@@ -6,6 +6,7 @@
 
 - [Rose Pine and Dawn](#Rose-Pine-and-Dawn)
 - [Catpuccin Latte and Macchiato](#Catpuccin-Latte-and-Macchiato)
+- [Tokyo Night Day and Storm](#Tokyo-Night-Day-and-Storm)
 
 All dual themes are also available in individual Light and Dark versions.
 
@@ -28,7 +29,14 @@ Inspired by: https://rosepinetheme.com/
 Inspired by: https://github.com/catppuccin/catppuccin
 ![A demo image of the catpuccin latte theme](./docs/catpuccin-latte.webp)
 
-### Catpuccin Macchiato
+## Tokyo Night Day and Storm
 
-Inspired by: https://github.com/catppuccin/catppuccin
-![A demo image of the catpuccin macchiato theme](./docs/catpuccin-macchiato.webp)
+Inspired by: https://github.com/tokyo-night/tokyo-night-vscode-theme
+
+## Tokyo Night Day
+
+![A demo image of the tokyo night day theme](./docs/tokyo-night-day.webp)
+
+## Tokyo Night Storm
+
+![A demo image of the toko night storm theme](./docs/tokyo-night-storm.webp)
