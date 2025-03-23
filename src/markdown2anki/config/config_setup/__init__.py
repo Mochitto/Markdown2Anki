@@ -143,5 +143,19 @@ def setup_typeConfig(base_path: Types.PathString, type_hints=False) -> TypeConfi
         important_help="Must be a list of folders names, divided by commas. Can be left empty if you want to search in all sub-folders as well.",
         can_be_empty=True,
     )
+    fileConfig.add_option(
+        type="bool",
+        option="use legacy CVS output?",
+        help="Use legacy CVS output instead of AnkiConnect pluging for importing the generated cards to the Anki.",
+        important_help="Choices: True/False. Defaults to False.",
+        default="False",
+    )
+    fileConfig.add_option(
+        type="str",
+        option="AnkiConnect URL",
+        help="The URL where AnkiConnect is running.",
+        important_help='Defaults to "http://127.0.0.1:8765"',
+        default="http://127.0.0.1:8765",
+    )
 
     return fileConfig

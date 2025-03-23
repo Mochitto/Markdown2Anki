@@ -228,6 +228,8 @@ class TestHandleConfigs:
                 Path(tests.__file__).parent / "assets" / "input.md"
             ),
             "config directory": f'{tmp_dirs["config"]}',
+            "AnkiConnect URL": "http://127.0.0.1:8765",
+            "use legacy CVS output?": False,
         }
         assert good_configs == expected_config
 
